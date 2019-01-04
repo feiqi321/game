@@ -1,0 +1,111 @@
+<template name="3b8931c0">
+  <view class="_div data-v-00bfd725 main">
+    <view class="_div data-v-00bfd725 top-tool">
+      <view class="_div data-v-00bfd725 user-info">
+        <view wx:if="{{userInfo}}" class="_dl data-v-00bfd725">
+          <view class="_dt data-v-00bfd725" style=" {{('background-image:' + ('url(' + userInfo.avatarUrl + ')') + ';')}}"></view>
+          <view class="_dd data-v-00bfd725 name">{{userInfo.nickName}}</view>
+          <view class="_dd data-v-00bfd725 score">999</view>
+        </view>
+      </view>
+      <view class="_div data-v-00bfd725 rigth-nav"><label class="_span data-v-00bfd725 i-sb active"></label></view>
+    </view>
+    <view class="_div data-v-00bfd725 jzq">
+      <view class="_div data-v-00bfd725"></view>
+      <view class="_div data-v-00bfd725"></view>
+      <view class="_div data-v-00bfd725"></view>
+      <view class="_div data-v-00bfd725"></view>
+      <view class="_div data-v-00bfd725"></view>
+      <view class="_div data-v-00bfd725"></view>
+      <view class="_div data-v-00bfd725"></view>
+      <view class="_div data-v-00bfd725"></view>
+      <view class="_div data-v-00bfd725"></view>
+      <view class="_div data-v-00bfd725"></view>
+      <view class="_div data-v-00bfd725"></view>
+      <view class="_div data-v-00bfd725"></view>
+      <view class="_div data-v-00bfd725"></view>
+      <view class="_div data-v-00bfd725"></view>
+      <view class="_div data-v-00bfd725"></view>
+      <view class="_div data-v-00bfd725"></view>
+      <view class="_div data-v-00bfd725"></view>
+      <view class="_div data-v-00bfd725"></view>
+      <view class="_div data-v-00bfd725"></view>
+      <view class="_div data-v-00bfd725"></view>
+      <view class="_div data-v-00bfd725"></view>
+      <view class="_div data-v-00bfd725"></view>
+      <view class="_div data-v-00bfd725"></view>
+      <view class="_div data-v-00bfd725"></view>
+      <view class="_div data-v-00bfd725"></view>
+      <view class="_div data-v-00bfd725"></view>
+      <view class="_div data-v-00bfd725"></view>
+      <view class="_div data-v-00bfd725"></view>
+      <view class="_div data-v-00bfd725"></view>
+      <view class="_div data-v-00bfd725"></view>
+    </view>
+    <view class="_div data-v-00bfd725 ft-box" wx:if="{{!ftHide}}">
+      <view wx:if="{{chooseType==0}}" class="_div data-v-00bfd725">
+        <view class="_dl data-v-00bfd725">
+          <view class="_dt data-v-00bfd725"></view>
+          <view class="_dd data-v-00bfd725">500</view>
+        </view>
+        <view class="_dl data-v-00bfd725">
+          <view class="_dt data-v-00bfd725"></view>
+          <view class="_dd data-v-00bfd725">500</view>
+        </view>
+        <view class="_dl data-v-00bfd725">
+          <view class="_dt data-v-00bfd725"></view>
+          <view class="_dd data-v-00bfd725">500</view>
+        </view>
+        <view class="_dl data-v-00bfd725">
+          <view class="_dt data-v-00bfd725"></view>
+          <view class="_dd data-v-00bfd725">500</view>
+        </view>
+        <view class="_dl data-v-00bfd725">
+          <view class="_dt data-v-00bfd725"></view>
+          <view class="_dd data-v-00bfd725">500</view>
+        </view>
+        <view class="_dl data-v-00bfd725">
+          <view class="_dt data-v-00bfd725"></view>
+          <view class="_dd data-v-00bfd725">500</view>
+        </view>
+        <view class="_dl data-v-00bfd725">
+          <view class="_dt data-v-00bfd725"></view>
+          <view class="_dd data-v-00bfd725">500</view>
+        </view>
+        <view class="_dl data-v-00bfd725">
+          <view class="_dt data-v-00bfd725"></view>
+          <view class="_dd data-v-00bfd725">500</view>
+        </view>
+      </view>
+      <view wx:if="{{chooseType==1}}" class="_div data-v-00bfd725">
+        <view class="_dl data-v-00bfd725">
+          <view class="_dt data-v-00bfd725"></view>
+          <view class="_dd data-v-00bfd725">500</view>
+        </view>
+        <view class="_dl data-v-00bfd725">
+          <view class="_dt data-v-00bfd725"></view>
+          <view class="_dd data-v-00bfd725">500</view>
+        </view>
+      </view>
+    </view>
+    <view class="_div data-v-00bfd725 {{[true ? 'ft-nav' : '', ftHide ? 'hide' : '']}}">
+      <view bindtap="handleProxy" data-eventid="{{'0'}}" data-comkey="{{$k}}" class="_div data-v-00bfd725 {{[chooseType == 0 ? 'active' : '']}}"> 植物 <label class="_span data-v-00bfd725 zw ic"></label></view>
+      <view bindtap="handleProxy" data-eventid="{{'1'}}" data-comkey="{{$k}}" class="_div data-v-00bfd725 {{[chooseType == 1 ? 'active' : '']}}"> 建筑 <label class="_span data-v-00bfd725 jz ic"></label></view>
+      <view class="_div data-v-00bfd725 rtool" bindtap="handleProxy" data-eventid="{{'2'}}" data-comkey="{{$k}}"> 仓库 <label class="_span data-v-00bfd725 ck ic"></label></view>
+    </view>
+    <van-dialog use-slot async-close show="{{buyDig}}" show-confirm-button="{{false}}" bindclose="handleProxy" close-on-click-overlay data-eventid="{{'5'}}" data-comkey="{{$k}}" class="_van-dialog data-v-00bfd725">
+      <view class="_div data-v-00bfd725 buydig">
+        <view class="_dl data-v-00bfd725 buy-info">
+          <view class="_dt data-v-00bfd725"></view>
+          <view class="_dd data-v-00bfd725 title">圣诞屋</view>
+          <view class="_dd data-v-00bfd725 price">X{{buy.price}}</view>
+        </view>
+        <view class="_div data-v-00bfd725 num"><label class="_span data-v-00bfd725 before" bindtap="handleProxy" data-eventid="{{'3'}}" data-comkey="{{$k}}">-</label> <label class="_span data-v-00bfd725 after" bindtap="handleProxy" data-eventid="{{'4'}}" data-comkey="{{$k}}">+</label>
+          {{buy.count}}
+        </view>
+        <view class="_p data-v-00bfd725 total">{{buy.price*buy.count}}</view>
+        <view class="_div data-v-00bfd725 btn-w"><label class="_span data-v-00bfd725 buy-btn">购买</label></view>
+      </view>
+    </van-dialog>
+  </view>
+</template>
