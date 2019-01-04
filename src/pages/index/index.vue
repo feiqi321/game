@@ -1,0 +1,134 @@
+<template>
+  <div class="main">
+    <div class="top-tool">
+      <div class="user-info" v-if="userInfo">
+        <dl>
+          <dt :style="{backgroundImage:'url('+userInfo.avatarUrl+')'}"></dt>
+          <dd class="name">{{userInfo.nickName}}</dd>
+          <!-- <dd class="score">999</dd> -->
+        </dl>
+      </div>
+    </div>
+    <span class="dw-tb"></span>
+    <div class="btn-w">
+      <button open-type="getUserInfo" lang="zh_CN" @getuserinfo="getUserInfo">PARKI迷宫</button>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      userInfo: null //用户信息
+    };
+  },
+
+  components: {},
+
+  methods: {
+    getUserInfo(res) {
+      const _this = this;
+      wx.getUserInfo({
+        success: res => {
+          _this.userInfo = res.userInfo;
+          wx.setStorageSync("userinfo", res.userInfo);
+          const url = "../first/main";
+          // switchTab navigateTo
+          wx.navigateTo({ url });
+        }
+      });
+    }
+  },
+
+  created() {
+    this.userInfo = wx.getStorageSync("userinfo");
+  }
+};
+</script>
+
+<style lang="scss" scoped>
+.main {
+  height: 100%;
+  background: url(http://img.isxcxbackend1.cn/荟聚宜家中庭前期准备.jpg) center
+    center #636e5d no-repeat;
+  background-size: cover;
+  overflow: hidden;
+}
+.top-tool {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px;
+  .user-info {
+    overflow: hidden;
+    dt {
+      width: 60px;
+      height: 60px;
+      float: left;
+      border: 3px solid #000000;
+      border-radius: 50%;
+      box-sizing: border-box;
+      background: center center no-repeat;
+      background-size: contain;
+      text-align: left;
+    }
+    dd {
+      margin-left: 70px;
+      &.name {
+        padding-top: 17px;
+        font-weight: bold;
+        color: #000;
+      }
+      &.score {
+        width: 93px;
+        height: 28px;
+        line-height: 24px;
+        background: url(http://img.isxcxbackend1.cn/组90@2x.png) center center
+          no-repeat;
+        background-size: contain;
+        color: #ffc63c;
+        font-weight: bold;
+        text-align: center;
+        margin-top: 5px;
+      }
+    }
+  }
+}
+@keyframes an1 {
+  from {
+    top: 18%;
+  }
+  to {
+    top: 25%;
+  }
+}
+.dw-tb {
+  width: 70px;
+  height: 70px;
+  background: url(http://img.isxcxbackend1.cn/定位.png) center center 
+    no-repeat;
+  background-size: contain;
+  top: 25%;
+  left: 50%;
+  transform: translate(-50%, 0);
+  position: absolute;
+  animation: an1 2s infinite alternate ease;
+}
+.btn-w {
+  position: absolute;
+  top: 70%;
+  width: 165px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  button {
+    width: 100%;
+    background: url(http://img.isxcxbackend1.cn/组182.png) center center #636e5d
+      no-repeat;
+    background-size: contain;
+    height: 67px;
+    line-height: 62px;
+    color: #3d3d3d;
+  }
+}
+</style>
+
