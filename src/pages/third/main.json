@@ -1,4 +1,5 @@
 {
+  "disableScroll":true,
   "navigationBarTitleText": "能量搜集",
   "usingComponents": {
     "van-button": "../../../static/dist/button/index",
