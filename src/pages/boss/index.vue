@@ -1,0 +1,317 @@
+<template>
+  <div class="main" id="boss">
+    <div class="top-tool">
+      <div class="user-info">
+        <dl>
+          <dt :style="{backgroundImage:'url('+userInfo.avatarUrl+')'}"></dt>
+          <dd class="name">{{userInfo.nickName}}</dd>
+          <dd class="score">999</dd>
+        </dl>
+      </div>
+      <div class="rigth-nav">
+        <span class="i-sb active" @click="bindDevDigSts=true"></span>
+      </div>
+    </div>
+    <div class="m-icon" @click="attack">
+    </div>
+    <div class="probar">
+      <div class="blood">
+      </div>
+      <div class="clock">
+          <span class="left-clock-l"> 倒计时 </span>
+          <span class="left-clock-r">3:00</span>
+      </div>
+      <div class="yy">
+      </div>
+      <div class="bar">
+        <div class="attack">
+          <p class="left-attack-l">战斗力 ATTACK : 3</p>
+        </div>
+        <div class="damage">
+          <p class="left-damage-l">总伤害 DAMAGE : 300</p>
+        </div>
+      </div>
+      <div class="textShow">
+        <p>点击怪物一起保护PARKILAND</p>
+      </div>
+    </div>
+
+    <van-dialog
+      use-slot
+      async-close
+      :show="listDig"
+      :show-confirm-button="false"
+      @close="listDig=false"
+      close-on-click-overlay
+      class="dialogbox"
+    >
+      <div class="box">
+        <p class="title">守护成功</p>
+        <p class="first-part">在所有人的努力下</p>
+        <p class="bettwen">怪兽被击退了 家园被守护</p>
+
+        <p class="second-part">你对怪兽的伤害为99%</p>
+        <p class="bettwen-button">你获得了XXX能量作为奖励</p>
+        <div class="btn">
+            <p class="confirmShow">确认</p>
+        </div>
+      </div>
+      <div class="successShow"></div>
+    </van-dialog>
+  </div>
+</template>
+
+<script>
+  export default {
+    data() {
+      return {
+        listDig: false,
+        userInfo: null //用户信息
+      };
+    },
+
+    components: {},
+
+    methods: {
+      getUserInfo(res) {
+        const _this = this;
+        const userinfo = wx.getStorageSync("userinfo");
+        if (userinfo) {
+          _this.userInfo = userinfo;
+          return;
+        }
+      },
+      attack (){
+          console.info("11111")
+      }
+    },
+
+    created() {
+      this.getUserInfo();
+    }
+  };
+</script>
+
+<style lang="scss" scoped>
+  .main {
+    height: 100%;
+    background: url(http://img.isxcxbackend1.cn/手机恐龙背景.png) center
+    center #636e5d no-repeat;
+    background-size: cover;
+    overflow: hidden;
+  }
+  .top-tool {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px;
+    .user-info {
+      overflow: hidden;
+      dt {
+        width: 60px;
+        height: 60px;
+        float: left;
+        border: 3px solid #000000;
+        border-radius: 50%;
+        box-sizing: border-box;
+        background: center center no-repeat;
+        background-size: contain;
+        text-align: left;
+      }
+      dd {
+        margin-left: 70px;
+        &.name {
+          padding-top: 17px;
+          font-weight: bold;
+          color: #000;
+        }
+        &.score {
+          width: 93px;
+          height: 28px;
+          line-height: 24px;
+          background: url(http://img.isxcxbackend1.cn/组90@2x.png) center center
+          no-repeat;
+          background-size: contain;
+          color: #ffc63c;
+          font-weight: bold;
+          text-align: center;
+          margin-top: 5px;
+        }
+      }
+    }
+    .rigth-nav {
+      margin-top: 20px;
+
+      .i-sb {
+        background: url(http://img.isxcxbackend1.cn/组218.png) center center no-repeat;
+        background-size: contain;
+        width: 30px;
+        height: 30px;
+        display: inline-block;
+        margin-right: 10px;
+      }
+    }
+  }
+  .m-icon {
+    background: url(http://img.isxcxbackend1.cn/怪兽动图.gif) center center
+    no-repeat;
+    background-size: contain;
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    display: inline-block;
+  }
+  .probar {
+    font-size: 12px;
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    top:15vh;
+    .blood {
+      background: url(http://img.isxcxbackend1.cn/blood107.png) center center
+      no-repeat;
+      background-size: contain;
+      height: 21px;
+      width: 72vw;
+      position: absolute;
+      top:10px;
+      left:18vw;
+    }
+    .clock{
+      background: url(http://img.isxcxbackend1.cn/路径295.png) left center
+      no-repeat;
+      background-size: 15px 15px;
+      height: 15px;
+      width: 100vw;
+      position: absolute;
+      top:8vh;
+      left:36vw;
+      display: inline-block;
+      font-weight: bold;
+      .left-clock-l{
+        margin-left:20px;
+      }
+      .left-clock-r{
+        margin-left:12px;
+      }
+    }
+    .yy {
+      background: url(http://img.isxcxbackend1.cn/投影.png) center center
+      no-repeat;
+      background-size: contain;
+      left:11vw;
+      width: 63vw;
+      height: 60px;
+      position: absolute;
+      top: 55vh;
+      display: inline-block;
+    }
+    .bar {
+      background: url(http://img.isxcxbackend1.cn/组221.png) center center
+      no-repeat;
+      background-size: 80vw 90px;
+      width: 80vw;
+      height: 90px;
+      position: absolute;
+      top: 63vh;
+      display: inline-block;
+      left:12vw;
+      .damage{
+        background: url(http://img.isxcxbackend1.cn/组215.png) left center
+        no-repeat;
+        background-size: 25px 25px;
+        width: 80vw;
+        margin-left:40px;
+        margin-top: 10px;
+        display: inline-block;
+        .left-damage-l{
+          font-weight: bold;
+          margin-left:40px;
+        }
+
+      }
+      .attack{
+        background: url(http://img.isxcxbackend1.cn/组212.png) left center
+        no-repeat;
+        background-size: 25px 25px;
+        width: 80vw;
+        margin-left:40px;
+        margin-top: 10px;
+        display: inline-block;
+        .left-attack-l{
+          font-weight: bold;
+          margin-left:40px;
+          margin-top:10px;
+        }
+
+      }
+    }
+    .textShow{
+      width: 80vw;
+      height: 90px;
+      position: absolute;
+      top: 80vh;
+      display: inline-block;
+      font-weight: bold;
+      color:white;
+      left:20vw;
+    }
+
+  }
+  .box{
+    background: url(http://img.isxcxbackend1.cn/组220.png) center center   no-repeat;
+    background-color: transparent;
+    background-size: 85vw 70vh;
+    border-radius: 16px;
+    text-align: center;
+    //left:10vw;
+    width: 85vw;
+    height: 70vh;
+    .title{
+      color:#FFA042;
+      font-size: 42px;
+      padding-top:20px;
+
+    }
+    .first-part{
+       padding-top:40px;
+
+    }
+    .second-part{
+      padding-top:25px;
+    }
+    .bettwen{
+      padding-top:10px;
+
+    }
+    .bettwen-button{
+      padding-top:25px;
+      display: inline-block;
+    }
+    .btn{
+      background: url(http://img.isxcxbackend1.cn/组221.png) center center   no-repeat;
+      background-size: 100px 50px;
+      width: 85vw;
+      height: 30vh;
+      position: absolute;
+      .confirmShow{
+        padding-top: 75px;
+        font-weight: bold;
+        font-size: 20px;
+      }
+    }
+    .successShow{
+      background: url(http://img.isxcxbackend1.cn/守护成功.png) center center
+      no-repeat;
+      background-size: contain;
+      width: 100vw;
+      height: 100vh;
+      position: absolute;
+      top: 0;
+      display: inline-block;
+    }
+  }
+
+
+</style>
+

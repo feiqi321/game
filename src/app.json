@@ -1,10 +1,11 @@
 {
     "pages": [
+      "pages/boss/main",
       "pages/third/main",
       "pages/index/main",
       "pages/first/main",
-        "pages/logs/main",
-        "pages/counter/main"
+      "pages/logs/main",
+      "pages/counter/main"
     ],
     "window": {
         "backgroundTextStyle": "light",
