@@ -24,7 +24,9 @@
       <div class="yy"></div>
       <div class="bar">
         <div class="attack">
-          <p class="left-attack-l">战斗力 ATTACK : 3</p>
+          <p class="left-attack-l">战斗力 ATTACK : 3
+            <span class="zdl-icon"></span>
+          </p>
         </div>
         <div class="damage">
           <p class="left-damage-l">总伤害 DAMAGE : 300</p>
@@ -44,7 +46,7 @@
       close-on-click-overlay
       class="dialogbox"
     >
-      <div class="box">
+      <div class="endbox">
         <p class="title">守护成功</p>
         <p class="first-part">在所有人的努力下</p>
         <p class="bettwen">怪兽被击退了 家园被守护</p>
@@ -54,6 +56,7 @@
         <div class="btn">
           <p class="confirmShow">确认</p>
         </div>
+        <div class="failbj"></div>
       </div>
       <div class="successShow"></div>
     </van-dialog>
@@ -90,9 +93,9 @@ export default {
     },
     addFs() {
       this.fsList.push(Math.floor(Math.random() * 3 + 2));
-      // setTimeout(() => {
-      //   this.fsList.shift();
-      // }, 2000);
+      setTimeout(() => {
+        this.fsList.shift();
+      }, 2000);
     }
   },
 
@@ -262,10 +265,12 @@ export default {
     top: 63vh;
     display: inline-block;
     left: 12vw;
+    box-sizing: border-box;
+    padding-top: 10px;
     .damage {
       background: url(http://img.isxcxbackend1.cn/组215.png) left center
         no-repeat;
-      background-size: 25px 25px;
+      background-size: auto 100%;
       width: 80vw;
       margin-left: 40px;
       margin-top: 10px;
@@ -278,7 +283,7 @@ export default {
     .attack {
       background: url(http://img.isxcxbackend1.cn/组212.png) left center
         no-repeat;
-      background-size: 25px 25px;
+      background-size: auto 80%;
       width: 80vw;
       margin-left: 40px;
       margin-top: 10px;
@@ -286,7 +291,16 @@ export default {
       .left-attack-l {
         font-weight: bold;
         margin-left: 40px;
-        margin-top: 10px;
+      }
+      .zdl-icon {
+        height: 16px;
+        width: 16px;
+        background: url(http://img.isxcxbackend1.cn/组204.png) center center
+          no-repeat;
+        background-size: contain;
+        display: inline-block;
+        margin: 0 auto;
+        vertical-align: middle;
       }
     }
   }
@@ -301,7 +315,7 @@ export default {
     left: 20vw;
   }
 }
-.box {
+.endbox {
   background: url(http://img.isxcxbackend1.cn/组220.png) center center no-repeat;
   background-color: transparent;
   background-size: 85vw 70vh;
@@ -310,6 +324,29 @@ export default {
   //left:10vw;
   width: 85vw;
   height: 70vh;
+  position: relative;
+  .failbj {
+    position: absolute;
+    background: url(http://img.isxcxbackend1.cn/守护失败.png) center center
+      no-repeat;
+    background-size: 60%;
+    width: 100%;
+    height: 60vh;
+    left: 20%;
+    bottom: -14%;
+    content: "";
+  }
+  .sucbj {
+    position: absolute;
+    background: url(http://img.isxcxbackend1.cn/守护成功.png) center center
+      no-repeat;
+    background-size: 60%;
+    width: 100%;
+    height: 60vh;
+    left: 20%;
+    bottom: -14%;
+    content: "";
+  }
   .title {
     color: #ffa042;
     font-size: 42px;
@@ -335,6 +372,7 @@ export default {
     width: 85vw;
     height: 30vh;
     position: absolute;
+    z-index: 1;
     .confirmShow {
       padding-top: 75px;
       font-weight: bold;

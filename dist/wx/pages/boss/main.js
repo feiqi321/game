@@ -148,6 +148,9 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["a"] = ({
   data: function data() {
@@ -175,10 +178,12 @@ if (false) {(function () {
       console.info("11111");
     },
     addFs: function addFs() {
+      var _this2 = this;
+
       this.fsList.push(Math.floor(Math.random() * 3 + 2));
-      // setTimeout(() => {
-      //   this.fsList.shift();
-      // }, 2000);
+      setTimeout(function () {
+        _this2.fsList.shift();
+      }, 2000);
     }
   },
 
@@ -246,7 +251,9 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "attack"
   }, [_c('p', {
     staticClass: "left-attack-l"
-  }, [_vm._v("战斗力 ATTACK : 3")])], 1), _vm._v(" "), _c('div', {
+  }, [_vm._v("战斗力 ATTACK : 3\n          "), _c('span', {
+    staticClass: "zdl-icon"
+  })])], 1), _vm._v(" "), _c('div', {
     staticClass: "damage"
   }, [_c('p', {
     staticClass: "left-damage-l"
@@ -269,7 +276,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       }
     }
   }, [_c('div', {
-    staticClass: "box"
+    staticClass: "endbox"
   }, [_c('p', {
     staticClass: "title"
   }, [_vm._v("守护成功")]), _vm._v(" "), _c('p', {
@@ -284,7 +291,9 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "btn"
   }, [_c('p', {
     staticClass: "confirmShow"
-  }, [_vm._v("确认")])], 1)], 1), _vm._v(" "), _c('div', {
+  }, [_vm._v("确认")])], 1), _vm._v(" "), _c('div', {
+    staticClass: "failbj"
+  })], 1), _vm._v(" "), _c('div', {
     staticClass: "successShow"
   })]), _vm._v(" "), _c('div', {
     staticClass: "shz"
