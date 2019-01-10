@@ -93,19 +93,19 @@
             <div class="hd">任务</div>
             <div class="bd">
               <p>
-                解锁10个颜色组合：
-                <small>1</small>/10
-                <span class="btn active">
+                解锁{{firstNum}}个颜色组合：
+                <small>{{myNum}}</small>/{{firstNum}}
+                <span class="btn" :class="[myNum>=firstNum ? 'active':'']">
                   领取奖励：
-                  <em></em>X500
+                  <em></em>X{{firstReward}}
                 </span>
               </p>
               <p>
                 解锁全部颜色组合：
-                <small>12</small>/24
+                <small>{{myNum}}</small>/{{totalNum}}
                 <span class="btn">
                   领取奖励：
-                  <em></em>X2000
+                  <em></em>X{{totalReward}}
                 </span>
               </p>
             </div>
@@ -189,6 +189,12 @@ import Notify from "@/../static/dist/notify/notify";
 export default {
   data() {
     return {
+      firstNum:10,
+      myNum:12,
+      firstReward:200,
+      totalNum:24,
+      totalReward:500,
+      totalTask:{},
       userInfo: {}, //用户信息
       gameId: null,
       openId: null,
@@ -211,20 +217,7 @@ export default {
         "http://img.isxcxbackend1.cn/椭圆140.png",
         "http://img.isxcxbackend1.cn/椭圆49.png"
       ] //1橙2黄3蓝4 绿
-      // completed: [
-      //   {
-      //     type: 1,
-      //     status: 1
-      //   },
-      //   {
-      //     type: 2,
-      //     status: 1
-      //   }
-      //   // {
-      //   //   type: 3,
-      //   //   status: 0
-      //   // }
-      // ]
+
     };
   },
 
@@ -440,8 +433,8 @@ export default {
         );
     },
     listenSocket(){
-      //var task = wx.connectSocket("wss://www.isxcxbackend1.cn/websocket");
-      //task.onMessage(receiveMsg);
+      var task = wx.connectSocket("wss://www.isxcxbackend1.cn/websocket");
+      task.onMessage(receiveMsg);
     },
     receiveMsg(data){
       console.info(data);

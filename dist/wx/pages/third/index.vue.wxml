@@ -1,0 +1,61 @@
+<template name="108ce0a8">
+  <view class="_div data-v-00bfd725 main" id="thirdPage">
+    <view id="dropGroup" hidden="{{!(currentDrop.show)}}" class="_div data-v-00bfd725" style=" {{(  'left:' +  (currentDrop.left + 'px') +  ';' +  'top:' +  (currentDrop.top + 'px') +  ';')}}">
+      <image src="{{currentDrop.src}}" mode="aspectFit" id="dropImg" class="_img data-v-00bfd725"></image>
+      <view class="_div data-v-00bfd725 dropTools" hidden="{{!(currentDrop.tools)}}">
+        <image src="{{'http://img.isxcxbackend1.cn/' + '组178@3x.png'}}" bindtap="handleProxy" data-eventid="{{'0'}}" data-comkey="{{$k}}" class="_img data-v-00bfd725"></image>
+        <image src="{{'http://img.isxcxbackend1.cn/' + '组179@3x.png'}}" bindtap="handleProxy" data-eventid="{{'1'}}" data-comkey="{{$k}}" class="_img data-v-00bfd725"></image>
+      </view>
+    </view>
+    <view class="_div data-v-00bfd725 top-tool">
+      <view class="_div data-v-00bfd725 user-info">
+        <view wx:if="{{userInfo}}" class="_dl data-v-00bfd725">
+          <view class="_dt data-v-00bfd725" style=" {{('background-image:' + ('url(' + userInfo.avatarUrl + ')') + ';')}}"></view>
+          <view class="_dd data-v-00bfd725 name">{{ userInfo.nickName }}</view>
+          <view class="_dd data-v-00bfd725 score">{{myMoney}}</view>
+        </view>
+      </view>
+      <view class="_div data-v-00bfd725 rigth-nav"><label class="_span data-v-00bfd725 i-sb active"></label></view>
+    </view>
+    <view id="real90" class="_div data-v-00bfd725"></view>
+    <image bindload="handleProxy" mode="aspectFit" src="{{[item.name]}}" class="_img data-v-00bfd725 showImg" data-index="{{item.index}}" data-obj="{{item}}" wx:key="index" key="{{index}}" bindlongpress="handleProxy" data-eventid="{{'2-'+i}}" data-comkey="{{$k}}" wx:for="{{picInfo}}" wx:for-index="i" wx:for-item="item" style=" {{('left:' + (item.imgleft + 'px') + ';' + 'top:' + (item.imgtop + 'px') + ';')}}"></image>
+    <view class="_div data-v-00bfd725 jzq" style=" {{[showJzq ? '' : 'visibility: hidden']}}">
+      <view class="_div data-v-00bfd725 _place {{[i == currentActive ? currentClaz : '']}}" wx:key="i" key="{{i}}" wx:for="{{36}}" wx:for-index="index" wx:for-item="i">
+        {{ i }}
+      </view>
+    </view>
+    <view class="_div data-v-00bfd725 ft-box" hidden="{{!(!ftHide)}}">
+      <view wx:if="{{chooseType == ind}}" wx:for="{{2}}" wx:for-index="ind" wx:for-item="it" class="_div data-v-00bfd725">
+        <view wx:key="index" key="{{index}}" wx:for="{{pic[ind]}}" wx:for-index="index" wx:for-item="item" class="_dl data-v-00bfd725">
+          <view data-obj="{{item}}" bindtap="handleProxy" data-eventid="{{'3-'+ind+'-'+index}}" data-comkey="{{$k}}" class="_dt data-v-00bfd725" style=" {{item.style}}"></view>
+          <view class="_dd data-v-00bfd725">{{item.price}}</view>
+        </view>
+      </view>
+      <view wx:if="{{chooseType == 2}}" class="_div data-v-00bfd725">
+        <view wx:key="index" key="{{index}}" wx:for="{{pic[2]}}" wx:for-index="index" wx:for-item="item" class="_dl data-v-00bfd725">
+          <view data-obj="{{item}}" bindtouchstart="handleProxy" bindtouchmove="handleProxy" bindtouchend="handleProxy" data-eventid="{{'4-'+index}}" data-comkey="{{$k}}" class="_dt data-v-00bfd725" style=" {{item.style}}"></view>
+          <view class="_dd data-v-00bfd725">x{{item.num}}</view>
+        </view>
+      </view>
+    </view>
+    <view class="_div data-v-00bfd725 {{[true ? 'ft-nav' : '', false ? 'hide' : '']}}">
+      <view bindtap="handleProxy" data-eventid="{{'5'}}" data-comkey="{{$k}}" class="_div data-v-00bfd725 {{[chooseType == 0 ? 'active' : '']}}"> 植物 <label class="_span data-v-00bfd725 zw ic"></label></view>
+      <view bindtap="handleProxy" data-eventid="{{'6'}}" data-comkey="{{$k}}" class="_div data-v-00bfd725 {{[chooseType == 1 ? 'active' : '']}}"> 建筑 <label class="_span data-v-00bfd725 jz ic"></label></view>
+      <view bindtap="handleProxy" data-eventid="{{'7'}}" data-comkey="{{$k}}" class="_div data-v-00bfd725 {{[chooseType == 2 ? 'active' : '']}}"> 仓库 <label class="_span data-v-00bfd725 ck ic"></label></view>
+    </view>
+    <van-dialog use-slot async-close show="{{buyDig.dig}}" show-confirm-button="{{false}}" bindclose="handleProxy" close-on-click-overlay data-eventid="{{'11'}}" data-comkey="{{$k}}" class="_van-dialog data-v-00bfd725">
+      <view class="_div data-v-00bfd725 buydig">
+        <view class="_dl data-v-00bfd725 buy-info">
+          <view class="_dt data-v-00bfd725" style=" {{buyDig.style}}"></view>
+          <view class="_dd data-v-00bfd725 title">圣诞屋</view>
+          <view class="_dd data-v-00bfd725 price">X{{ buyDig.price }}</view>
+        </view>
+        <view class="_div data-v-00bfd725 num"><label class="_span data-v-00bfd725 before" bindtap="handleProxy" data-eventid="{{'8'}}" data-comkey="{{$k}}">-</label> <label class="_span data-v-00bfd725 after" bindtap="handleProxy" data-eventid="{{'9'}}" data-comkey="{{$k}}">+</label>
+          {{ buyDig.buyNum }}
+        </view>
+        <view class="_p data-v-00bfd725 total">{{ buyDig.price * buyDig.buyNum }}</view>
+        <view class="_div data-v-00bfd725 btn-w"><label class="_span data-v-00bfd725 buy-btn" bindtap="handleProxy" data-eventid="{{'10'}}" data-comkey="{{$k}}">购买</label></view>
+      </view>
+    </van-dialog>
+  </view>
+</template>
