@@ -9,10 +9,10 @@
         </dl>
       </div>
       <div class="rigth-nav">
-        <span class="i-sb active" @click="bindDevDigSts=true"></span>
+        <span class="i-sb active" @click="addFs"></span>
       </div>
     </div>
-    <div class="m-icon" @click="attack"></div>
+    <div class="m-icon" @click="addFs"></div>
     <div class="probar">
       <div class="blood">
         <div class="jdt" :style="{width:jdtWidth+'%'}"></div>
@@ -57,6 +57,9 @@
       </div>
       <div class="successShow"></div>
     </van-dialog>
+    <div class="shz">
+      <span v-for="(item,i) in fsList" :key="i">{{item}}</span>
+    </div>
   </div>
 </template>
 
@@ -65,7 +68,8 @@ export default {
   data() {
     return {
       listDig: false,
-      jdtWidth:50,
+      jdtWidth: 50,
+      fsList: [],
       userInfo: null //用户信息
     };
   },
@@ -83,6 +87,12 @@ export default {
     },
     attack() {
       console.info("11111");
+    },
+    addFs() {
+      this.fsList.push(Math.floor(Math.random() * 3 + 2));
+      // setTimeout(() => {
+      //   this.fsList.shift();
+      // }, 2000);
     }
   },
 
@@ -207,7 +217,7 @@ export default {
       background: #ffa2a2;
       position: absolute;
       left: 5%;
-      top:2px;
+      top: 2px;
       content: "";
       border-radius: 100px;
     }
@@ -240,6 +250,7 @@ export default {
     position: absolute;
     top: 55vh;
     display: inline-block;
+    position: relative;
   }
   .bar {
     background: url(http://img.isxcxbackend1.cn/组221.png) center center
@@ -339,6 +350,33 @@ export default {
     position: absolute;
     top: 0;
     display: inline-block;
+  }
+}
+.shz {
+  height: 24%;
+  width: 10%;
+  left: 50%;
+  top: 50%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  span {
+    animation: an1 2s 1 ease;
+    position: absolute;
+    bottom: 0;
+    color: #fd3231;
+    font-size: 28px;
+    opacity: 0;
+  }
+}
+@keyframes an1 {
+  from {
+    top: 0%;
+    opacity: 1;
+  }
+  to {
+    top: 80%;
+    opacity: 0;
+    display: none;
   }
 }
 </style>

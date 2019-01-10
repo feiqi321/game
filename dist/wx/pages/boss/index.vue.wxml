@@ -42,5 +42,6 @@
       </view>
       <view class="_div data-v-d89e72f6 successShow"></view>
     </van-dialog>
+    <view class="_div data-v-d89e72f6 shz"><label wx:key="i" key="{{i}}" wx:for="{{fsList}}" wx:for-index="i" wx:for-item="item" class="_span data-v-d89e72f6">{{item}}</label></view>
   </view>
 </template>

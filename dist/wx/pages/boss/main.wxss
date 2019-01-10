@@ -141,6 +141,7 @@
   position: absolute;
   top: 55vh;
   display: inline-block;
+  position: relative;
 }
 .probar .bar.data-v-d89e72f6 {
   background: url(http://img.isxcxbackend1.cn/组221.png) center center no-repeat;
@@ -234,4 +235,31 @@
   position: absolute;
   top: 0;
   display: inline-block;
+}
+.shz.data-v-d89e72f6 {
+  height: 24%;
+  width: 10%;
+  left: 50%;
+  top: 50%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+.shz ._span.data-v-d89e72f6 {
+  animation: an1-data-v-d89e72f6 2s 1 ease;
+  position: absolute;
+  bottom: 0;
+  color: #fd3231;
+  font-size: 56rpx;
+  opacity: 0;
+}
+@keyframes an1-data-v-d89e72f6 {
+from {
+    top: 0%;
+    opacity: 1;
+}
+to {
+    top: 80%;
+    opacity: 0;
+    display: none;
+}
 }

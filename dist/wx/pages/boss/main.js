@@ -145,12 +145,16 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["a"] = ({
   data: function data() {
     return {
       listDig: false,
       jdtWidth: 50,
+      fsList: [],
       userInfo: null //用户信息
     };
   },
@@ -169,6 +173,12 @@ if (false) {(function () {
     },
     attack: function attack() {
       console.info("11111");
+    },
+    addFs: function addFs() {
+      this.fsList.push(Math.floor(Math.random() * 3 + 2));
+      // setTimeout(() => {
+      //   this.fsList.shift();
+      // }, 2000);
     }
   },
 
@@ -209,9 +219,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "eventid": '0'
     },
     on: {
-      "click": function($event) {
-        _vm.bindDevDigSts = true
-      }
+      "click": _vm.addFs
     }
   })])]), _vm._v(" "), _c('div', {
     staticClass: "m-icon",
@@ -219,7 +227,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "eventid": '1'
     },
     on: {
-      "click": _vm.attack
+      "click": _vm.addFs
     }
   }), _vm._v(" "), _c('div', {
     staticClass: "probar"
@@ -278,7 +286,13 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "confirmShow"
   }, [_vm._v("确认")])], 1)], 1), _vm._v(" "), _c('div', {
     staticClass: "successShow"
-  })])], 1)
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "shz"
+  }, _vm._l((_vm.fsList), function(item, i) {
+    return _c('span', {
+      key: i
+    }, [_vm._v(_vm._s(item))])
+  }))], 1)
 }
 var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
