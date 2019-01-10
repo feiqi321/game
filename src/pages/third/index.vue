@@ -7,8 +7,14 @@
     >
       <img :src="currentDrop.src" mode="aspectFit" id="dropImg" />
       <div class="dropTools" v-show="currentDrop.tools">
-        <img :src="'http://img.isxcxbackend1.cn/'+'组178@3x.png'" @click="dropDown" />
-        <img :src="'http://img.isxcxbackend1.cn/'+'组179@3x.png'" @click="dropCancal" />
+        <img
+          :src="'http://img.isxcxbackend1.cn/' + '组178@3x.png'"
+          @click="dropDown"
+        />
+        <img
+          :src="'http://img.isxcxbackend1.cn/' + '组179@3x.png'"
+          @click="dropCancal"
+        />
       </div>
     </div>
     <div class="top-tool">
@@ -18,20 +24,23 @@
             :style="{ backgroundImage: 'url(' + userInfo.avatarUrl + ')' }"
           ></dt>
           <dd class="name">{{ userInfo.nickName }}</dd>
-          <dd class="score">999</dd>
+          <dd class="score">{{myMoney}}</dd>
         </dl>
       </div>
       <div class="rigth-nav"><span class="i-sb active"></span></div>
     </div>
+    <div id="real90"></div>
     <img
       @load="load"
       mode="aspectFit"
-      :src="[baseUrl + item.name]"
+      :src="[item.name]"
       class="showImg"
       v-for="(item, i) in picInfo"
       :style="{ left: item.imgleft + 'px', top: item.imgtop + 'px' }"
       :data-index="item.index"
+      :data-obj="item"
       :key="index"
+      @longpress="deleteOne"
     />
     <!-- 建造区 -->
     <div class="jzq" :style="[showJzq ? '' : 'visibility: hidden']">
@@ -46,83 +55,89 @@
     </div>
     <!-- 建造区 -->
     <div class="ft-box" v-show="!ftHide">
-      <div v-if="chooseType == 0">
-        <dl v-for="(item, index) in pic" :key="index">
-          <dt
-            :data-img="item"
-            @touchstart="tStart"
-            @touchmove="tMove"
-            :style="'background:url(' + baseUrl + item + ') center no-repeat'"
-            @touchend="tEnd"
-          ></dt>
-          <dd>500</dd>
+      <!--购买区-->
+      <div v-if="chooseType == ind" v-for="(it,ind) in 2">
+        <dl v-for="(item, index) in pic[ind]" :key="index">
+            <dt
+              :data-obj="item"
+              :style="item.style"
+              @click="buyHandle"
+            ></dt>
+            <dd>{{item.price}}</dd>
         </dl>
       </div>
-      <div v-if="chooseType == 1">
-        <dl>
-          <dt></dt>
-          <dd>500</dd>
-        </dl>
-        <dl>
-          <dt></dt>
-          <dd>500</dd>
+      <!--仓库区-->
+      <div v-if="chooseType == 2">
+        <dl v-for="(item, index) in pic[2]" :key="index">
+          <dt
+            :data-obj="item"
+            @touchstart="tStart"
+            @touchmove="tMove"
+            @touchend="tEnd"
+            :style="item.style"
+          ></dt>
+          <dd>x{{item.num}}</dd>
         </dl>
       </div>
     </div>
     <!-- 底部菜单 -->
-    <div :class="{ 'ft-nav': true, hide: ftHide }">
+    <div :class="{ 'ft-nav': true, hide: false }">
       <div :class="{ active: chooseType == 0 }" @click="chooseType = 0">
         植物 <span class="zw ic"></span>
       </div>
       <div :class="{ active: chooseType == 1 }" @click="chooseType = 1">
         建筑 <span class="jz ic"></span>
       </div>
-      <div class="rtool" @click="triggerFt">
+      <div :class="{ active: chooseType == 2 }" @click="openCk">
         仓库 <span class="ck ic"></span>
       </div>
+      <!--<div class="rtool " @click="triggerFt">-->
+      <!--仓库 <span class="ck ic"></span>-->
+      <!--</div>-->
     </div>
     <!-- 弹窗 -->
     <van-dialog
       use-slot
       async-close
-      :show="buyDig"
+      :show="buyDig.dig"
       :show-confirm-button="false"
-      @close="buyDig = false"
+      @close="buyDig.dig = false"
       close-on-click-overlay
     >
       <div class="buydig">
         <dl class="buy-info">
-          <dt></dt>
+          <dt :style="buyDig.style"></dt>
           <dd class="title">圣诞屋</dd>
-          <dd class="price">X{{ buy.price }}</dd>
+          <dd class="price">X{{ buyDig.price }}</dd>
         </dl>
         <div class="num">
           <span class="before" @click="changeCount(-1)">-</span>
-          <span class="after" @click="changeCount(1)">+</span> {{ buy.count }}
+          <span class="after" @click="changeCount(1)">+</span>
+          {{ buyDig.buyNum }}
         </div>
-        <p class="total">{{ buy.price * buy.count }}</p>
-        <div class="btn-w"><span class="buy-btn">购买</span></div>
+        <p class="total">{{ buyDig.price * buyDig.buyNum }}</p>
+        <div class="btn-w"><span class="buy-btn" @click="buyOneHandle">购买</span></div>
       </div>
     </van-dialog>
   </div>
 </template>
 
 <script>
+import httpReq from "../../api";
+import {throttle} from '../../utils/index';
 export default {
   data() {
     return {
       userInfo: null,
-      ftHide: true,
+      ftHide: false,
       chooseType: 0,
-      buyDig: true,
-      buy: {
-        count: 1,
-        price: 5000
-      },
       baseUrl: "http://img.isxcxbackend1.cn/",
       //底部可购买的数组
-      pic: ["800.png", "1000.png", "1500.png"],
-      pic1: ["800.png", "1000.png", "1500.png"],
+      pic: [
+        [],
+        [],
+        []
+      ],
       placePosition: [],
       //真实90宽高的像素
       real90: {},
@@ -143,7 +158,15 @@ export default {
         tools: false,
         show: false
       },
-      showJzq: false
+      buyDig:{
+        dig: false,
+        style:{},
+        current: {},
+        buyNum: 1,
+        price: 0
+      },
+      showJzq: false,
+      myMoney: 999,
     };
   },
   watch: {
@@ -154,15 +177,42 @@ export default {
       }, []);
     }
   },
-  beforeCreate() {},
+  beforeCreate() {
+    //获取植物
+    httpReq({
+      url: "/game/warehouse/findAllShop",
+      data: {
+        type: 1
+      }
+    }).then(({data}) => {
+      // this.pic[0] = data;
+      data.forEach((item)=>{
+        item.style = `background:url("${item.url1}") center no-repeat`
+      });
+      this.$set(this.pic, 0, data);
+      console.log(data)
+    });
+    //获取建筑
+    httpReq({
+      url: "/game/warehouse/findAllShop",
+      data: {
+        type: 2
+      }
+    }).then(({data}) => {
+      // this.pic[1] = data;
+      data.forEach((item)=>{
+        item.style = `background:url("${item.url1}") center no-repeat`
+      });
+      this.$set(this.pic, 1, data);
+    });
+  },
   created() {
     this.userInfo = wx.getStorageSync("userinfo");
-    this.picInfo = [
-      { name: "800.png", index: 4 },
-      { name: "1000.png", index: 8 }
-    ];
-    this.tMove = this.throttle((e) => {
-      let {clientX, clientY} = e;
+    //初始化仓库列表
+    this.openCk(true);
+    //移动时
+    this.tMove = throttle(e => {
+      let { clientX, clientY } = e;
       let left = clientX;
       let top = clientY;
       let data = this.placePosition;
@@ -178,15 +228,29 @@ export default {
         }
       });
       this.currentActive = currentActive;
-      let {_left, _top} = this.placePosition[currentActive];
+      let { _left, _top } = this.placePosition[currentActive];
       let pos = this.calcPos(_left, _top, this.real90);
       this.currentDrop.left = pos.x;
       this.currentDrop.top = pos.y;
     }, 80);
   },
   mounted() {
-    //拿菱形
-    this.get_places();
+    //已建 图片
+    httpReq({
+      url: "/game/warehouse/findMyBuild"
+    }).then(({ data }) => {
+      if (data != null) {
+        this.picInfo = data.reduce((acc, item) => {
+          acc.push({
+            name: item.url,
+            index: item.posi
+          });
+          return acc;
+        }, []);
+        //拿菱形
+        this.get_places();
+      }
+    });
   },
   computed: {
     whichActive() {
@@ -197,6 +261,64 @@ export default {
     }
   },
   methods: {
+    //删除一个
+    deleteOne(e){
+      // {
+      //   "name": "http://img.isxcxbackend1.cn/1800.png",
+      //   "index": 20,
+      //   "id": "",
+      //   "dataset": {},
+      //   "left": 123.18643188476562,
+      //   "right": 284.4046325683594,
+      //   "top": 354,
+      //   "bottom": 412.6786193847656,
+      //   "width": 161.21820068359375,
+      //   "height": 58.678619384765625,
+      //   "_left": 204,
+      //   "_top": 383,
+      //   "imgleft": 154.5,
+      //   "imgtop": 315.5
+      // }
+      let obj = e.currentTarget.dataset.obj;
+
+      console.log(obj)
+    },
+    //购买按钮
+    buyOneHandle(){
+      httpReq({
+        url: '/game/warehouse/buyProduct',
+        data:{
+          shopId:this.buyDig.current.id,
+          num:this.buyDig.buyNum
+        }
+      }).then(({data})=>{
+        this.myMoney = data;
+        this.buyDig.dig = false;
+      })
+    },
+    //购买一个
+    buyHandle(e){
+      let obj = this.buyDig.current = e.currentTarget.dataset.obj;
+      console.log(obj)
+      //显示弹窗
+      this.buyDig.dig = true;
+      this.buyDig.price = obj.price;
+      this.buyDig.style = obj.style;
+    },
+    //打开仓库
+    openCk(init){
+      init && (this.chooseType = 2);
+      httpReq({
+        url:'/game/warehouse/findAllMyWareHouse',
+        data:{"type":1}
+      }).then(({data})=>{
+        data.forEach((item)=>{
+          item.style = `background:url("${item.url1}") center no-repeat`
+        });
+        this.$set(this.pic, 2, data);
+        console.log(this.pic)
+      })
+    },
     load(e) {
       // let _height = e.target.height;
       // let _width = e.target.width;
@@ -215,44 +337,14 @@ export default {
     },
     //触摸开始
     tStart(e) {
+      console.log(e)
       this.showJzq = true;
       this.currentBottom = e;
-      let name = e.currentTarget.dataset.img;
+      let url = e.currentTarget.dataset.obj.url3;
       this.currentDrop.tools = false;
-      this.currentDrop.src = this.baseUrl + name;
+      this.currentDrop.src =  url;
       this.currentDrop.show = true;
-      this.triggerFt();
-    },
-    throttle(func, wait, options) {
-      var context, args, result;
-      var timeout = null;
-      var previous = 0;
-      if (!options) options = {};
-      var later = function() {
-        previous = options.leading === false ? 0 : Date.now();
-        timeout = null;
-        result = func.apply(context, args);
-        if (!timeout) context = args = null;
-      };
-      return function() {
-        var now = Date.now();
-        if (!previous && options.leading === false) previous = now;
-        var remaining = wait - (now - previous);
-        context = this;
-        args = arguments;
-        if (remaining <= 0 || remaining > wait) {
-          if (timeout) {
-            clearTimeout(timeout);
-            timeout = null;
-          }
-          previous = now;
-          result = func.apply(context, args);
-          if (!timeout) context = args = null;
-        } else if (!timeout && options.trailing !== false) {
-          timeout = setTimeout(later, remaining);
-        }
-        return result;
-      };
+      // this.triggerFt();
     },
     //触摸移动
     // tMove(e) {
@@ -265,18 +357,29 @@ export default {
     },
     dropDown() {
       let index = this.currentActive;
-      let name = this.currentBottom.currentTarget.dataset.img;
+      let obj = this.currentBottom.currentTarget.dataset.obj;
       this.switchJzq();
       this.currentDrop.show = false;
-      console.log(this.hasActive);
+      console.log(obj);
       if (this.noActive.includes(index) || this.hasActive.includes(index)) {
         console.log("禁止放入");
       } else {
-        this.picInfo.push(this.mixinObj(index, { name, index }));
+        httpReq({
+          url: '/game/warehouse/build',
+          data:{
+            wareId:obj.id,
+            posi:index
+          }
+        }).then(({code,data})=>{
+          if (code == 200) {
+            this.openCk();
+          }
+        })
+        this.picInfo.push(this.mixinObj(index, { name:obj.url3, index }));
       }
     },
     dropCancal() {
-      this.triggerFt();
+      // this.triggerFt();
       this.switchJzq();
       this.currentDrop.show = false;
     },
@@ -287,7 +390,7 @@ export default {
     get_places() {
       const query1 = wx.createSelectorQuery();
       query1
-        .select(".showImg")
+        .select("#real90")
         .boundingClientRect()
         .exec(res => {
           this.real90 = res[0];
@@ -342,9 +445,9 @@ export default {
       this.ftHide = !this.ftHide;
     },
     changeCount(num) {
-      var num = this.buy.count + num;
+      var num = this.buyDig.buyNum + num;
       num = num < 1 ? 1 : num;
-      this.buy.count = num;
+      this.buyDig.buyNum = num;
     }
   }
 };
@@ -464,7 +567,7 @@ export default {
       box-sizing: border-box;
       padding: 0 10px;
       dt {
-        border: 3px solid #dbdbdb;
+        /*border: 3px solid #dbdbdb;*/
         border-radius: 50%;
         overflow: hidden;
         padding: 4px;
@@ -645,12 +748,11 @@ export default {
       text-align: center;
       line-height: 1.6em;
       dt {
-        border: 3px solid #dbdbdb;
+        /*border: 3px solid #dbdbdb;*/
         border-radius: 50%;
         overflow: hidden;
         padding: 4px;
-        background: url(http://img.isxcxbackend1.cn/鳄鱼-小.png) center center
-          no-repeat;
+
         background-size: 70% auto;
         margin-bottom: 10px;
         &::before {
@@ -727,5 +829,10 @@ export default {
 }
 view[hidden] {
   display: none !important;
+}
+#real90{
+  width: 90px;
+  height: 90px;
+  visibility: hidden;
 }
 </style>
