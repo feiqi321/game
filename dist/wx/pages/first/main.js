@@ -22,8 +22,13 @@ app.$mount();
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+<<<<<<< HEAD
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_mpvue_loader_lib_selector_type_script_index_0_index_vue__ = __webpack_require__(105);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_mpvue_loader_lib_template_compiler_index_id_data_v_9d9445a4_hasScoped_true_transformToRequire_video_src_source_src_img_src_image_xlink_href_node_modules_mpvue_loader_lib_selector_type_template_index_0_index_vue__ = __webpack_require__(112);
+=======
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_mpvue_loader_1_1_4_mpvue_loader_lib_selector_type_script_index_0_index_vue__ = __webpack_require__(105);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_mpvue_loader_1_1_4_mpvue_loader_lib_template_compiler_index_id_data_v_9d9445a4_hasScoped_true_transformToRequire_video_src_source_src_img_src_image_xlink_href_node_modules_mpvue_loader_1_1_4_mpvue_loader_lib_selector_type_template_index_0_index_vue__ = __webpack_require__(112);
+>>>>>>> 43c2ca1804bed2e1e43da2ce604f5d18cfbf2f26
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
@@ -41,8 +46,13 @@ var __vue_scopeId__ = "data-v-9d9445a4"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
+<<<<<<< HEAD
   __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_mpvue_loader_lib_selector_type_script_index_0_index_vue__["a" /* default */],
   __WEBPACK_IMPORTED_MODULE_1__node_modules_mpvue_loader_lib_template_compiler_index_id_data_v_9d9445a4_hasScoped_true_transformToRequire_video_src_source_src_img_src_image_xlink_href_node_modules_mpvue_loader_lib_selector_type_template_index_0_index_vue__["a" /* default */],
+=======
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_mpvue_loader_1_1_4_mpvue_loader_lib_selector_type_script_index_0_index_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_mpvue_loader_1_1_4_mpvue_loader_lib_template_compiler_index_id_data_v_9d9445a4_hasScoped_true_transformToRequire_video_src_source_src_img_src_image_xlink_href_node_modules_mpvue_loader_1_1_4_mpvue_loader_lib_selector_type_template_index_0_index_vue__["a" /* default */],
+>>>>>>> 43c2ca1804bed2e1e43da2ce604f5d18cfbf2f26
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
@@ -53,7 +63,11 @@ if (Component.options.functional) {console.error("[vue-loader] index.vue: functi
 
 /* hot reload */
 if (false) {(function () {
+<<<<<<< HEAD
   var hotAPI = require("vue-hot-reload-api")
+=======
+  var hotAPI = require("vue-loader/node_modules/vue-hot-reload-api")
+>>>>>>> 43c2ca1804bed2e1e43da2ce604f5d18cfbf2f26
   hotAPI.install(require("vue"), false)
   if (!hotAPI.compatible) return
   module.hot.accept()
@@ -280,12 +294,15 @@ if (false) {(function () {
 /* harmony default export */ __webpack_exports__["a"] = ({
   data: function data() {
     return {
+<<<<<<< HEAD
       firstNum: 10,
       myNum: 12,
       firstReward: 200,
       totalNum: 24,
       totalReward: 500,
       totalTask: {},
+=======
+>>>>>>> 43c2ca1804bed2e1e43da2ce604f5d18cfbf2f26
       userInfo: {}, //用户信息
       gameId: null,
       openId: null,
@@ -298,7 +315,24 @@ if (false) {(function () {
 
       animationOptions: ["http://img.isxcxbackend1.cn/橙色动图.gif", "http://img.isxcxbackend1.cn/黄动图.gif", "http://img.isxcxbackend1.cn/蓝色动图.gif", "http://img.isxcxbackend1.cn/绿色动图.gif"],
       colorOptions: ["http://img.isxcxbackend1.cn/椭圆48.png", "http://img.isxcxbackend1.cn/椭圆141.png", "http://img.isxcxbackend1.cn/椭圆140.png", "http://img.isxcxbackend1.cn/椭圆49.png"] //1橙2黄3蓝4 绿
+<<<<<<< HEAD
 
+=======
+      // completed: [
+      //   {
+      //     type: 1,
+      //     status: 1
+      //   },
+      //   {
+      //     type: 2,
+      //     status: 1
+      //   }
+      //   // {
+      //   //   type: 3,
+      //   //   status: 0
+      //   // }
+      // ]
+>>>>>>> 43c2ca1804bed2e1e43da2ce604f5d18cfbf2f26
     };
   },
 
@@ -481,8 +515,13 @@ if (false) {(function () {
       });
     },
     listenSocket: function listenSocket() {
+<<<<<<< HEAD
       var task = wx.connectSocket("wss://www.isxcxbackend1.cn/websocket");
       task.onMessage(receiveMsg);
+=======
+      //var task = wx.connectSocket("wss://www.isxcxbackend1.cn/websocket");
+      //task.onMessage(receiveMsg);
+>>>>>>> 43c2ca1804bed2e1e43da2ce604f5d18cfbf2f26
     },
     receiveMsg: function receiveMsg(data) {
       console.info(data);
@@ -686,12 +725,20 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "hd"
   }, [_vm._v("任务")]), _vm._v(" "), _c('div', {
     staticClass: "bd"
+<<<<<<< HEAD
   }, [_c('p', [_vm._v("\n              解锁" + _vm._s(_vm.firstNum) + "个颜色组合：\n              "), _c('small', [_vm._v(_vm._s(_vm.myNum))]), _vm._v("/" + _vm._s(_vm.firstNum) + "\n              "), _c('span', {
     staticClass: "btn",
     class: [_vm.myNum >= _vm.firstNum ? 'active' : '']
   }, [_vm._v("\n                领取奖励：\n                "), _c('em'), _vm._v("X" + _vm._s(_vm.firstReward) + "\n              ")], 1)], 1), _vm._v(" "), _c('p', [_vm._v("\n              解锁全部颜色组合：\n              "), _c('small', [_vm._v(_vm._s(_vm.myNum))]), _vm._v("/" + _vm._s(_vm.totalNum) + "\n              "), _c('span', {
     staticClass: "btn"
   }, [_vm._v("\n                领取奖励：\n                "), _c('em'), _vm._v("X" + _vm._s(_vm.totalReward) + "\n              ")], 1)], 1)], 1)]), _vm._v(" "), _c('div', {
+=======
+  }, [_c('p', [_vm._v("\n              解锁10个颜色组合：\n              "), _c('small', [_vm._v("1")]), _vm._v("/10\n              "), _c('span', {
+    staticClass: "btn active"
+  }, [_vm._v("\n                领取奖励：\n                "), _c('em'), _vm._v("X500\n              ")], 1)], 1), _vm._v(" "), _c('p', [_vm._v("\n              解锁全部颜色组合：\n              "), _c('small', [_vm._v("12")]), _vm._v("/24\n              "), _c('span', {
+    staticClass: "btn"
+  }, [_vm._v("\n                领取奖励：\n                "), _c('em'), _vm._v("X2000\n              ")], 1)], 1)], 1)]), _vm._v(" "), _c('div', {
+>>>>>>> 43c2ca1804bed2e1e43da2ce604f5d18cfbf2f26
     staticClass: "line"
   }), _vm._v(" "), _c('div', {
     staticClass: "list-w"
@@ -807,7 +854,11 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
+<<<<<<< HEAD
      require("vue-hot-reload-api").rerender("data-v-9d9445a4", esExports)
+=======
+     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-9d9445a4", esExports)
+>>>>>>> 43c2ca1804bed2e1e43da2ce604f5d18cfbf2f26
   }
 }
 

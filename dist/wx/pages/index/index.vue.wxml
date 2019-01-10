@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 <template name="086fad52">
+=======
+<template name="3f97cb6b">
+>>>>>>> 43c2ca1804bed2e1e43da2ce604f5d18cfbf2f26
   <view class="_div data-v-04ce70d0 main">
     <view class="_div data-v-04ce70d0 top-tool">
       <view class="_div data-v-04ce70d0 user-info" wx:if="{{userInfo}}">

@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 <template name="afa0d496">
+=======
+<template name="2801906e">
+>>>>>>> 43c2ca1804bed2e1e43da2ce604f5d18cfbf2f26
   <view class="_div data-v-9d9445a4 main">
     <van-notify id="van-notify" class="_van-notify data-v-9d9445a4"></van-notify>
     <view class="_div data-v-9d9445a4 first">
@@ -48,12 +52,17 @@
           <view class="_div data-v-9d9445a4 top">
             <view class="_div data-v-9d9445a4 hd">任务</view>
             <view class="_div data-v-9d9445a4 bd">
+<<<<<<< HEAD
               <view class="_p data-v-9d9445a4"> 解锁{{firstNum}}个颜色组合： <view class="_small data-v-9d9445a4">{{myNum}}</view>/{{firstNum}}
                 <label class="_span data-v-9d9445a4 btn {{[myNum >= firstNum ? 'active' : '']}}"> 领取奖励： <view class="_em data-v-9d9445a4"></view>X{{firstReward}}
                 </label></view>
               <view class="_p data-v-9d9445a4"> 解锁全部颜色组合： <view class="_small data-v-9d9445a4">{{myNum}}</view>/{{totalNum}}
                 <label class="_span data-v-9d9445a4 btn"> 领取奖励： <view class="_em data-v-9d9445a4"></view>X{{totalReward}}
                 </label></view>
+=======
+              <view class="_p data-v-9d9445a4"> 解锁10个颜色组合： <view class="_small data-v-9d9445a4">1</view>/10 <label class="_span data-v-9d9445a4 btn active"> 领取奖励： <view class="_em data-v-9d9445a4"></view>X500 </label></view>
+              <view class="_p data-v-9d9445a4"> 解锁全部颜色组合： <view class="_small data-v-9d9445a4">12</view>/24 <label class="_span data-v-9d9445a4 btn"> 领取奖励： <view class="_em data-v-9d9445a4"></view>X2000 </label></view>
+>>>>>>> 43c2ca1804bed2e1e43da2ce604f5d18cfbf2f26
             </view>
           </view>
           <view class="_div data-v-9d9445a4 line"></view>

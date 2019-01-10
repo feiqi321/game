@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 <template name="f6687f38">
+=======
+<template name="6e358bd0">
+>>>>>>> 43c2ca1804bed2e1e43da2ce604f5d18cfbf2f26
   <view class="_div data-v-d89e72f6 main" id="boss">
     <view class="_div data-v-d89e72f6 top-tool">
       <view class="_div data-v-d89e72f6 user-info">
@@ -12,8 +16,15 @@
     </view>
     <view class="_div data-v-d89e72f6 m-icon" bindtap="handleProxy" data-eventid="{{'1'}}" data-comkey="{{$k}}"></view>
     <view class="_div data-v-d89e72f6 probar">
+<<<<<<< HEAD
       <view class="_div data-v-d89e72f6 blood"></view>
       <view class="_div data-v-d89e72f6 clock"><label class="_span data-v-d89e72f6 left-clock-l"> 倒计时 </label> <label class="_span data-v-d89e72f6 left-clock-r">3:00</label></view>
+=======
+      <view class="_div data-v-d89e72f6 blood">
+        <view class="_div data-v-d89e72f6 jdt" style=" {{('width:' + (jdtWidth + '%') + ';')}}"></view>
+      </view>
+      <view class="_div data-v-d89e72f6 clock"><label class="_span data-v-d89e72f6 left-clock-l">倒计时</label> <label class="_span data-v-d89e72f6 left-clock-r">3:00</label></view>
+>>>>>>> 43c2ca1804bed2e1e43da2ce604f5d18cfbf2f26
       <view class="_div data-v-d89e72f6 yy"></view>
       <view class="_div data-v-d89e72f6 bar">
         <view class="_div data-v-d89e72f6 attack">

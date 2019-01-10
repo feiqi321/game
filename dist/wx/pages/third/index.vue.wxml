@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 <template name="108ce0a8">
+=======
+<template name="3b8931c0">
+>>>>>>> 43c2ca1804bed2e1e43da2ce604f5d18cfbf2f26
   <view class="_div data-v-00bfd725 main" id="thirdPage">
     <view id="dropGroup" hidden="{{!(currentDrop.show)}}" class="_div data-v-00bfd725" style=" {{(  'left:' +  (currentDrop.left + 'px') +  ';' +  'top:' +  (currentDrop.top + 'px') +  ';')}}">
       <image src="{{currentDrop.src}}" mode="aspectFit" id="dropImg" class="_img data-v-00bfd725"></image>
