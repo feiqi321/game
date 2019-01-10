@@ -1,8 +1,0 @@
-<import src="/components/card.vue.wxml" /><template name="36e8a8dc">
-  <view class="_div data-v-0a06e647">
-    <van-button type="primary" class="_van-button data-v-0a06e647">按钮</van-button>
-    <view class="_ul data-v-0a06e647 container log-list">
-      <view wx:key="index" key="{{index}}" class="_li data-v-0a06e647 log-item {{[aa ? 'red' : '']}}" wx:for="{{logs}}" wx:for-index="index" wx:for-item="log"><template data="{{...$root[$kk+'1-'+index], $root}}" is="dc867fde"></template></view>
-    </view>
-  </view>
-</template>
