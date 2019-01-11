@@ -216,6 +216,8 @@ if (false) {(function () {
     addFs: function addFs() {
       var _this2 = this;
 
+      var damage = Math.random() * 3 + 2;
+      this.totalAttack = this.totalAttack + damage;
       this.fsList.push(-Math.floor(Math.random() * 3 + 2));
       setTimeout(function () {
         _this2.fsList.shift();
@@ -293,6 +295,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "name"
   }, [_vm._v(_vm._s(_vm.userInfo.nickName))]), _vm._v(" "), _c('dd', {
     staticClass: "score"
+<<<<<<< Updated upstream
   }, [_vm._v("999")])], 1)], 1), _vm._v(" "), _c('div', {
     staticClass: "rigth-nav"
   }, [_c('span', {
@@ -304,6 +307,9 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "click": _vm.addFs
     }
   })])]), _vm._v(" "), _c('div', {
+=======
+  }, [_vm._v("999")])], 1)], 1), _vm._v(" "), _vm._m(0)]), _vm._v(" "), _c('div', {
+>>>>>>> Stashed changes
     staticClass: "m-icon"
   }), _vm._v(" "), _c('div', {
     staticClass: "probar"
@@ -427,7 +433,17 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }, [_vm._v(_vm._s(item))])
   }))], 1)
 }
+<<<<<<< Updated upstream
 var staticRenderFns = []
+=======
+var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "rigth-nav"
+  }, [_c('span', {
+    staticClass: "i-sb active"
+  })])
+}]
+>>>>>>> Stashed changes
 render._withStripped = true
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);

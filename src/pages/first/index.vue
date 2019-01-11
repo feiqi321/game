@@ -190,9 +190,9 @@ export default {
       getUserInfoDig: false, //用户授权
       blueStatus: false, //蓝牙是否开启
       hasSh:false,//是否有手环
-      slow:true,//是否冰冻
+      isSlow:false,//是否冰冻
       countDownTime:'',
-      gsStatus: 3,
+      gsStatus: 0,
 
       animationOptions: [
         "http://img.isxcxbackend1.cn/橙色动图.gif",
@@ -505,10 +505,32 @@ export default {
       wx.connectSocket({url: "wss://www.isxcxbackend1.cn/websocket"});
       wx.onSocketMessage(function(res) {
         console.log('收到服务器内容：' ,res.data)
+        if (res.data==1){//下雪了
+          this.gsStatus = 1;
+          this.isSlow = true;
+        }else if (res.data==10){//雪停了
+          this.gsStatus = 1;
+          this.isSlow = false;
+        }else if(res.data ==2){//地震了
+          this.gsStatus = 1;
+          this.isSlow = false;
+        }else if (res.data ==20){//地震停了
+          this.gsStatus = 1;
+          this.isSlow = false;
+        }else if (res.data==3){//怪兽来袭
+          this.gsStatus = 1;
+          this.gsStatus = 3;
+          this.isSlow = false;
+        }else if (res.data==30){//怪兽事件结束
+          this.gsStatus = 1;
+          this.isSlow = false;
+        }
       })
       //连接失败
       wx.onSocketError(function() {
         console.log('websocket连接失败！');
+        this.gsStatus = 1;
+        this.isSlow = false;
       })
 
     },

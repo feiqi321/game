@@ -12,7 +12,7 @@
           </dl>
         </div>
         <div class="rigth-nav">
-          <span class="i-sb active" @click="addFs"></span>
+          <span class="i-sb active"></span>
       </div>
     </div>
     <div class="m-icon"></div>
@@ -128,6 +128,8 @@ export default {
       console.info("11111");
     },
     addFs() {
+      var damage = Math.random() * 3 + 2 ;
+      this.totalAttack = this.totalAttack+damage;
       this.fsList.push(-Math.floor(Math.random() * 3 + 2));
       setTimeout(() => {
         this.fsList.shift();
