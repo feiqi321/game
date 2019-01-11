@@ -2,6 +2,7 @@
   <view class="_div data-v-d89e72f6 main" id="boss">
     <view class="_div data-v-d89e72f6 hgbj"></view>
     <view class="_div data-v-d89e72f6 boss">
+      <view class="_div data-v-d89e72f6 bossbody" bindtap="handleProxy" data-eventid="{{'0'}}" data-comkey="{{$k}}"></view>
       <view class="_div data-v-d89e72f6 top-tool">
         <view class="_div data-v-d89e72f6 user-info">
           <view class="_dl data-v-d89e72f6">
@@ -10,9 +11,9 @@
             <view class="_dd data-v-d89e72f6 score">999</view>
           </view>
         </view>
-        <view class="_div data-v-d89e72f6 rigth-nav"><label class="_span data-v-d89e72f6 i-sb active" bindtap="handleProxy" data-eventid="{{'0'}}" data-comkey="{{$k}}"></label></view>
+        <view class="_div data-v-d89e72f6 rigth-nav"><label class="_span data-v-d89e72f6 i-sb active" bindtap="handleProxy" data-eventid="{{'1'}}" data-comkey="{{$k}}"></label></view>
       </view>
-      <view class="_div data-v-d89e72f6 m-icon" bindtap="handleProxy" data-eventid="{{'1'}}" data-comkey="{{$k}}"></view>
+      <view class="_div data-v-d89e72f6 m-icon"></view>
       <view class="_div data-v-d89e72f6 probar">
         <view class="_div data-v-d89e72f6 blood">
           <view class="_div data-v-d89e72f6 jdt" style=" {{('width:' + (jdtWidth + '%') + ';')}}"></view>

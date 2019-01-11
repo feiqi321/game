@@ -12,6 +12,17 @@
   z-index: 1;
   height: 100%;
 }
+.boss .bossbody.data-v-d89e72f6 {
+  position: absolute;
+  width: 60%;
+  height: 40%;
+  opacity: .4;
+  left: 50%;
+  top: 50%;
+  z-index: 1;
+  border-radius: 200rpx;
+  transform: translate(-50%, -50%);
+}
 .top-tool.data-v-d89e72f6 {
   display: flex;
   justify-content: space-between;
@@ -310,5 +321,5 @@ to {
   background: url(http://img.isxcxbackend1.cn/红光闪动.gif) center center no-repeat;
   background-size: cover;
   z-index: 0;
-  opacity: .6;
+  opacity: 0.6;
 }

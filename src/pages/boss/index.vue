@@ -2,6 +2,7 @@
   <div class="main" id="boss">
     <div class="hgbj"></div>
     <div class="boss">
+      <div class="bossbody" @click="addFs"></div>
       <div class="top-tool">
         <div class="user-info">
           <dl>
@@ -14,7 +15,7 @@
           <span class="i-sb active" @click="addFs"></span>
         </div>
       </div>
-      <div class="m-icon" @click="addFs"></div>
+      <div class="m-icon"></div>
       <div class="probar">
         <div class="blood">
           <div class="jdt" :style="{width:jdtWidth+'%'}"></div>
@@ -118,10 +119,21 @@ export default {
   overflow: hidden;
   position: relative;
 }
-.boss{
+.boss {
   position: relative;
   z-index: 1;
   height: 100%;
+  .bossbody{
+    position: absolute;
+    width: 60%;
+    height: 40%;
+    opacity: .4;
+    left: 50%;
+    top: 50%;
+    z-index: 1;
+    border-radius: 100px;
+    transform: translate(-50%,-50%)
+  }
 }
 .top-tool {
   display: flex;
@@ -437,7 +449,7 @@ export default {
     no-repeat;
   background-size: cover;
   z-index: 0;
-  opacity: .6;
+  opacity: 0.6;
 }
 </style>
 

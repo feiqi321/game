@@ -155,6 +155,7 @@ if (false) {(function () {
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["a"] = ({
   data: function data() {
@@ -213,6 +214,14 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }), _vm._v(" "), _c('div', {
     staticClass: "boss"
   }, [_c('div', {
+    staticClass: "bossbody",
+    attrs: {
+      "eventid": '0'
+    },
+    on: {
+      "click": _vm.addFs
+    }
+  }), _vm._v(" "), _c('div', {
     staticClass: "top-tool"
   }, [_c('div', {
     staticClass: "user-info"
@@ -229,19 +238,13 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_c('span', {
     staticClass: "i-sb active",
     attrs: {
-      "eventid": '0'
-    },
-    on: {
-      "click": _vm.addFs
-    }
-  })])]), _vm._v(" "), _c('div', {
-    staticClass: "m-icon",
-    attrs: {
       "eventid": '1'
     },
     on: {
       "click": _vm.addFs
     }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "m-icon"
   }), _vm._v(" "), _c('div', {
     staticClass: "probar"
   }, [_c('div', {
