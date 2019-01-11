@@ -425,6 +425,7 @@ export default {
           }
         );
     },
+<<<<<<< Updated upstream
     listenSocket() {
       var task = wx.connectSocket("wss://www.isxcxbackend1.cn/websocket");
       task.onMessage(receiveMsg);
@@ -438,6 +439,15 @@ export default {
       } else if (tis.totalStatus == 0 && type == 2) {
         this.totalStatus = 1;
       }
+=======
+
+    reward(type){
+        if (this.status==0 &&　type == 1){
+          this.status = 1;
+        }else if (tis.totalStatus==0 && type == 2){
+          this.totalStatus = 1;
+        }
+>>>>>>> Stashed changes
 
       const _this = this;
       http
@@ -491,6 +501,7 @@ export default {
           }
         );
     },
+<<<<<<< Updated upstream
     countDown(time){
       if(time<=0){
         this.countDownTime='';
@@ -502,6 +513,23 @@ export default {
       }, 1000);
     }
     
+=======
+    receiveMsg(data){
+      console.info(data);
+    },
+    listenSocket(){
+      console.info(123)
+      wx.connectSocket({url: "wss://www.isxcxbackend1.cn/websocket"});
+      wx.onSocketMessage(function(res) {
+        console.log('收到服务器内容：' ,res.data)
+      })
+      //连接失败
+      wx.onSocketError(function() {
+        console.log('websocket连接失败！');
+      })
+    },
+
+>>>>>>> Stashed changes
   },
 
   mounted() {
@@ -515,8 +543,12 @@ export default {
     this.openBlueTooth();
     this.initUserinfo();
     this.initColor();
+<<<<<<< Updated upstream
     this.countDown(1000);
     //this.listenSocket();
+=======
+    this.listenSocket();
+>>>>>>> Stashed changes
   }
 };
 </script>

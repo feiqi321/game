@@ -1,5 +1,6 @@
 <template>
   <div class="main" id="boss">
+<<<<<<< Updated upstream
     <div class="hgbj"></div>
     <div class="boss">
       <div class="top-tool">
@@ -12,6 +13,39 @@
         </div>
         <div class="rigth-nav">
           <span class="i-sb active" @click="addFs"></span>
+=======
+    <div class="top-tool">
+      <div class="user-info">
+        <dl>
+          <dt :style="{backgroundImage:'url('+userInfo.avatarUrl+')'}"></dt>
+          <dd class="name">{{userInfo.nickName}}</dd>
+          <dd class="score">999</dd>
+        </dl>
+      </div>
+      <div class="rigth-nav">
+        <span class="i-sb active" @click="addFs"></span>
+      </div>
+    </div>
+    <div class="m-icon" @click="addFs"></div>
+    <div class="probar">
+      <div class="blood">
+        <div class="jdt" :style="{width:jdtWidth+'%'}"></div>
+      </div>
+      <div class="clock">
+        <span class="left-clock-l">倒计时</span>
+        <span class="left-clock-r">{{overtime}}</span>
+      </div>
+      <div class="yy"></div>
+      <div class="bar">
+        <div class="attack">
+          <p class="left-attack-l">战斗力 ATTACK : 3
+            <span style="padding-right: 10px;color:#FFD306">+3</span>
+            <span class="zdl-icon"></span>
+          </p>
+        </div>
+        <div class="damage">
+          <p class="left-damage-l">总伤害 DAMAGE : {{totalAttack}}</p>
+>>>>>>> Stashed changes
         </div>
       </div>
       <div class="m-icon" @click="addFs"></div>
@@ -66,6 +100,37 @@
       <div class="shz">
         <span v-for="(item,i) in fsList" :key="i">{{item}}</span>
       </div>
+<<<<<<< Updated upstream
+=======
+      <div class="successShow"></div>
+    </van-dialog>
+
+    <van-dialog
+      use-slot
+      async-close
+      :show="listDig2"
+      :show-confirm-button="false"
+      @close="listDig2=false"
+      close-on-click-overlay
+      class="dialogbox"
+    >
+      <div class="endbox">
+        <p class="title">守护失败</p>
+        <p class="first-part"></p>
+        <p class="bettwen">您在怪兽入侵期间表现不佳</p>
+
+        <p class="second-part"></p>
+        <p class="bettwen-button">您的家园被摧毁了</p>
+        <div class="btn">
+          <p class="confirmShow">确认</p>
+        </div>
+        <div class="failbj"></div>
+      </div>
+      <div class="successShow"></div>
+    </van-dialog>
+    <div class="shz">
+      <span v-for="(item,i) in fsList" :key="i">{{item}}</span>
+>>>>>>> Stashed changes
     </div>
   </div>
 </template>
@@ -75,6 +140,9 @@ export default {
   data() {
     return {
       listDig: false,
+      listDig2: false,
+      totalAttack:0,
+      overtime:null,
       jdtWidth: 50,
       fsList: [],
       userInfo: null //用户信息
@@ -96,15 +164,43 @@ export default {
       console.info("11111");
     },
     addFs() {
-      this.fsList.push(Math.floor(Math.random() * 3 + 2));
+      this.fsList.push(-Math.floor(Math.random() * 3 + 2));
       setTimeout(() => {
         this.fsList.shift();
       }, 2000);
+    },
+    initTime(){
+
+      var sed = 0;
+      var lasttime=3;
+      var timer = setInterval(() => {
+        console.info(111)
+        if (sed==0 && lasttime > 0) {
+          lasttime = lasttime - 1;
+          sed = 59;
+        }else if (sed>0){
+          sed = sed-1;
+        }else if(sed==0 && lasttime == 0){
+          clearInterval(timer);
+        }
+        if (lasttime>0  && sed>=10){
+          this.overtime = lasttime+":"+sed
+        }else if (lasttime>0 && sed>=0 && sed<10){
+          this.overtime = lasttime+":0"+sed
+        }else if (lasttime==0 && sed>=10){
+          this.overtime = sed
+        }else if (lasttime==0 && sed>0 && sed<10){
+          this.overtime = "0"+sed
+        }else if (lasttime==0 && sed==0){
+          this.overtime = "0";
+        }
+      }, 1000);
     }
   },
 
   created() {
     this.getUserInfo();
+    this.initTime();
   }
 };
 </script>
@@ -412,7 +508,7 @@ export default {
     position: absolute;
     bottom: 0;
     color: #fd3231;
-    font-size: 28px;
+    font-size: 36px;
     opacity: 0;
   }
 }

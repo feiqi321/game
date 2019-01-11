@@ -155,11 +155,38 @@ if (false) {(function () {
 //
 //
 //
+<<<<<<< Updated upstream
+=======
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+>>>>>>> Stashed changes
 
 /* harmony default export */ __webpack_exports__["a"] = ({
   data: function data() {
     return {
       listDig: false,
+      listDig2: false,
+      totalAttack: 0,
+      overtime: null,
       jdtWidth: 50,
       fsList: [],
       userInfo: null //用户信息
@@ -184,15 +211,44 @@ if (false) {(function () {
     addFs: function addFs() {
       var _this2 = this;
 
-      this.fsList.push(Math.floor(Math.random() * 3 + 2));
+      this.fsList.push(-Math.floor(Math.random() * 3 + 2));
       setTimeout(function () {
         _this2.fsList.shift();
       }, 2000);
+    },
+    initTime: function initTime() {
+      var _this3 = this;
+
+      var sed = 0;
+      var lasttime = 3;
+      var timer = setInterval(function () {
+        console.info(111);
+        if (sed == 0 && lasttime > 0) {
+          lasttime = lasttime - 1;
+          sed = 59;
+        } else if (sed > 0) {
+          sed = sed - 1;
+        } else if (sed == 0 && lasttime == 0) {
+          clearInterval(timer);
+        }
+        if (lasttime > 0 && sed >= 10) {
+          _this3.overtime = lasttime + ":" + sed;
+        } else if (lasttime > 0 && sed >= 0 && sed < 10) {
+          _this3.overtime = lasttime + ":0" + sed;
+        } else if (lasttime == 0 && sed >= 10) {
+          _this3.overtime = sed;
+        } else if (lasttime == 0 && sed > 0 && sed < 10) {
+          _this3.overtime = "0" + sed;
+        } else if (lasttime == 0 && sed == 0) {
+          _this3.overtime = "0";
+        }
+      }, 1000);
     }
   },
 
   created: function created() {
     this.getUserInfo();
+    this.initTime();
   }
 });
 
@@ -251,7 +307,13 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     style: ({
       width: _vm.jdtWidth + '%'
     })
-  })]), _vm._v(" "), _vm._m(0), _vm._v(" "), _c('div', {
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "clock"
+  }, [_c('span', {
+    staticClass: "left-clock-l"
+  }, [_vm._v("倒计时")]), _vm._v(" "), _c('span', {
+    staticClass: "left-clock-r"
+  }, [_vm._v(_vm._s(_vm.overtime))])]), _vm._v(" "), _c('div', {
     staticClass: "yy"
   }), _vm._v(" "), _c('div', {
     staticClass: "bar"
@@ -259,13 +321,22 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "attack"
   }, [_c('p', {
     staticClass: "left-attack-l"
+<<<<<<< Updated upstream
   }, [_vm._v("\n            战斗力 ATTACK : 3\n            "), _c('span', {
+=======
+  }, [_vm._v("战斗力 ATTACK : 3\n          "), _c('span', {
+    staticStyle: {
+      "padding-right": "10px",
+      "color": "#FFD306"
+    }
+  }, [_vm._v("+3")]), _vm._v(" "), _c('span', {
+>>>>>>> Stashed changes
     staticClass: "zdl-icon"
   })])], 1), _vm._v(" "), _c('div', {
     staticClass: "damage"
   }, [_c('p', {
     staticClass: "left-damage-l"
-  }, [_vm._v("总伤害 DAMAGE : 300")])], 1)]), _vm._v(" "), _c('div', {
+  }, [_vm._v("总伤害 DAMAGE : " + _vm._s(_vm.totalAttack))])], 1)]), _vm._v(" "), _c('div', {
     staticClass: "textShow"
   }, [_c('p', [_vm._v("点击怪物一起保护PARKILAND")])], 1)]), _vm._v(" "), _c('van-dialog', {
     staticClass: "dialogbox",
@@ -303,6 +374,42 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "failbj"
   })], 1), _vm._v(" "), _c('div', {
     staticClass: "successShow"
+  })]), _vm._v(" "), _c('van-dialog', {
+    staticClass: "dialogbox",
+    attrs: {
+      "use-slot": "",
+      "async-close": "",
+      "show": _vm.listDig2,
+      "show-confirm-button": false,
+      "close-on-click-overlay": "",
+      "eventid": '3',
+      "mpcomid": '1'
+    },
+    on: {
+      "close": function($event) {
+        _vm.listDig2 = false
+      }
+    }
+  }, [_c('div', {
+    staticClass: "endbox"
+  }, [_c('p', {
+    staticClass: "title"
+  }, [_vm._v("守护失败")]), _vm._v(" "), _c('p', {
+    staticClass: "first-part"
+  }), _vm._v(" "), _c('p', {
+    staticClass: "bettwen"
+  }, [_vm._v("您在怪兽入侵期间表现不佳")]), _vm._v(" "), _c('p', {
+    staticClass: "second-part"
+  }), _vm._v(" "), _c('p', {
+    staticClass: "bettwen-button"
+  }, [_vm._v("您的家园被摧毁了")]), _vm._v(" "), _c('div', {
+    staticClass: "btn"
+  }, [_c('p', {
+    staticClass: "confirmShow"
+  }, [_vm._v("确认")])], 1), _vm._v(" "), _c('div', {
+    staticClass: "failbj"
+  })], 1), _vm._v(" "), _c('div', {
+    staticClass: "successShow"
   })]), _vm._v(" "), _c('div', {
     staticClass: "shz"
   }, _vm._l((_vm.fsList), function(item, i) {
@@ -311,15 +418,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }, [_vm._v(_vm._s(item))])
   }))], 1)])
 }
-var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "clock"
-  }, [_c('span', {
-    staticClass: "left-clock-l"
-  }, [_vm._v("倒计时")]), _vm._v(" "), _c('span', {
-    staticClass: "left-clock-r"
-  }, [_vm._v("3:00")])])
-}]
+var staticRenderFns = []
 render._withStripped = true
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);

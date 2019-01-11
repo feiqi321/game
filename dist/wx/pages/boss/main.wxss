@@ -287,7 +287,7 @@
   position: absolute;
   bottom: 0;
   color: #fd3231;
-  font-size: 56rpx;
+  font-size: 72rpx;
   opacity: 0;
 }
 @keyframes an1-data-v-d89e72f6 {
