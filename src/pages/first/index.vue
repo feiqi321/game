@@ -11,6 +11,7 @@
           </dl>
         </div>
         <div class="rigth-nav">
+          <span class="i-gs" @click="toBoss" v-if="gsStatus===3"></span>
           <span :class="{'i-sb':true, active:braceletId}" @click="bindDevDigSts=true"></span>
           <span class="i-sj active" @click="showList">
             <em></em>
@@ -94,18 +95,30 @@
             <div class="bd">
               <p>
                 解锁{{firstNum}}个颜色组合：
-                <small>{{myNum}}</small>/{{firstNum}}
-                <span class="btn" :class="[status ==0 ? 'active':'']" @click="reward(1)">
+                <small>{{myNum}}</small>
+                /{{firstNum}}
+                <span
+                  class="btn"
+                  :class="[status ==0 ? 'active':'']"
+                  @click="reward(1)"
+                >
                   领取奖励：
-                  <em></em>X{{firstReward}}
+                  <em></em>
+                  X{{firstReward}}
                 </span>
               </p>
               <p>
                 解锁全部颜色组合：
-                <small>{{myNum}}</small>/{{totalNum}}
-                <span class="btn" :class="[totalStatus ==0 ? 'active':'']" @click="reward(2)">
+                <small>{{myNum}}</small>
+                /{{totalNum}}
+                <span
+                  class="btn"
+                  :class="[totalStatus ==0 ? 'active':'']"
+                  @click="reward(2)"
+                >
                   领取奖励：
-                  <em></em>X{{totalReward}}
+                  <em></em>
+                  X{{totalReward}}
                 </span>
               </p>
             </div>
@@ -146,6 +159,7 @@
         </div>
       </van-dialog>
     </div>
+    <div class="hgbj" v-if="gsStatus===3"></div>
   </div>
 </template>
 
@@ -153,19 +167,19 @@
 import { mapMutations, mapState, mapActions } from "vuex";
 import http from "@/utils/http.js";
 import Notify from "@/../static/dist/notify/notify";
-
+const ISENDING=false;
 export default {
   data() {
     return {
-      firstNum:null,
-      myNum:null,
-      firstReward:null,
-      totalNum:null,
-      totalReward:null,
-      status:null,
-      totalStatus:null,
-      totalTask:{},
-      colorList:[],
+      firstNum: null,
+      myNum: null,
+      firstReward: null,
+      totalNum: null,
+      totalReward: null,
+      status: null,
+      totalStatus: null,
+      totalTask: {},
+      colorList: [],
       userInfo: {}, //用户信息
       gameId: null,
       openId: null,
@@ -175,6 +189,7 @@ export default {
       listDig: false, //列表弹窗
       getUserInfoDig: false, //用户授权
       blueStatus: false, //蓝牙是否开启
+      gsStatus: 3,
 
       animationOptions: [
         "http://img.isxcxbackend1.cn/橙色动图.gif",
@@ -188,13 +203,12 @@ export default {
         "http://img.isxcxbackend1.cn/椭圆140.png",
         "http://img.isxcxbackend1.cn/椭圆49.png"
       ] //1橙2黄3蓝4 绿
-
     };
   },
 
   components: {},
   computed: {
-    ...mapState(["completed", "doingType", "devOptions","scores"]),
+    ...mapState(["completed", "doingType", "devOptions", "scores"]),
     animationBg() {
       if (
         this.completed.length > 0 &&
@@ -210,7 +224,11 @@ export default {
   },
   methods: {
     ...mapActions(["delayDetection"]),
-    ...mapMutations(['setScores',"addDbToCompleted"]),
+    ...mapMutations(["setScores", "addDbToCompleted"]),
+    toBoss() {
+      const url = "../boss/main";
+      wx.navigateTo({ url });
+    },
     bindBraceletId() {
       const _this = this;
       _this.bindDevDigSts = false;
@@ -313,18 +331,20 @@ export default {
         .filter(item => {
           return item.accuracy < 1;
         })
-        .filter(item =>{
-          return item != this.braceletId
+        .filter(item => {
+          return item != this.braceletId;
         })
         .sort((a, b) => {
           return a.accuracy - b.accuracy;
         });
       if (distanceDev.length > 0) {
         const isExitDevs = this.completed.some(item => {
-          console.info(item.typeId+"@@@"+distanceDev[0].minor)
+          console.info(item.typeId + "@@@" + distanceDev[0].minor);
           return item.typeId == distanceDev[0].minor;
         });
-        console.info("###"+isExitDevs+"#####"+this.devOptions[distanceDev[0].minor])
+        console.info(
+          "###" + isExitDevs + "#####" + this.devOptions[distanceDev[0].minor]
+        );
         if (isExitDevs && this.devOptions[distanceDev[0].minor]) {
           return false;
         } else {
@@ -332,7 +352,6 @@ export default {
             typeId: distanceDev[0].minor,
             type: this.devOptions[distanceDev[0].minor]
           }; //distanceDev[0];
-
         }
       } else {
         return false;
@@ -340,34 +359,36 @@ export default {
     },
     handleFindDevs(devs) {
       const _this = this;
+      ISENDING=true;
       const fDevs = _this.filterDevs(devs);
-      if (fDevs.type){
+      if (fDevs.type) {
         http
           .post("/game/deviceColor/collect", {
             openId: _this.openId,
             gameId: _this.gameId, //游戏id
-            deviceId: fDevs.typeId,
+            deviceId: fDevs.typeId
           })
           .then(
             res => {
-                _this.delayDetection({
-                  typeId: fDevs.typeId,
-                  type: fDevs.type,
-                  braceletId:_this.braceletId,
-                  openId:_this.openId,
-                  gameId:_this.gameId,
-                  time: res.data.continuTime
-                });
-
+              _this.delayDetection({
+                typeId: fDevs.typeId,
+                type: fDevs.type,
+                braceletId: _this.braceletId,
+                openId: _this.openId,
+                gameId: _this.gameId,
+                time: res.data.continuTime*1000
+              });
+              ISENDING=false;
             },
             res => {
               Notify("网络异常!");
             }
           );
+      }else{
+        ISENDING=false;
       }
-
     },
-    initUserinfo(){
+    initUserinfo() {
       const _this = this;
       http
         .post("/game/device/query", {
@@ -376,16 +397,15 @@ export default {
         })
         .then(
           res => {
-            console.info(res)
-              _this.setScores(res.data.scores);
-
+            console.info(res);
+            _this.setScores(res.data.scores);
           },
           res => {
             Notify("网络异常!");
           }
         );
     },
-    initColor(){
+    initColor() {
       const _this = this;
       http
         .post("/game/device/collecting", {
@@ -394,35 +414,34 @@ export default {
         })
         .then(
           res => {
-            console.info(res)
-            _this.addDbToCompleted(res.data)
-
+            console.info(res);
+            _this.addDbToCompleted(res.data);
           },
           res => {
             Notify("网络异常!");
           }
         );
     },
-    listenSocket(){
+    listenSocket() {
       var task = wx.connectSocket("wss://www.isxcxbackend1.cn/websocket");
       task.onMessage(receiveMsg);
     },
-    receiveMsg(data){
+    receiveMsg(data) {
       console.info(data);
     },
-    reward(type){
-        if (this.status==0 &&　type == 1){
-          this.status = 1;
-        }else if (tis.totalStatus==0 && type == 2){
-          this.totalStatus = 1;
-        }
+    reward(type) {
+      if (this.status == 0 && type == 1) {
+        this.status = 1;
+      } else if (tis.totalStatus == 0 && type == 2) {
+        this.totalStatus = 1;
+      }
 
       const _this = this;
       http
         .post("/game/task/reward", {
           openId: _this.openId,
           gameId: _this.gameId,
-          type:type
+          type: type
         })
         .then(
           res => {
@@ -432,11 +451,8 @@ export default {
             Notify("网络异常!");
           }
         );
-
-
     },
-    showList(){
-
+    showList() {
       this.listDig = true;
       http
         .post("/game/task/findByTask", {
@@ -447,7 +463,7 @@ export default {
           res => {
             this.firstNum = res.data.firstNum;
             this.myNum = res.data.myNum;
-            this.firstReward=res.data.scores;
+            this.firstReward = res.data.scores;
             this.totalNum = res.data.totalNum;
             this.totalReward = res.data.totalScores;
             this.status = res.data.status;
@@ -465,7 +481,7 @@ export default {
         })
         .then(
           res => {
-              this.colorList = res.data;
+            this.colorList = res.data;
           },
           res => {
             Notify("网络异常!");
@@ -494,6 +510,8 @@ export default {
 .first {
   padding: 15px 30px;
   text-align: center;
+  position: relative;
+  z-index: 1;
 }
 .top-tool {
   display: flex;
@@ -533,6 +551,24 @@ export default {
   }
   .rigth-nav {
     margin-top: 30px;
+    @keyframes an1 {
+      from {
+        transform: scale(1);
+      }
+      to {
+        transform: scale(1.4);
+      }
+    }
+    .i-gs {
+      background: url(http://img.isxcxbackend1.cn/boss组203.png) center center
+        no-repeat;
+      background-size: contain;
+      width: 24px;
+      height: 24px;
+      display: inline-block;
+      margin-right: 20px;
+      animation: an1 ease 1s infinite alternate;
+    }
     .i-sb {
       background: url(http://img.isxcxbackend1.cn/组89.png) center center
         no-repeat;
@@ -789,11 +825,11 @@ export default {
       display: inline-block;
       margin: 0 5px;
     }
-    .animal-icon{
+    .animal-icon {
       background: center center no-repeat;
       background-image: url(http://img.isxcxbackend1.cn/鳄鱼-小.png);
-      background-size: contain;
-      width: 25px;
+      background-size: 100% auto;
+      width: 40px;
       height: 40px;
       display: inline-block;
       margin: 0 5px;
@@ -831,6 +867,17 @@ export default {
   &.c3 {
     background-image: url(http://img.isxcxbackend1.cn/椭圆75.png);
   }
+}
+.hgbj {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: url(http://img.isxcxbackend1.cn/红光闪动.gif) center center
+    no-repeat;
+  background-size: cover;
+  z-index: 0;
 }
 </style>
 
