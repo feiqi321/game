@@ -76,6 +76,9 @@ export default {
   data() {
     return {
       listDig: false,
+      listDig2: false,
+      totalAttack:0,
+      overtime:null,
       jdtWidth: 50,
       fsList: [],
       userInfo: null //用户信息
@@ -97,15 +100,43 @@ export default {
       console.info("11111");
     },
     addFs() {
-      this.fsList.push(Math.floor(Math.random() * 3 + 2));
+      this.fsList.push(-Math.floor(Math.random() * 3 + 2));
       setTimeout(() => {
         this.fsList.shift();
       }, 2000);
+    },
+    initTime(){
+
+      var sed = 0;
+      var lasttime=3;
+      var timer = setInterval(() => {
+        console.info(111)
+        if (sed==0 && lasttime > 0) {
+          lasttime = lasttime - 1;
+          sed = 59;
+        }else if (sed>0){
+          sed = sed-1;
+        }else if(sed==0 && lasttime == 0){
+          clearInterval(timer);
+        }
+        if (lasttime>0  && sed>=10){
+          this.overtime = lasttime+":"+sed
+        }else if (lasttime>0 && sed>=0 && sed<10){
+          this.overtime = lasttime+":0"+sed
+        }else if (lasttime==0 && sed>=10){
+          this.overtime = sed
+        }else if (lasttime==0 && sed>0 && sed<10){
+          this.overtime = "0"+sed
+        }else if (lasttime==0 && sed==0){
+          this.overtime = "0";
+        }
+      }, 1000);
     }
   },
 
   created() {
     this.getUserInfo();
+    this.initTime();
   }
 };
 </script>
@@ -424,7 +455,7 @@ export default {
     position: absolute;
     bottom: 0;
     color: #fd3231;
-    font-size: 28px;
+    font-size: 36px;
     opacity: 0;
   }
 }

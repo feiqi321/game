@@ -161,6 +161,9 @@ if (false) {(function () {
   data: function data() {
     return {
       listDig: false,
+      listDig2: false,
+      totalAttack: 0,
+      overtime: null,
       jdtWidth: 50,
       fsList: [],
       userInfo: null //用户信息
@@ -185,15 +188,44 @@ if (false) {(function () {
     addFs: function addFs() {
       var _this2 = this;
 
-      this.fsList.push(Math.floor(Math.random() * 3 + 2));
+      this.fsList.push(-Math.floor(Math.random() * 3 + 2));
       setTimeout(function () {
         _this2.fsList.shift();
       }, 2000);
+    },
+    initTime: function initTime() {
+      var _this3 = this;
+
+      var sed = 0;
+      var lasttime = 3;
+      var timer = setInterval(function () {
+        console.info(111);
+        if (sed == 0 && lasttime > 0) {
+          lasttime = lasttime - 1;
+          sed = 59;
+        } else if (sed > 0) {
+          sed = sed - 1;
+        } else if (sed == 0 && lasttime == 0) {
+          clearInterval(timer);
+        }
+        if (lasttime > 0 && sed >= 10) {
+          _this3.overtime = lasttime + ":" + sed;
+        } else if (lasttime > 0 && sed >= 0 && sed < 10) {
+          _this3.overtime = lasttime + ":0" + sed;
+        } else if (lasttime == 0 && sed >= 10) {
+          _this3.overtime = sed;
+        } else if (lasttime == 0 && sed > 0 && sed < 10) {
+          _this3.overtime = "0" + sed;
+        } else if (lasttime == 0 && sed == 0) {
+          _this3.overtime = "0";
+        }
+      }, 1000);
     }
   },
 
   created: function created() {
     this.getUserInfo();
+    this.initTime();
   }
 });
 

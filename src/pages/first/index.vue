@@ -432,12 +432,13 @@ export default {
     receiveMsg(data) {
       console.info(data);
     },
-    reward(type) {
-      if (this.status == 0 && type == 1) {
-        this.status = 1;
-      } else if (tis.totalStatus == 0 && type == 2) {
-        this.totalStatus = 1;
-      }
+
+    reward(type){
+        if (this.status==0 &&　type == 1){
+          this.status = 1;
+        }else if (tis.totalStatus==0 && type == 2){
+          this.totalStatus = 1;
+        }
 
       const _this = this;
       http
@@ -500,8 +501,23 @@ export default {
       setTimeout(() => {
         this.countDown(time-1)
       }, 1000);
-    }
+    },
     
+    receiveMsg(data){
+      console.info(data);
+    },
+    listenSocket(){
+      console.info(123)
+      wx.connectSocket({url: "wss://www.isxcxbackend1.cn/websocket"});
+      wx.onSocketMessage(function(res) {
+        console.log('收到服务器内容：' ,res.data)
+      })
+      //连接失败
+      wx.onSocketError(function() {
+        console.log('websocket连接失败！');
+      })
+    },
+
   },
 
   mounted() {
@@ -517,6 +533,7 @@ export default {
     this.initColor();
     this.countDown(1000);
     //this.listenSocket();
+    this.listenSocket();
   }
 };
 </script>
