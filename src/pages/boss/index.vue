@@ -13,31 +13,6 @@
         </div>
         <div class="rigth-nav">
           <span class="i-sb active" @click="addFs"></span>
-<<<<<<< Updated upstream
-        </div>
-      </div>
-      <div class="m-icon"></div>
-      <div class="probar">
-        <div class="blood">
-          <div class="jdt" :style="{width:jdtWidth+'%'}"></div>
-        </div>
-        <div class="clock">
-          <span class="left-clock-l">倒计时</span>
-          <span class="left-clock-r">3:00</span>
-        </div>
-        <div class="yy"></div>
-        <div class="bar">
-          <div class="attack">
-            <p class="left-attack-l">
-              战斗力 ATTACK : 3
-              <span class="zdl-icon"></span>
-            </p>
-          </div>
-          <div class="damage">
-            <p class="left-damage-l">总伤害 DAMAGE : 300</p>
-          </div>
-        </div>
-=======
       </div>
     </div>
     <div class="m-icon"></div>
@@ -61,7 +36,6 @@
           <p class="left-damage-l">总伤害 DAMAGE : {{totalAttack}}</p>
         </div>
       </div>
->>>>>>> Stashed changes
         <div class="textShow">
           <p>点击怪物一起保护PARKILAND</p>
         </div>
@@ -90,12 +64,10 @@
         </div>
         <div class="successShow"></div>
       </van-dialog>
-<<<<<<< Updated upstream
       <div class="shz">
         <span v-for="(item,i) in fsList" :key="i">{{item}}</span>
       </div>
     </div>
-=======
 
     <van-dialog
       use-slot
@@ -124,8 +96,6 @@
       <div class="shz">
         <span v-for="(item,i) in fsList" :key="i">{{item}}</span>
       </div>
-  </div>
->>>>>>> Stashed changes
   </div>
 </template>
 
