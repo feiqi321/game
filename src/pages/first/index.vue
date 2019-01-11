@@ -12,7 +12,7 @@
         </div>
         <div class="rigth-nav">
           <span :class="{'i-sb':true, active:braceletId}" @click="bindDevDigSts=true"></span>
-          <span class="i-sj active" @click="listDig=true">
+          <span class="i-sj active" @click="showList">
             <em></em>
           </span>
         </div>
@@ -95,7 +95,7 @@
               <p>
                 解锁{{firstNum}}个颜色组合：
                 <small>{{myNum}}</small>/{{firstNum}}
-                <span class="btn" :class="[myNum>=firstNum ? 'active':'']">
+                <span class="btn" :class="[status ==0 ? 'active':'']" @click="reward(1)">
                   领取奖励：
                   <em></em>X{{firstReward}}
                 </span>
@@ -103,7 +103,7 @@
               <p>
                 解锁全部颜色组合：
                 <small>{{myNum}}</small>/{{totalNum}}
-                <span class="btn">
+                <span class="btn" :class="[totalStatus ==0 ? 'active':'']" @click="reward(2)">
                   领取奖励：
                   <em></em>X{{totalReward}}
                 </span>
@@ -117,51 +117,19 @@
               <div class="td"></div>
               <div class="td last-child nbg">材料</div>
             </div>
-            <div class="tr">
+
+            <div class="tr" v-for="n in colorList" :key="n">
               <div class="td first-child">
-                <span class="round c0"></span>
-                <span class="round c1"></span>
-                <span class="round c2"></span>
+                <span class="round" :class="'c'+(n.color1-1)"></span>
+                <span class="round" :class="'c'+(n.color2-1)"></span>
+                <span class="round" :class="'c'+(n.color3-1)"></span>
               </div>
-              <div class="td">
+              <div class="td" v-if="n.viewStatus==0">
                 <span class="new-icon"></span>
               </div>
-              <div class="td last-child">12</div>
-            </div>
-            <div class="tr">
-              <div class="td first-child">
-                <span class="round c0"></span>
-                <span class="round c1"></span>
-                <span class="round c2"></span>
+              <div class="td">
+                <span class="animal-icon" :style="{backgroundImage:'url('+n.url+')'}"></span>
               </div>
-              <div class="td">12</div>
-              <div class="td last-child">12</div>
-            </div>
-            <div class="tr">
-              <div class="td first-child">
-                <span class="round c0"></span>
-                <span class="round c1"></span>
-                <span class="round c2"></span>
-              </div>
-              <div class="td">12</div>
-              <div class="td last-child">12</div>
-            </div>
-            <div class="tr">
-              <div class="td first-child">
-                <span class="round c0"></span>
-                <span class="round c1"></span>
-                <span class="round c2"></span>
-              </div>
-              <div class="td">12</div>
-              <div class="td last-child">12</div>
-            </div>
-            <div class="tr">
-              <div class="td first-child">
-                <span class="round c0"></span>
-                <span class="round c1"></span>
-                <span class="round c2"></span>
-              </div>
-              <div class="td">12</div>
               <div class="td last-child">12</div>
             </div>
           </div>
@@ -189,12 +157,15 @@ import Notify from "@/../static/dist/notify/notify";
 export default {
   data() {
     return {
-      firstNum:10,
-      myNum:12,
-      firstReward:200,
-      totalNum:24,
-      totalReward:500,
+      firstNum:null,
+      myNum:null,
+      firstReward:null,
+      totalNum:null,
+      totalReward:null,
+      status:null,
+      totalStatus:null,
       totalTask:{},
+      colorList:[],
       userInfo: {}, //用户信息
       gameId: null,
       openId: null,
@@ -438,6 +409,68 @@ export default {
     },
     receiveMsg(data){
       console.info(data);
+    },
+    reward(type){
+        if (this.status==0 &&　type == 1){
+          this.status = 1;
+        }else if (tis.totalStatus==0 && type == 2){
+          this.totalStatus = 1;
+        }
+
+      const _this = this;
+      http
+        .post("/game/task/reward", {
+          openId: _this.openId,
+          gameId: _this.gameId,
+          type:type
+        })
+        .then(
+          res => {
+            _this.setScores(res.data);
+          },
+          res => {
+            Notify("网络异常!");
+          }
+        );
+
+
+    },
+    showList(){
+
+      this.listDig = true;
+      http
+        .post("/game/task/findByTask", {
+          openId: this.openId,
+          gameId: this.gameId
+        })
+        .then(
+          res => {
+            this.firstNum = res.data.firstNum;
+            this.myNum = res.data.myNum;
+            this.firstReward=res.data.scores;
+            this.totalNum = res.data.totalNum;
+            this.totalReward = res.data.totalScores;
+            this.status = res.data.status;
+            this.totalStatus = res.data.totalStatus;
+          },
+          res => {
+            Notify("网络异常!");
+          }
+        );
+
+      http
+        .post("/game/deviceColor/listAllByOpenId", {
+          openId: this.openId,
+          gameId: this.gameId
+        })
+        .then(
+          res => {
+              this.colorList = res.data;
+          },
+          res => {
+            Notify("网络异常!");
+          }
+        );
     }
   },
 
@@ -753,6 +786,15 @@ export default {
       background-size: contain;
       width: 25px;
       height: 16px;
+      display: inline-block;
+      margin: 0 5px;
+    }
+    .animal-icon{
+      background: center center no-repeat;
+      background-image: url(http://img.isxcxbackend1.cn/鳄鱼-小.png);
+      background-size: contain;
+      width: 25px;
+      height: 40px;
       display: inline-block;
       margin: 0 5px;
     }
