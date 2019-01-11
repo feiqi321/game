@@ -93,15 +93,9 @@ export default {
     },
     addFs() {
       this.fsList.push(Math.floor(Math.random() * 3 + 2));
-<<<<<<< Updated upstream
       setTimeout(() => {
         this.fsList.shift();
       }, 2000);
-=======
-      // setTimeout(() => {
-      //   this.fsList.shift();
-      // }, 2000);
->>>>>>> Stashed changes
     }
   },
 
