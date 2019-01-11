@@ -26,7 +26,7 @@
           <span class="m-icon"></span>
         </p>
         <p>收集中</p>
-        <p :class="{bar:true,active:animationBg!==''? true : false}"></p>
+        <p :class="{bar:true,active:animationBg!==''? true : false,slow:isSlow}">{{countDownTime}}</p>
       </div>
 
       <div class="nlbox">
@@ -190,6 +190,8 @@ export default {
       getUserInfoDig: false, //用户授权
       blueStatus: false, //蓝牙是否开启
       hasSh:false,//是否有手环
+      slow:true,//是否冰冻
+      countDownTime:'',
       gsStatus: 3,
 
       animationOptions: [
@@ -488,7 +490,18 @@ export default {
             Notify("网络异常!");
           }
         );
+    },
+    countDown(time){
+      if(time<=0){
+        this.countDownTime='';
+        return;
+      }
+      this.countDownTime=time;
+      setTimeout(() => {
+        this.countDown(time-1)
+      }, 1000);
     }
+    
   },
 
   mounted() {
@@ -502,6 +515,7 @@ export default {
     this.openBlueTooth();
     this.initUserinfo();
     this.initColor();
+    this.countDown(1000);
     //this.listenSocket();
   }
 };
