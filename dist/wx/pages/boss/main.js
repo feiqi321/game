@@ -2,14 +2,14 @@ require("../../common/manifest.js");
 require("../../common/vendor.js");
 global.webpackJsonpMpvue([6],{
 
-/***/ 91:
+/***/ 90:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__index__ = __webpack_require__(92);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__index__ = __webpack_require__(91);
 
 
 
@@ -18,7 +18,7 @@ app.$mount();
 
 /***/ }),
 
-/***/ 92:
+/***/ 91:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -27,7 +27,7 @@ app.$mount();
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(93)
+  __webpack_require__(92)
 }
 var normalizeComponent = __webpack_require__(4)
 /* script */
@@ -72,7 +72,7 @@ if (false) {(function () {
 
 /***/ }),
 
-/***/ 93:
+/***/ 92:
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
@@ -156,6 +156,33 @@ if (false) {(function () {
 //
 //
 //
+<<<<<<< Updated upstream
+=======
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+>>>>>>> Stashed changes
 
 /* harmony default export */ __webpack_exports__["a"] = ({
   data: function data() {
@@ -270,7 +297,11 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
   }, [_c('span', {
     staticClass: "i-sb active",
     attrs: {
+<<<<<<< Updated upstream
       "eventid": '1'
+=======
+      "eventid": '0'
+>>>>>>> Stashed changes
     },
     on: {
       "click": _vm.addFs
@@ -294,7 +325,16 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "attack"
   }, [_c('p', {
     staticClass: "left-attack-l"
+<<<<<<< Updated upstream
   }, [_vm._v("\n            战斗力 ATTACK : 3\n            "), _c('span', {
+=======
+  }, [_vm._v("战斗力 ATTACK : 3\n          "), _c('span', {
+    staticStyle: {
+      "padding-right": "10px",
+      "color": "#FFD306"
+    }
+  }, [_vm._v("+3")]), _vm._v(" "), _c('span', {
+>>>>>>> Stashed changes
     staticClass: "zdl-icon"
   })])], 1), _vm._v(" "), _c('div', {
     staticClass: "damage"
@@ -310,7 +350,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "show": _vm.listDig,
       "show-confirm-button": false,
       "close-on-click-overlay": "",
-      "eventid": '2',
+      "eventid": '1',
       "mpcomid": '0'
     },
     on: {
@@ -338,6 +378,45 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "failbj"
   })], 1), _vm._v(" "), _c('div', {
     staticClass: "successShow"
+<<<<<<< Updated upstream
+=======
+  })]), _vm._v(" "), _c('van-dialog', {
+    staticClass: "dialogbox",
+    attrs: {
+      "use-slot": "",
+      "async-close": "",
+      "show": _vm.listDig2,
+      "show-confirm-button": false,
+      "close-on-click-overlay": "",
+      "eventid": '2',
+      "mpcomid": '1'
+    },
+    on: {
+      "close": function($event) {
+        _vm.listDig2 = false
+      }
+    }
+  }, [_c('div', {
+    staticClass: "endbox"
+  }, [_c('p', {
+    staticClass: "title"
+  }, [_vm._v("守护失败")]), _vm._v(" "), _c('p', {
+    staticClass: "first-part"
+  }), _vm._v(" "), _c('p', {
+    staticClass: "bettwen"
+  }, [_vm._v("您在怪兽入侵期间表现不佳")]), _vm._v(" "), _c('p', {
+    staticClass: "second-part"
+  }), _vm._v(" "), _c('p', {
+    staticClass: "bettwen-button"
+  }, [_vm._v("您的家园被摧毁了")]), _vm._v(" "), _c('div', {
+    staticClass: "btn"
+  }, [_c('p', {
+    staticClass: "confirmShow"
+  }, [_vm._v("确认")])], 1), _vm._v(" "), _c('div', {
+    staticClass: "failbj"
+  })], 1), _vm._v(" "), _c('div', {
+    staticClass: "successShow"
+>>>>>>> Stashed changes
   })]), _vm._v(" "), _c('div', {
     staticClass: "shz"
   }, _vm._l((_vm.fsList), function(item, i) {
@@ -367,5 +446,5 @@ if (false) {
 
 /***/ })
 
-},[91]);
+},[90]);
 //# sourceMappingURL=main.js.map

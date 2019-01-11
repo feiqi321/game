@@ -425,6 +425,7 @@ export default {
           }
         );
     },
+<<<<<<< Updated upstream
     listenSocket() {
       var task = wx.connectSocket("wss://www.isxcxbackend1.cn/websocket");
       task.onMessage(receiveMsg);
@@ -432,6 +433,9 @@ export default {
     receiveMsg(data) {
       console.info(data);
     },
+=======
+
+>>>>>>> Stashed changes
 
     reward(type){
         if (this.status==0 &&　type == 1){
@@ -492,6 +496,10 @@ export default {
           }
         );
     },
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
     countDown(time){
       if(time<=0){
         this.countDownTime='';
@@ -502,7 +510,10 @@ export default {
         this.countDown(time-1)
       }, 1000);
     },
+<<<<<<< Updated upstream
     
+=======
+>>>>>>> Stashed changes
     receiveMsg(data){
       console.info(data);
     },
@@ -516,8 +527,12 @@ export default {
       wx.onSocketError(function() {
         console.log('websocket连接失败！');
       })
+<<<<<<< Updated upstream
     },
 
+=======
+    }
+>>>>>>> Stashed changes
   },
 
   mounted() {
@@ -532,7 +547,10 @@ export default {
     this.initUserinfo();
     this.initColor();
     this.countDown(1000);
+<<<<<<< Updated upstream
     //this.listenSocket();
+=======
+>>>>>>> Stashed changes
     this.listenSocket();
   }
 };

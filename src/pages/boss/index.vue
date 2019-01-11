@@ -13,6 +13,7 @@
         </div>
         <div class="rigth-nav">
           <span class="i-sb active" @click="addFs"></span>
+<<<<<<< Updated upstream
         </div>
       </div>
       <div class="m-icon"></div>
@@ -36,6 +37,31 @@
             <p class="left-damage-l">总伤害 DAMAGE : 300</p>
           </div>
         </div>
+=======
+      </div>
+    </div>
+    <div class="m-icon"></div>
+    <div class="probar">
+      <div class="blood">
+        <div class="jdt" :style="{width:jdtWidth+'%'}"></div>
+      </div>
+      <div class="clock">
+        <span class="left-clock-l">倒计时</span>
+        <span class="left-clock-r">{{overtime}}</span>
+      </div>
+      <div class="yy"></div>
+      <div class="bar">
+        <div class="attack">
+          <p class="left-attack-l">战斗力 ATTACK : 3
+            <span style="padding-right: 10px;color:#FFD306">+3</span>
+            <span class="zdl-icon"></span>
+          </p>
+        </div>
+        <div class="damage">
+          <p class="left-damage-l">总伤害 DAMAGE : {{totalAttack}}</p>
+        </div>
+      </div>
+>>>>>>> Stashed changes
         <div class="textShow">
           <p>点击怪物一起保护PARKILAND</p>
         </div>
@@ -64,10 +90,42 @@
         </div>
         <div class="successShow"></div>
       </van-dialog>
+<<<<<<< Updated upstream
       <div class="shz">
         <span v-for="(item,i) in fsList" :key="i">{{item}}</span>
       </div>
     </div>
+=======
+
+    <van-dialog
+      use-slot
+      async-close
+      :show="listDig2"
+      :show-confirm-button="false"
+      @close="listDig2=false"
+      close-on-click-overlay
+      class="dialogbox"
+    >
+      <div class="endbox">
+        <p class="title">守护失败</p>
+        <p class="first-part"></p>
+        <p class="bettwen">您在怪兽入侵期间表现不佳</p>
+
+        <p class="second-part"></p>
+        <p class="bettwen-button">您的家园被摧毁了</p>
+        <div class="btn">
+          <p class="confirmShow">确认</p>
+        </div>
+        <div class="failbj"></div>
+      </div>
+      <div class="successShow"></div>
+    </van-dialog>
+
+      <div class="shz">
+        <span v-for="(item,i) in fsList" :key="i">{{item}}</span>
+      </div>
+  </div>
+>>>>>>> Stashed changes
   </div>
 </template>
 
@@ -106,7 +164,6 @@ export default {
       }, 2000);
     },
     initTime(){
-
       var sed = 0;
       var lasttime=3;
       var timer = setInterval(() => {
