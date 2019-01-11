@@ -1,48 +1,51 @@
 <template name="6e358bd0">
   <view class="_div data-v-d89e72f6 main" id="boss">
-    <view class="_div data-v-d89e72f6 top-tool">
-      <view class="_div data-v-d89e72f6 user-info">
-        <view class="_dl data-v-d89e72f6">
-          <view class="_dt data-v-d89e72f6" style=" {{('background-image:' + ('url(' + userInfo.avatarUrl + ')') + ';')}}"></view>
-          <view class="_dd data-v-d89e72f6 name">{{userInfo.nickName}}</view>
-          <view class="_dd data-v-d89e72f6 score">999</view>
+    <view class="_div data-v-d89e72f6 hgbj"></view>
+    <view class="_div data-v-d89e72f6 boss">
+      <view class="_div data-v-d89e72f6 top-tool">
+        <view class="_div data-v-d89e72f6 user-info">
+          <view class="_dl data-v-d89e72f6">
+            <view class="_dt data-v-d89e72f6" style=" {{('background-image:' + ('url(' + userInfo.avatarUrl + ')') + ';')}}"></view>
+            <view class="_dd data-v-d89e72f6 name">{{userInfo.nickName}}</view>
+            <view class="_dd data-v-d89e72f6 score">999</view>
+          </view>
+        </view>
+        <view class="_div data-v-d89e72f6 rigth-nav"><label class="_span data-v-d89e72f6 i-sb active" bindtap="handleProxy" data-eventid="{{'0'}}" data-comkey="{{$k}}"></label></view>
+      </view>
+      <view class="_div data-v-d89e72f6 m-icon" bindtap="handleProxy" data-eventid="{{'1'}}" data-comkey="{{$k}}"></view>
+      <view class="_div data-v-d89e72f6 probar">
+        <view class="_div data-v-d89e72f6 blood">
+          <view class="_div data-v-d89e72f6 jdt" style=" {{('width:' + (jdtWidth + '%') + ';')}}"></view>
+        </view>
+        <view class="_div data-v-d89e72f6 clock"><label class="_span data-v-d89e72f6 left-clock-l">倒计时</label> <label class="_span data-v-d89e72f6 left-clock-r">3:00</label></view>
+        <view class="_div data-v-d89e72f6 yy"></view>
+        <view class="_div data-v-d89e72f6 bar">
+          <view class="_div data-v-d89e72f6 attack">
+            <view class="_p data-v-d89e72f6 left-attack-l"> 战斗力 ATTACK : 3 <label class="_span data-v-d89e72f6 zdl-icon"></label></view>
+          </view>
+          <view class="_div data-v-d89e72f6 damage">
+            <view class="_p data-v-d89e72f6 left-damage-l">总伤害 DAMAGE : 300</view>
+          </view>
+        </view>
+        <view class="_div data-v-d89e72f6 textShow">
+          <view class="_p data-v-d89e72f6">点击怪物一起保护PARKILAND</view>
         </view>
       </view>
-      <view class="_div data-v-d89e72f6 rigth-nav"><label class="_span data-v-d89e72f6 i-sb active" bindtap="handleProxy" data-eventid="{{'0'}}" data-comkey="{{$k}}"></label></view>
+      <van-dialog use-slot async-close show="{{listDig}}" show-confirm-button="{{false}}" bindclose="handleProxy" close-on-click-overlay class="_van-dialog data-v-d89e72f6 dialogbox" data-eventid="{{'2'}}" data-comkey="{{$k}}">
+        <view class="_div data-v-d89e72f6 endbox">
+          <view class="_p data-v-d89e72f6 title">守护成功</view>
+          <view class="_p data-v-d89e72f6 first-part">在所有人的努力下</view>
+          <view class="_p data-v-d89e72f6 bettwen">怪兽被击退了 家园被守护</view>
+          <view class="_p data-v-d89e72f6 second-part">你对怪兽的伤害为99%</view>
+          <view class="_p data-v-d89e72f6 bettwen-button">你获得了XXX能量作为奖励</view>
+          <view class="_div data-v-d89e72f6 btn">
+            <view class="_p data-v-d89e72f6 confirmShow">确认</view>
+          </view>
+          <view class="_div data-v-d89e72f6 failbj"></view>
+        </view>
+        <view class="_div data-v-d89e72f6 successShow"></view>
+      </van-dialog>
+      <view class="_div data-v-d89e72f6 shz"><label wx:key="i" key="{{i}}" wx:for="{{fsList}}" wx:for-index="i" wx:for-item="item" class="_span data-v-d89e72f6">{{item}}</label></view>
     </view>
-    <view class="_div data-v-d89e72f6 m-icon" bindtap="handleProxy" data-eventid="{{'1'}}" data-comkey="{{$k}}"></view>
-    <view class="_div data-v-d89e72f6 probar">
-      <view class="_div data-v-d89e72f6 blood">
-        <view class="_div data-v-d89e72f6 jdt" style=" {{('width:' + (jdtWidth + '%') + ';')}}"></view>
-      </view>
-      <view class="_div data-v-d89e72f6 clock"><label class="_span data-v-d89e72f6 left-clock-l">倒计时</label> <label class="_span data-v-d89e72f6 left-clock-r">3:00</label></view>
-      <view class="_div data-v-d89e72f6 yy"></view>
-      <view class="_div data-v-d89e72f6 bar">
-        <view class="_div data-v-d89e72f6 attack">
-          <view class="_p data-v-d89e72f6 left-attack-l">战斗力 ATTACK : 3 <label class="_span data-v-d89e72f6 zdl-icon"></label></view>
-        </view>
-        <view class="_div data-v-d89e72f6 damage">
-          <view class="_p data-v-d89e72f6 left-damage-l">总伤害 DAMAGE : 300</view>
-        </view>
-      </view>
-      <view class="_div data-v-d89e72f6 textShow">
-        <view class="_p data-v-d89e72f6">点击怪物一起保护PARKILAND</view>
-      </view>
-    </view>
-    <van-dialog use-slot async-close show="{{listDig}}" show-confirm-button="{{false}}" bindclose="handleProxy" close-on-click-overlay class="_van-dialog data-v-d89e72f6 dialogbox" data-eventid="{{'2'}}" data-comkey="{{$k}}">
-      <view class="_div data-v-d89e72f6 endbox">
-        <view class="_p data-v-d89e72f6 title">守护成功</view>
-        <view class="_p data-v-d89e72f6 first-part">在所有人的努力下</view>
-        <view class="_p data-v-d89e72f6 bettwen">怪兽被击退了 家园被守护</view>
-        <view class="_p data-v-d89e72f6 second-part">你对怪兽的伤害为99%</view>
-        <view class="_p data-v-d89e72f6 bettwen-button">你获得了XXX能量作为奖励</view>
-        <view class="_div data-v-d89e72f6 btn">
-          <view class="_p data-v-d89e72f6 confirmShow">确认</view>
-        </view>
-        <view class="_div data-v-d89e72f6 failbj"></view>
-      </view>
-      <view class="_div data-v-d89e72f6 successShow"></view>
-    </van-dialog>
-    <view class="_div data-v-d89e72f6 shz"><label wx:key="i" key="{{i}}" wx:for="{{fsList}}" wx:for-index="i" wx:for-item="item" class="_span data-v-d89e72f6">{{item}}</label></view>
   </view>
 </template>

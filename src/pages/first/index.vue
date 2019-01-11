@@ -13,7 +13,7 @@
         <div class="rigth-nav">
           <span class="i-gs" @click="toBoss" v-if="gsStatus===3"></span>
           <span :class="{'i-sb':true, active:braceletId}" @click="bindDevDigSts=true"></span>
-          <span class="i-sj active" @click="showList">
+          <span :class="{'i-sj':true, active:hasSh}" @click="showList">
             <em></em>
           </span>
         </div>
@@ -167,7 +167,7 @@
 import { mapMutations, mapState, mapActions } from "vuex";
 import http from "@/utils/http.js";
 import Notify from "@/../static/dist/notify/notify";
-const ISENDING=false;
+let ISENDING=false;
 export default {
   data() {
     return {
@@ -189,6 +189,7 @@ export default {
       listDig: false, //列表弹窗
       getUserInfoDig: false, //用户授权
       blueStatus: false, //蓝牙是否开启
+      hasSh:false,//是否有手环
       gsStatus: 3,
 
       animationOptions: [

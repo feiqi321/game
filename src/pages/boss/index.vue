@@ -1,67 +1,71 @@
 <template>
   <div class="main" id="boss">
-    <div class="top-tool">
-      <div class="user-info">
-        <dl>
-          <dt :style="{backgroundImage:'url('+userInfo.avatarUrl+')'}"></dt>
-          <dd class="name">{{userInfo.nickName}}</dd>
-          <dd class="score">999</dd>
-        </dl>
-      </div>
-      <div class="rigth-nav">
-        <span class="i-sb active" @click="addFs"></span>
-      </div>
-    </div>
-    <div class="m-icon" @click="addFs"></div>
-    <div class="probar">
-      <div class="blood">
-        <div class="jdt" :style="{width:jdtWidth+'%'}"></div>
-      </div>
-      <div class="clock">
-        <span class="left-clock-l">倒计时</span>
-        <span class="left-clock-r">3:00</span>
-      </div>
-      <div class="yy"></div>
-      <div class="bar">
-        <div class="attack">
-          <p class="left-attack-l">战斗力 ATTACK : 3
-            <span class="zdl-icon"></span>
-          </p>
+    <div class="hgbj"></div>
+    <div class="boss">
+      <div class="top-tool">
+        <div class="user-info">
+          <dl>
+            <dt :style="{backgroundImage:'url('+userInfo.avatarUrl+')'}"></dt>
+            <dd class="name">{{userInfo.nickName}}</dd>
+            <dd class="score">999</dd>
+          </dl>
         </div>
-        <div class="damage">
-          <p class="left-damage-l">总伤害 DAMAGE : 300</p>
+        <div class="rigth-nav">
+          <span class="i-sb active" @click="addFs"></span>
         </div>
       </div>
-      <div class="textShow">
-        <p>点击怪物一起保护PARKILAND</p>
+      <div class="m-icon" @click="addFs"></div>
+      <div class="probar">
+        <div class="blood">
+          <div class="jdt" :style="{width:jdtWidth+'%'}"></div>
+        </div>
+        <div class="clock">
+          <span class="left-clock-l">倒计时</span>
+          <span class="left-clock-r">3:00</span>
+        </div>
+        <div class="yy"></div>
+        <div class="bar">
+          <div class="attack">
+            <p class="left-attack-l">
+              战斗力 ATTACK : 3
+              <span class="zdl-icon"></span>
+            </p>
+          </div>
+          <div class="damage">
+            <p class="left-damage-l">总伤害 DAMAGE : 300</p>
+          </div>
+        </div>
+        <div class="textShow">
+          <p>点击怪物一起保护PARKILAND</p>
+        </div>
       </div>
-    </div>
 
-    <van-dialog
-      use-slot
-      async-close
-      :show="listDig"
-      :show-confirm-button="false"
-      @close="listDig=false"
-      close-on-click-overlay
-      class="dialogbox"
-    >
-      <div class="endbox">
-        <p class="title">守护成功</p>
-        <p class="first-part">在所有人的努力下</p>
-        <p class="bettwen">怪兽被击退了 家园被守护</p>
+      <van-dialog
+        use-slot
+        async-close
+        :show="listDig"
+        :show-confirm-button="false"
+        @close="listDig=false"
+        close-on-click-overlay
+        class="dialogbox"
+      >
+        <div class="endbox">
+          <p class="title">守护成功</p>
+          <p class="first-part">在所有人的努力下</p>
+          <p class="bettwen">怪兽被击退了 家园被守护</p>
 
-        <p class="second-part">你对怪兽的伤害为99%</p>
-        <p class="bettwen-button">你获得了XXX能量作为奖励</p>
-        <div class="btn">
-          <p class="confirmShow">确认</p>
+          <p class="second-part">你对怪兽的伤害为99%</p>
+          <p class="bettwen-button">你获得了XXX能量作为奖励</p>
+          <div class="btn">
+            <p class="confirmShow">确认</p>
+          </div>
+          <div class="failbj"></div>
         </div>
-        <div class="failbj"></div>
+        <div class="successShow"></div>
+      </van-dialog>
+      <div class="shz">
+        <span v-for="(item,i) in fsList" :key="i">{{item}}</span>
       </div>
-      <div class="successShow"></div>
-    </van-dialog>
-    <div class="shz">
-      <span v-for="(item,i) in fsList" :key="i">{{item}}</span>
     </div>
   </div>
 </template>
@@ -112,6 +116,12 @@ export default {
     #636e5d no-repeat;
   background-size: cover;
   overflow: hidden;
+  position: relative;
+}
+.boss{
+  position: relative;
+  z-index: 1;
+  height: 100%;
 }
 .top-tool {
   display: flex;
@@ -416,6 +426,18 @@ export default {
     opacity: 0;
     display: none;
   }
+}
+.hgbj {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: url(http://img.isxcxbackend1.cn/红光闪动.gif) center center
+    no-repeat;
+  background-size: cover;
+  z-index: 0;
+  opacity: .6;
 }
 </style>
 

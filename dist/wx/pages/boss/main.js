@@ -151,6 +151,10 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["a"] = ({
   data: function data() {
@@ -205,6 +209,10 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "id": "boss"
     }
   }, [_c('div', {
+    staticClass: "hgbj"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "boss"
+  }, [_c('div', {
     staticClass: "top-tool"
   }, [_c('div', {
     staticClass: "user-info"
@@ -251,7 +259,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "attack"
   }, [_c('p', {
     staticClass: "left-attack-l"
-  }, [_vm._v("战斗力 ATTACK : 3\n          "), _c('span', {
+  }, [_vm._v("\n            战斗力 ATTACK : 3\n            "), _c('span', {
     staticClass: "zdl-icon"
   })])], 1), _vm._v(" "), _c('div', {
     staticClass: "damage"
@@ -301,7 +309,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     return _c('span', {
       key: i
     }, [_vm._v(_vm._s(item))])
-  }))], 1)
+  }))], 1)])
 }
 var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {

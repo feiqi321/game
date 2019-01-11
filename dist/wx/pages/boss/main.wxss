@@ -5,6 +5,12 @@
   background: url(http://img.isxcxbackend1.cn/手机恐龙背景.png) center center #636e5d no-repeat;
   background-size: cover;
   overflow: hidden;
+  position: relative;
+}
+.boss.data-v-d89e72f6 {
+  position: relative;
+  z-index: 1;
+  height: 100%;
 }
 .top-tool.data-v-d89e72f6 {
   display: flex;
@@ -294,4 +300,15 @@ to {
     opacity: 0;
     display: none;
 }
+}
+.hgbj.data-v-d89e72f6 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: url(http://img.isxcxbackend1.cn/红光闪动.gif) center center no-repeat;
+  background-size: cover;
+  z-index: 0;
+  opacity: .6;
 }
