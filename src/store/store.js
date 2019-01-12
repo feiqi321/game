@@ -68,7 +68,7 @@ const store = new Vuex.Store({
       setTimeout(() => {
         wx.getBeacons({
           success(res) {
-
+            console.info(res,1)
             let length = 1;
             if (braceletId==null || braceletId==""){
               length = 1;
@@ -92,10 +92,11 @@ const store = new Vuex.Store({
               .sort((a, b) => {
                 return a.accuracy - b.accuracy;
               });
-
-
+            console.info(distanceDev[0].minor+"###"+typeId);
             if (distanceDev[0].minor == typeId) {
+              console.info("123456");
               commit('updateDevCompleted', { typeId, type, time })
+              console.info("654321");
               console.log(state.completed,'已完成列表');
               //如果超过3个清空提交收集数据并清空已完成列表
               http.post("/game/deviceColor/confirm", {

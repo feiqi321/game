@@ -250,7 +250,7 @@ export default {
             _this.braceletId = _this.userId;
           },
           res => {
-            Notify("网络异常!");
+            Notify("网络异常1!");
           }
         );
     },
@@ -295,7 +295,6 @@ export default {
         uuids: ["B5B182C7-EAB1-4988-AA99-B5C1517008D9"],
         success: function(res) {
           wx.onBeaconUpdate(res => {
-            console.log(res, 2);
             _this.handleFindDevs(res.beacons);
           });
         }
@@ -315,12 +314,9 @@ export default {
         });
       if (distanceDev.length > 0) {
         const isExitDevs = this.completed.some(item => {
-          console.info(item.typeId + "@@@" + distanceDev[0].minor);
           return item.typeId == distanceDev[0].minor;
         });
-        console.info(
-          "###" + isExitDevs + "#####" + this.devOptions[distanceDev[0].minor]
-        );
+
         if (isExitDevs && this.devOptions[distanceDev[0].minor]) {
           return false;
         } else {
@@ -358,7 +354,7 @@ export default {
               this.countDown(res.data.continuTime);
             },
             res => {
-              Notify("网络异常!");
+              Notify("网络异常2!");
             }
           );
       }else{
@@ -374,11 +370,10 @@ export default {
         })
         .then(
           res => {
-            console.info(res);
             _this.setScores(res.data.scores);
           },
           res => {
-            Notify("网络异常!");
+            Notify("网络异常3!");
           }
         );
     },
@@ -391,11 +386,10 @@ export default {
         })
         .then(
           res => {
-            console.info(res);
             _this.addDbToCompleted(res.data);
           },
           res => {
-            Notify("网络异常!");
+            Notify("网络异常4!");
           }
         );
     },
@@ -419,7 +413,7 @@ export default {
             _this.setScores(res.data);
           },
           res => {
-            Notify("网络异常!");
+            Notify("网络异常5!");
           }
         );
     },
@@ -441,7 +435,7 @@ export default {
             this.totalStatus = res.data.totalStatus;
           },
           res => {
-            Notify("网络异常!");
+            Notify("网络异常6!");
           }
         );
 
@@ -455,7 +449,7 @@ export default {
             this.colorList = res.data;
           },
           res => {
-            Notify("网络异常!");
+            Notify("网络异常7!");
           }
         );
     },
@@ -470,12 +464,7 @@ export default {
         this.countDown(time-1)
       }, 1000);
     },
-
-    receiveMsg(data){
-      console.info(data);
-    },
     listenSocket(){
-      console.info(123)
       var _this = this;
       wx.connectSocket({url: "wss://www.isxcxbackend1.cn/websocket"});
       wx.onSocketMessage(function(res) {
