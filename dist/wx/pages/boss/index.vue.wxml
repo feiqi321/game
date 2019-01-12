@@ -1,8 +1,4 @@
-<<<<<<< Updated upstream
-<template name="3db5f3f6">
-=======
 <template name="f6687f38">
->>>>>>> Stashed changes
   <view class="_div data-v-d89e72f6 main" id="boss">
     <view class="_div data-v-d89e72f6 hgbj"></view>
     <view class="_div data-v-d89e72f6 boss">
@@ -36,11 +32,7 @@
           <view class="_p data-v-d89e72f6">点击怪物一起保护PARKILAND</view>
         </view>
       </view>
-<<<<<<< Updated upstream
-      <van-dialog use-slot async-close show="{{listDig}}" show-confirm-button="{{false}}" bindclose="handleProxy" close-on-click-overlay class="_van-dialog data-v-d89e72f6 dialogbox" data-eventid="{{'2'}}" data-comkey="{{$k}}">
-=======
       <van-dialog use-slot async-close show="{{listDig}}" show-confirm-button="{{false}}" bindclose="handleProxy" close-on-click-overlay class="_van-dialog data-v-d89e72f6 dialogbox" data-eventid="{{'1'}}" data-comkey="{{$k}}">
->>>>>>> Stashed changes
         <view class="_div data-v-d89e72f6 endbox">
           <view class="_p data-v-d89e72f6 title">守护成功</view>
           <view class="_p data-v-d89e72f6 first-part">在所有人的努力下</view>
@@ -56,11 +48,7 @@
       </van-dialog>
       <view class="_div data-v-d89e72f6 shz"><label wx:key="i" key="{{i}}" wx:for="{{fsList}}" wx:for-index="i" wx:for-item="item" class="_span data-v-d89e72f6">{{item}}</label></view>
     </view>
-<<<<<<< Updated upstream
-    <van-dialog use-slot async-close show="{{listDig2}}" show-confirm-button="{{false}}" bindclose="handleProxy" close-on-click-overlay class="_van-dialog data-v-d89e72f6 dialogbox" data-eventid="{{'3'}}" data-comkey="{{$k}}">
-=======
     <van-dialog use-slot async-close show="{{listDig2}}" show-confirm-button="{{false}}" bindclose="handleProxy" close-on-click-overlay class="_van-dialog data-v-d89e72f6 dialogbox" data-eventid="{{'2'}}" data-comkey="{{$k}}">
->>>>>>> Stashed changes
       <view class="_div data-v-d89e72f6 endbox">
         <view class="_p data-v-d89e72f6 title">守护失败</view>
         <view class="_p data-v-d89e72f6 first-part"></view>

@@ -22,8 +22,8 @@ app.$mount();
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_mpvue_loader_lib_selector_type_script_index_0_index_vue__ = __webpack_require__(94);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_mpvue_loader_lib_template_compiler_index_id_data_v_d89e72f6_hasScoped_true_transformToRequire_video_src_source_src_img_src_image_xlink_href_node_modules_mpvue_loader_lib_selector_type_template_index_0_index_vue__ = __webpack_require__(95);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_mpvue_loader_1_1_4_mpvue_loader_lib_selector_type_script_index_0_index_vue__ = __webpack_require__(94);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_mpvue_loader_1_1_4_mpvue_loader_lib_template_compiler_index_id_data_v_d89e72f6_hasScoped_true_transformToRequire_video_src_source_src_img_src_image_xlink_href_node_modules_mpvue_loader_1_1_4_mpvue_loader_lib_selector_type_template_index_0_index_vue__ = __webpack_require__(95);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
@@ -41,19 +41,19 @@ var __vue_scopeId__ = "data-v-d89e72f6"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_mpvue_loader_lib_selector_type_script_index_0_index_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_mpvue_loader_lib_template_compiler_index_id_data_v_d89e72f6_hasScoped_true_transformToRequire_video_src_source_src_img_src_image_xlink_href_node_modules_mpvue_loader_lib_selector_type_template_index_0_index_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_mpvue_loader_1_1_4_mpvue_loader_lib_selector_type_script_index_0_index_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_mpvue_loader_1_1_4_mpvue_loader_lib_template_compiler_index_id_data_v_d89e72f6_hasScoped_true_transformToRequire_video_src_source_src_img_src_image_xlink_href_node_modules_mpvue_loader_1_1_4_mpvue_loader_lib_selector_type_template_index_0_index_vue__["a" /* default */],
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "src/pages/boss/index.vue"
+Component.options.__file = "src\\pages\\boss\\index.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] index.vue: functional components are not supported with templates, they should use render functions.")}
 
 /* hot reload */
 if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
+  var hotAPI = require("vue-loader/node_modules/vue-hot-reload-api")
   hotAPI.install(require("vue"), false)
   if (!hotAPI.compatible) return
   module.hot.accept()
@@ -193,6 +193,7 @@ if (false) {(function () {
       totalAttack: 0,
       overtime: null,
       jdtWidth: 50,
+      gsStatus: 0,
       fsList: [],
       userInfo: null //用户信息
     };
@@ -216,9 +217,9 @@ if (false) {(function () {
     addFs: function addFs() {
       var _this2 = this;
 
-      var damage = Math.random() * 3 + 2;
+      var damage = Math.floor(Math.random() * 3 + 2);
       this.totalAttack = this.totalAttack + damage;
-      this.fsList.push(-Math.floor(Math.random() * 3 + 2));
+      this.fsList.push(-damage);
       setTimeout(function () {
         _this2.fsList.shift();
       }, 2000);
@@ -250,6 +251,29 @@ if (false) {(function () {
           _this3.overtime = "0";
         }
       }, 1000);
+    },
+    listenSocket: function listenSocket() {
+      wx.connectSocket({ url: "wss://www.isxcxbackend1.cn/websocket" });
+      wx.onSocketMessage(function (res) {
+        console.log('收到服务器内容：', res.data);
+        if (res.data == 1) {//下雪了
+
+        } else if (res.data == 10) {//雪停了
+
+        } else if (res.data == 2) {//地震了
+
+        } else if (res.data == 20) {//地震停了
+
+        } else if (res.data == 3) {//怪兽来袭
+
+        } else if (res.data == 30) {//怪兽事件结束
+
+        }
+      });
+      //连接失败
+      wx.onSocketError(function () {
+        console.log('websocket连接失败！');
+      });
     }
   },
 
@@ -295,21 +319,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "name"
   }, [_vm._v(_vm._s(_vm.userInfo.nickName))]), _vm._v(" "), _c('dd', {
     staticClass: "score"
-<<<<<<< Updated upstream
-  }, [_vm._v("999")])], 1)], 1), _vm._v(" "), _c('div', {
-    staticClass: "rigth-nav"
-  }, [_c('span', {
-    staticClass: "i-sb active",
-    attrs: {
-      "eventid": '1'
-    },
-    on: {
-      "click": _vm.addFs
-    }
-  })])]), _vm._v(" "), _c('div', {
-=======
   }, [_vm._v("999")])], 1)], 1), _vm._v(" "), _vm._m(0)]), _vm._v(" "), _c('div', {
->>>>>>> Stashed changes
     staticClass: "m-icon"
   }), _vm._v(" "), _c('div', {
     staticClass: "probar"
@@ -355,7 +365,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "show": _vm.listDig,
       "show-confirm-button": false,
       "close-on-click-overlay": "",
-      "eventid": '2',
+      "eventid": '1',
       "mpcomid": '0'
     },
     on: {
@@ -397,7 +407,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "show": _vm.listDig2,
       "show-confirm-button": false,
       "close-on-click-overlay": "",
-      "eventid": '3',
+      "eventid": '2',
       "mpcomid": '1'
     },
     on: {
@@ -433,9 +443,6 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     }, [_vm._v(_vm._s(item))])
   }))], 1)
 }
-<<<<<<< Updated upstream
-var staticRenderFns = []
-=======
 var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "rigth-nav"
@@ -443,14 +450,13 @@ var staticRenderFns = [function () {var _vm=this;var _h=_vm.$createElement;var _
     staticClass: "i-sb active"
   })])
 }]
->>>>>>> Stashed changes
 render._withStripped = true
 var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-d89e72f6", esExports)
+     require("vue-loader/node_modules/vue-hot-reload-api").rerender("data-v-d89e72f6", esExports)
   }
 }
 

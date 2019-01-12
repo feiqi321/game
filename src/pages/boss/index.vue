@@ -107,8 +107,13 @@ export default {
       listDig2: false,
       totalAttack:0,
       overtime:null,
-      jdtWidth: 50,
+      jdtWidth: 100,
+      gsStatus:0,
+      gameId: null,
+      openId: null,
+      braceletId: null, //用户设备id
       fsList: [],
+
       userInfo: null //用户信息
     };
   },
@@ -124,13 +129,13 @@ export default {
         return;
       }
     },
-    attack() {
-      console.info("11111");
-    },
     addFs() {
-      var damage = Math.random() * 3 + 2 ;
+      var damage = Math.floor(Math.random() * 3 + 2) ;
       this.totalAttack = this.totalAttack+damage;
-      this.fsList.push(-Math.floor(Math.random() * 3 + 2));
+      wx.sendSocketMessage({
+        data: _this.openId+','+_this.gameId+","+this.totalAttack
+      })
+      this.fsList.push(-damage);
       setTimeout(() => {
         this.fsList.shift();
       }, 2000);
@@ -139,7 +144,6 @@ export default {
       var sed = 0;
       var lasttime=3;
       var timer = setInterval(() => {
-        console.info(111)
         if (sed==0 && lasttime > 0) {
           lasttime = lasttime - 1;
           sed = 59;
@@ -160,12 +164,54 @@ export default {
           this.overtime = "0";
         }
       }, 1000);
+    },
+    listenSocket(){
+      var _this = this;
+      wx.connectSocket({url: "wss://www.isxcxbackend1.cn/websocket"});
+      wx.onSocketMessage(function(res) {
+        console.log('收到服务器内容：' ,res.data)
+        if (res.data.indexOf("98")>=0){//boss攻击中
+          _this.jdtWidth = res.data.split("@")[1];
+        }else if (res.data.indexOf("99")>=0){//boss死掉了
+          _this.listDig = true;
+        }else if (res.data.indexOf("97")>=0){//boss到时间未死掉
+          _this.listDig2 = true;
+        }
+      })
+
+      //连接失败
+      wx.onSocketError(function() {
+        console.log('websocket连接失败！');
+
+      })
+
+    },
+    initBoss(){
+      const _this = this;
+      http
+        .post("/game/game/findBlood", {
+          openId: _this.openId,
+          gameId: _this.gameId, //游戏id
+        })
+        .then(
+          res => {
+            _this.totalAttack = res.data.attack;
+            _this.jdtWidth = res.data.percent;
+          },
+          res => {
+            Notify("网络异常!");
+          }
+        );
     }
   },
 
   created() {
+    this.openId = wx.getStorageSync("openId");
+    this.gameId = wx.getStorageSync("gameId");
+    this.braceletId = wx.getStorageSync("braceletId");
     this.getUserInfo();
     this.initTime();
+    this.initBoss();
   }
 };
 </script>

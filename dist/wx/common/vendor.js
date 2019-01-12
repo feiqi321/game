@@ -10192,8 +10192,6 @@ process.chdir = function (dir) {
 process.umask = function() { return 0; };
 
 
-<<<<<<< Updated upstream
-=======
 /***/ }),
 /* 124 */,
 /* 125 */,
@@ -10519,7 +10517,6 @@ function applyToTag (styleElement, obj) {
 }
 
 
->>>>>>> Stashed changes
 /***/ })
 ]);
 //# sourceMappingURL=vendor.js.map

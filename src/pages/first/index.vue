@@ -266,23 +266,6 @@ export default {
         _this.userInfo = userinfo;
         return;
       }
-      // wx.getSetting({
-      //   success(res) {
-      //     if (res.authSetting["scope.userInfo"]) {
-      //       wx.getUserInfo({
-      //         success: res => {
-      //           _this.userInfo = res.userInfo;
-      //           wx.setStorageSync("userinfo", res.userInfo);
-      //         }
-      //       });
-      //     } else {
-      //       _this.getUserInfoDig = true;
-      //     }
-      //   },
-      //   fail(res) {
-      //     _this.getUserInfo();
-      //   }
-      // });
     },
     openBlueTooth() {
       const _this = this;
@@ -317,17 +300,7 @@ export default {
           });
         }
       });
-      // wx.startBluetoothDevicesDiscovery({
-      //   success: function(res) {
-      //     console.log(res);
-      //     Notify("搜索到设备");
-      //     wx.onBluetoothDeviceFound(function(devices) {
-      //       console.log("new device list has founded");
-      //       console.dir(devices);
-      //       console.log(ab2hex(devices[0].advertisData));
-      //     });
-      //   }
-      // });
+
     },
     filterDevs(devs) {
       const distanceDev = devs
@@ -382,6 +355,7 @@ export default {
                 time: res.data.continuTime*1000
               });
               ISENDING=false;
+              this.countDown(res.data.continuTime);
             },
             res => {
               Notify("网络异常!");
@@ -502,38 +476,42 @@ export default {
     },
     listenSocket(){
       console.info(123)
+      var _this = this;
       wx.connectSocket({url: "wss://www.isxcxbackend1.cn/websocket"});
       wx.onSocketMessage(function(res) {
         console.log('收到服务器内容：' ,res.data)
         if (res.data==1){//下雪了
-          this.gsStatus = 1;
-          this.isSlow = true;
+          _this.gsStatus = 1;
+          _this.isSlow = true;
+          Notify("下雪了!");
         }else if (res.data==10){//雪停了
-          this.gsStatus = 1;
-          this.isSlow = false;
+          _this.gsStatus = 1;
+          _this.isSlow = false;
+          Notify("雪停了!");
         }else if(res.data ==2){//地震了
-          this.gsStatus = 1;
-          this.isSlow = false;
+          _this.gsStatus = 1;
+          _this.isSlow = false;
+          Notify("地震了!");
         }else if (res.data ==20){//地震停了
-          this.gsStatus = 1;
-          this.isSlow = false;
+          _this.gsStatus = 1;
+          _this.isSlow = false;
+          Notify("地震停了!");
         }else if (res.data==3){//怪兽来袭
-          this.gsStatus = 1;
-          this.gsStatus = 3;
-          this.isSlow = false;
+          _this.gsStatus = 3;
+          _this.isSlow = false;
         }else if (res.data==30){//怪兽事件结束
-          this.gsStatus = 1;
-          this.isSlow = false;
+          _this.gsStatus = 1;
+          _this.isSlow = false;
         }
       })
       //连接失败
       wx.onSocketError(function() {
         console.log('websocket连接失败！');
-        this.gsStatus = 1;
-        this.isSlow = false;
+        _this.gsStatus = 1;
+        _this.isSlow = false;
       })
 
-    },
+    }
 
   },
 
@@ -548,7 +526,6 @@ export default {
     this.openBlueTooth();
     this.initUserinfo();
     this.initColor();
-    this.countDown(1000);
     this.listenSocket();
   }
 };
