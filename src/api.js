@@ -6,8 +6,6 @@ export default function httpReq({method='POST',url,data={},success,_url}) {
       method,
       url: _url || `${baseURL}${url}`,
       data:{
-        openId:1,
-        gameId:"dce09194d7eb",
         ...data
       },
       success({data}){

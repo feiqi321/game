@@ -202,10 +202,13 @@ export default {
     chooseType: "getCurrentList"
   },
   beforeCreate() {
+    var _this = this
     //获取植物
     httpReq({
       url: "/game/warehouse/findAllShop",
       data: {
+        openId:_this.openId,
+        gameId:_this.gameId,
         type: 1
       }
     }).then(({ data }) => {
@@ -220,6 +223,8 @@ export default {
     httpReq({
       url: "/game/warehouse/findAllShop",
       data: {
+        openId:_this.openId,
+        gameId:_this.gameId,
         type: 2
       }
     }).then(({ data }) => {
@@ -263,9 +268,14 @@ export default {
   },
   methods: {
     getMyBuild(){
+      var _this = this
       //已建 图片
       httpReq({
-        url: "/game/warehouse/findMyBuild"
+        url: "/game/warehouse/findMyBuild",
+        data: {
+          openId:_this.openId,
+          gameId:_this.gameId
+        }
       }).then(({ data }) => {
         if (data != null) {
           this.picInfo = data.reduce((acc, item) => {
@@ -298,9 +308,12 @@ export default {
       }
     },
     getShopList() {
+      var _this = this
       httpReq({
         url: "/game/warehouse/findAllShop",
         data: {
+          openId:_this.openId,
+          gameId:_this.gameId,
           type: this.currentType
         }
       }).then(({ data }) => {
@@ -312,9 +325,14 @@ export default {
       });
     },
     getMyList() {
+      var _this = this
       httpReq({
         url: "/game/warehouse/findAllMyWareHouse",
-        data: { type: this.currentType }
+        data: {
+          openId:_this.openId,
+          gameId:_this.gameId,
+          type: this.currentType
+        }
       }).then(({ data }) => {
         data.forEach(item => {
           item.style = `background:url("${item.url1}") center no-repeat`;
@@ -347,10 +365,13 @@ export default {
     },
     //删除一个
     deleteOne() {
+      var _this = this;
       let {id, destroyPrice} = this.deleteTarget.obj;
       httpReq({
         url:'/game/warehouse/destroy',
         data:{
+          openId:_this.openId,
+          gameId:_this.gameId,
           id,destroyPrice
         }
       }).then(({data})=>{
@@ -364,9 +385,12 @@ export default {
     },
     //购买按钮
     buyOneHandle() {
+      var _this = this;
       httpReq({
         url: "/game/warehouse/buyProduct",
         data: {
+          openId:_this.openId,
+          gameId:_this.gameId,
           shopId: this.buyDig.current.id,
           num: this.buyDig.buyNum
         }
@@ -431,6 +455,7 @@ export default {
       }
     },
     dropDown() {
+      var _this = this;
       let index = this.currentActive;
       let obj = this.currentBottom.currentTarget.dataset.obj;
       this.switchJzq();
@@ -441,6 +466,8 @@ export default {
         httpReq({
           url: "/game/warehouse/build",
           data: {
+            openId:_this.openId,
+            gameId:_this.gameId,
             wareId: obj.id,
             posi: index
           }
