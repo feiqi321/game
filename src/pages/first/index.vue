@@ -61,7 +61,7 @@
         mode="widthFix"
         lazy-load="false"
         class="ftbtn"
-        @click="searchBlueTooth"
+        @click="toThird"
       >
       <!-- 手环绑定 -->
       <van-dialog

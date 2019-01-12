@@ -1,6 +1,6 @@
 {
   "disableScroll":true,
-  "navigationBarTitleText": "能量搜集",
+  "navigationBarTitleText": "建筑页面",
   "usingComponents": {
     "van-button": "../../../static/dist/button/index",
     "van-icon": "../../../static/dist/icon/index",

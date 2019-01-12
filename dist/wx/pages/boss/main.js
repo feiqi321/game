@@ -83,6 +83,8 @@ if (false) {(function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils_http_js__ = __webpack_require__(27);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__static_dist_notify_notify__ = __webpack_require__(45);
 //
 //
 //
@@ -185,6 +187,8 @@ if (false) {(function () {
 //
 //
 
+
+
 /* harmony default export */ __webpack_exports__["a"] = ({
   data: function data() {
     return {
@@ -192,9 +196,13 @@ if (false) {(function () {
       listDig2: false,
       totalAttack: 0,
       overtime: null,
-      jdtWidth: 50,
+      jdtWidth: 100,
       gsStatus: 0,
+      gameId: null,
+      openId: null,
+      braceletId: null, //用户设备id
       fsList: [],
+
       userInfo: null //用户信息
     };
   },
@@ -211,14 +219,14 @@ if (false) {(function () {
         return;
       }
     },
-    attack: function attack() {
-      console.info("11111");
-    },
     addFs: function addFs() {
       var _this2 = this;
 
       var damage = Math.floor(Math.random() * 3 + 2);
       this.totalAttack = this.totalAttack + damage;
+      wx.sendSocketMessage({
+        data: this.openId + ',' + this.gameId + "," + this.totalAttack
+      });
       this.fsList.push(-damage);
       setTimeout(function () {
         _this2.fsList.shift();
@@ -230,7 +238,6 @@ if (false) {(function () {
       var sed = 0;
       var lasttime = 3;
       var timer = setInterval(function () {
-        console.info(111);
         if (sed == 0 && lasttime > 0) {
           lasttime = lasttime - 1;
           sed = 59;
@@ -253,33 +260,48 @@ if (false) {(function () {
       }, 1000);
     },
     listenSocket: function listenSocket() {
+      var _this = this;
       wx.connectSocket({ url: "wss://www.isxcxbackend1.cn/websocket" });
       wx.onSocketMessage(function (res) {
         console.log('收到服务器内容：', res.data);
-        if (res.data == 1) {//下雪了
-
-        } else if (res.data == 10) {//雪停了
-
-        } else if (res.data == 2) {//地震了
-
-        } else if (res.data == 20) {//地震停了
-
-        } else if (res.data == 3) {//怪兽来袭
-
-        } else if (res.data == 30) {//怪兽事件结束
-
+        if (res.data.indexOf("98") >= 0) {
+          //boss攻击中
+          _this.jdtWidth = res.data.split("@")[1];
+        } else if (res.data.indexOf("99") >= 0) {
+          //boss死掉了
+          _this.listDig = true;
+        } else if (res.data.indexOf("97") >= 0) {
+          //boss到时间未死掉
+          _this.listDig2 = true;
         }
       });
+
       //连接失败
       wx.onSocketError(function () {
         console.log('websocket连接失败！');
+      });
+    },
+    initBoss: function initBoss() {
+      var _this = this;
+      __WEBPACK_IMPORTED_MODULE_0__utils_http_js__["a" /* default */].post("/game/game/findBlood", {
+        openId: _this.openId,
+        gameId: _this.gameId //游戏id
+      }).then(function (res) {
+        _this.totalAttack = res.data.attack;
+        _this.jdtWidth = res.data.percent;
+      }, function (res) {
+        Object(__WEBPACK_IMPORTED_MODULE_1__static_dist_notify_notify__["a" /* default */])("网络异常!");
       });
     }
   },
 
   created: function created() {
+    this.openId = wx.getStorageSync("openId");
+    this.gameId = wx.getStorageSync("gameId");
+    this.braceletId = wx.getStorageSync("braceletId");
     this.getUserInfo();
     this.initTime();
+    this.initBoss();
   }
 });
 

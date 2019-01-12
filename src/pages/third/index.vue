@@ -141,6 +141,8 @@ export default {
   data() {
     return {
       userInfo: null,
+      openId:null,
+      gameId:null,
       ftHide: false,
       chooseType: 0,
       baseUrl: "http://img.isxcxbackend1.cn/",
@@ -243,6 +245,8 @@ export default {
     }, 80);
   },
   mounted() {
+    this.openId = wx.getStorageSync("openId");
+    this.gameId = wx.getStorageSync("gameId");
     this.getCurrentList();
     this.getMyBuild();
   },

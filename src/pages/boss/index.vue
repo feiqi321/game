@@ -100,6 +100,8 @@
 </template>
 
 <script>
+import http from "@/utils/http.js";
+import Notify from "@/../static/dist/notify/notify";
 export default {
   data() {
     return {
@@ -133,7 +135,7 @@ export default {
       var damage = Math.floor(Math.random() * 3 + 2) ;
       this.totalAttack = this.totalAttack+damage;
       wx.sendSocketMessage({
-        data: _this.openId+','+_this.gameId+","+this.totalAttack
+        data: this.openId+','+this.gameId+","+this.totalAttack
       })
       this.fsList.push(-damage);
       setTimeout(() => {
