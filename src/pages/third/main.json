@@ -7,6 +7,7 @@
     "van-area": "../../../static/dist/area/index",
     "van-dialog":"../../../static/dist/dialog/index",
     "van-field": "../../../static/dist/field/index",
-    "van-notify": "../../../static/dist/notify/index"
+    "van-notify": "../../../static/dist/notify/index",
+    "van-popup": "../../../static/dist/popup/index"
   }
 }
