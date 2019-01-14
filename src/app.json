@@ -1,21 +1,10 @@
 {
     "pages": [
-<<<<<<< HEAD
         "pages/one/main",
-=======
-<<<<<<< HEAD
-      "pages/index/main",
-      "pages/boss/main",
-      "pages/third/main",
-      "pages/first/main",
-=======
->>>>>>> b7c8525489a9f3027c2ff276454f16f3aa4fd021
         "pages/index/main",
-        "pages/third/main",
         "pages/boss/main",
+        "pages/third/main",
         "pages/first/main",
->>>>>>> 4afcd01dc84c6165c14a895649d26ad34e12d4c8
-        "pages/logs/main",
         "pages/counter/main"
     ],
     "window": {
