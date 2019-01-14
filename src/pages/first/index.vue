@@ -1,5 +1,6 @@
 <template>
   <div class="main">
+    <span class="common-msg" v-if="warning" @click="warning=false">{{warningText}}</span>
     <van-notify id="van-notify"/>
     <div class="first">
       <div class="top-tool">
@@ -225,6 +226,8 @@ let ISENDING = false;
 export default {
   data() {
     return {
+      warning:null,
+      warningText:'',
       firstNum: null,
       myNum: null,
       firstReward: null,
@@ -291,6 +294,12 @@ export default {
     },
     bindBraceletId() {
       const _this = this;
+      if (_this.userId == null || _this.userId == ""){
+        _this.warning = true;
+        _this.warningText = "手环编号不能为空";
+        return;
+      }
+
       _this.bindDevDigSts = false;
       wx.showLoading({
         title: "绑定设备中..."
@@ -307,7 +316,8 @@ export default {
             _this.braceletId = res.data.deviceId;
           },
           res => {
-            Notify("网络异常1!");
+            _this.warning = true;
+            _this.warningText = res.msg;
           }
         );
     },
@@ -523,14 +533,11 @@ export default {
     },
     listenSocket() {
       var _this = this;
-
-      console.log('****',getApp());
       this.socketTask = getApp().globalData.socketTask;
-
       this.socketTask.onMessage(function(res) {
-        console.log("收到服务器内容1：", res.data);
         if (res.data == 1) {
           //下雪了
+          _this.snow = true;
           _this.gsStatus = 1;
           _this.isSlow = true;
           Notify("下雪了!");
@@ -541,6 +548,8 @@ export default {
           Notify("雪停了!");
         } else if (res.data == 2) {
           //地震了
+          _this.earthquake = true;
+          _this.snow = false;
           _this.gsStatus = 1;
           _this.isSlow = false;
           Notify("地震了!");
@@ -551,6 +560,7 @@ export default {
           Notify("地震停了!");
         } else if (res.data == 3) {
           //怪兽来袭
+          _this.gsll = true;
           _this.gsStatus = 3;
           _this.isSlow = false;
         } else if (res.data == 30) {
@@ -584,6 +594,20 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .common-msg{
+    line-height: 48px;
+    z-index: 1000;
+    border:2px solid #000;
+    position: absolute;
+    width: 200px;
+    text-align: center;
+    background: #ff4b4b;
+    color: #fff;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    border-radius: 6px;
+  }
 .first {
   padding: 15px 30px;
   text-align: center;

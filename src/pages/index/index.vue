@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <span class="common-msg">我是提示</span>
+    <!--<span class="common-msg">我是提示</span>-->
     <div class="top-tool">
       <div class="user-info" v-if="userInfo">
         <dl>

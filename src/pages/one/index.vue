@@ -1,5 +1,6 @@
 <template>
   <div class="main">
+    <span class="common-msg" v-if="warning" @click="warning=false">！游戏尚未开始</span>
     <div class="btn-w">
       <button open-type="getUserInfo" lang="zh_CN" @getuserinfo="getUserInfo"></button>
     </div>
@@ -14,7 +15,9 @@ export default {
   data() {
     return {
       openId: null,
+      warning:false,
       gameId: null,
+      code:null,
       userInfo: null //用户信息
     };
   },
@@ -23,17 +26,40 @@ export default {
 
   methods: {
     ...mapMutations(["changeState"]),
-    getUserInfo(res) {
+
+    getUserInfo(res){
       const _this = this;
-      wx.getUserInfo({
-        success: res => {
-          _this.userInfo = res.userInfo;
-          wx.setStorageSync("userinfo", res.userInfo);
-          const url = "../index/main";
-          // switchTab navigateTo
-          wx.navigateTo({ url });
-        }
-      });
+      http
+        .post("/game/manager/access", {
+          wxCode: _this.code
+        })
+        .then(
+          res => {
+            wx.setStorageSync("openId", res.data.openId);
+            wx.setStorageSync("gameId", res.data.gameId);
+            const listOptions = {};
+            res.data.list.forEach(element => {
+              listOptions[element.deviceId] = element.color;
+            });
+            _this.changeState({
+              devOptions: listOptions
+            });
+            console.log(res);
+            wx.getUserInfo({
+              success: res => {
+                _this.userInfo = res.userInfo;
+                wx.setStorageSync("userinfo", res.userInfo);
+                const url = "../index/main";
+                // switchTab navigateTo
+                wx.navigateTo({ url });
+              }
+            });
+          },
+          res => {
+            _this.warning = true;
+            console.log(res, 2);
+          }
+        );
     },
     login() {
       const _this = this;
@@ -43,30 +69,7 @@ export default {
       wx.login({
         success: res => {
           console.log(res);
-          const code = res.code;
-          http
-            .post("/game/manager/access", {
-              wxCode: code
-            })
-            .then(
-              res => {
-                  wx.setStorageSync("openId", res.data.openId);
-                  wx.setStorageSync("gameId", res.data.gameId);
-                  const listOptions = {};
-                  res.data.list.forEach(element => {
-                    listOptions[element.deviceId] = element.color;
-                  });
-                  _this.changeState({
-                    devOptions: listOptions
-                  });
-                  console.log(res);
-
-              },
-              res => {
-
-                console.log(res, 2);
-              }
-            );
+          this.code = res.code;
         },
         fail: () => {},
         complete: () => {
@@ -88,6 +91,20 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .common-msg{
+    line-height: 48px;
+    z-index: 1000;
+    border:2px solid #000;
+    position: absolute;
+    width: 200px;
+    text-align: center;
+    background: #ff4b4b;
+    color: #fff;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    border-radius: 6px;
+  }
 .main {
   height: 100%;
   background: url(http://img.isxcxbackend1.cn/start效果图1.jpg) center
