@@ -171,7 +171,7 @@ export default {
     listenSocket(){
       console.info(999)
       var _this = this;
-      this.socketTask =  wx.connectSocket({url: "wss://www.isxcxbackend1.cn/websocket"});
+      this.socketTask = getApp().globalData.socketTask;
       this.socketTask.onMessage(function(res) {
 
         if (res.data.indexOf("98")>=0){//boss攻击中
@@ -217,6 +217,9 @@ export default {
     this.getUserInfo();
     this.initTime();
     this.initBoss();
+
+  },
+  mounted(){
     this.listenSocket();
   }
 };

@@ -466,9 +466,10 @@ export default {
     },
     listenSocket(){
       var _this = this;
-      this.socketTask = wx.connectSocket({url: "wss://www.isxcxbackend1.cn/websocket"});
+      console.log('****',getApp());
+      this.socketTask = getApp().globalData.socketTask;
       this.socketTask.onMessage(function(res) {
-        console.log('收到服务器内容1：' ,res.data)
+        console.log('收到服务器内容2：' ,res.data)
         if (res.data==1){//下雪了
           _this.gsStatus = 1;
           _this.isSlow = true;
@@ -492,7 +493,7 @@ export default {
           _this.gsStatus = 1;
           _this.isSlow = false;
         }
-      })
+      }),
       //连接失败
       this.socketTask.onError(function() {
         console.log('websocket连接失败！');
@@ -510,7 +511,6 @@ export default {
     this.gameId = wx.getStorageSync("gameId");
     this.braceletId = wx.getStorageSync("braceletId");
 
-    console.log(this.devOptions);
     // this.getUserInfo();
     this.openBlueTooth();
     this.initUserinfo();
