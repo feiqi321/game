@@ -1,5 +1,6 @@
 <template>
   <div class="main" id="thirdPage">
+    <span class="common-msg" v-if="warning" @click="warning=false"></span>
     <div
       id="dropGroup"
       v-show="currentDrop.show"
@@ -134,6 +135,60 @@
         </div>
       </div>
     </van-dialog>
+    <!-- 下雪天 -->
+    <van-dialog
+      use-slot
+      async-close
+      :show="snow"
+      :show-confirm-button="false"
+      @close="snow=false"
+      close-on-click-overlay
+    >
+      <div class="diaborder cjdig">
+        <span class="cjimg"></span>
+        <h3>冬天到了</h3>
+        <p class="dialog-title">您的收集速度变慢了</p>
+        <p>
+          <span class="btn" @click="snow=false">确认</span>
+        </p>
+      </div>
+    </van-dialog>
+    <!-- 地震 -->
+    <van-dialog
+      use-slot
+      async-close
+      :show="earthquake"
+      :show-confirm-button="false"
+      @close="earthquake=false"
+      close-on-click-overlay
+    >
+      <div class="diaborder cjdig">
+        <span class="cjimg dz-icon"></span>
+        <h3>地震了</h3>
+        <p class="dialog-title">绿色能量不能再收集了</p>
+        <p>
+          <span class="btn" @click="earthquake=false">确认</span>
+        </p>
+      </div>
+    </van-dialog>
+    <!-- 怪兽来了 -->
+    <van-dialog
+      use-slot
+      async-close
+      :show="gsll"
+      :show-confirm-button="false"
+      @close="gsll=false"
+      close-on-click-overlay
+    >
+      <div class="diaborder cjdig">
+        <span class="cjimg gs-icon"></span>
+        <h3>怪兽入侵</h3>
+        <p class="dialog-title">一起攻击怪兽保护家园</p>
+        <p>
+          <span class="btn" @click="gsll=false">确认</span>
+        </p>
+      </div>
+    </van-dialog>
     <div class="hgbj" v-if="gsStatus===3"></div>
   </div>
 </template>
@@ -144,6 +199,8 @@ import { throttle } from "../../utils/index";
 export default {
   data() {
     return {
+      warning:null,
+      warningText:'',
       userInfo: null,
       openId:null,
       gameId:null,
@@ -194,6 +251,9 @@ export default {
         left: "",
         top: ""
       },
+      snow: false, //下雪了
+      earthquake: false, //地震
+      gsll: false, //怪兽来了
       deleteTarget: {}
     };
   },
@@ -579,23 +639,29 @@ export default {
       var _this = this;
       this.socketTask = getApp().globalData.socketTask;
       this.socketTask.onMessage(function(res) {
-        console.log('收到服务器内容3：' ,res.data)
-        if (res.data==1){//下雪了
+        if (res.data == 1) {
+          //下雪了
+          _this.snow = true;
           _this.gsStatus = 1;
-          Notify("下雪了!");
-        }else if (res.data==10){//雪停了
+        } else if (res.data == 10) {
+          //雪停了
           _this.gsStatus = 1;
-          Notify("雪停了!");
-        }else if(res.data ==2){//地震了
+        } else if (res.data == 2) {
+          //地震了
+          _this.earthquake = true;
           _this.gsStatus = 1;
           Notify("地震了!");
-        }else if (res.data ==20){//地震停了
+        } else if (res.data == 20) {
+          //地震停了
           _this.gsStatus = 1;
-          Notify("地震停了!");
-        }else if (res.data==3){//怪兽来袭
+        } else if (res.data == 3) {
+          //怪兽来袭
+          _this.gsll = true;
           _this.gsStatus = 3;
-        }else if (res.data==30){//怪兽事件结束
+        } else if (res.data == 30) {
+          //怪兽事件结束
           _this.gsStatus = 1;
+          _this.isSlow = false;
         }
       }),
         //连接失败
@@ -615,6 +681,20 @@ export default {
   width: 100vw;
   height: 100vh;
   overflow: hidden;
+  .common-msg{
+    line-height: 48px;
+    z-index: 1000;
+    border:2px solid #000;
+    position: absolute;
+    width: 200px;
+    text-align: center;
+    background: #ff4b4b;
+    color: #fff;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    border-radius: 6px;
+  }
   .showImg {
     //修改宽高时同时修改#real90和dropImg
     position: absolute;
@@ -1014,6 +1094,10 @@ view[hidden] {
   position: fixed;
   top: -100%;
 }
+.dialog-title {
+  margin: 20px auto 30px;
+  margin-left:60px;
+}
 .hgbj {
   position: fixed;
   top: 0;
@@ -1024,5 +1108,42 @@ view[hidden] {
   no-repeat;
   background-size: cover;
   z-index: 0;
+}
+.cjdig {
+  border-radius: 14px !important;
+  padding: 40px 20px 10px;
+  .cjimg {
+    width: 200px;
+    height: 200px;
+    background: url(http://img.isxcxbackend1.cn/组232.png) center center #fff
+    no-repeat;
+    background-size: contain;
+    display: block;
+    margin: 0 auto;
+    &.dz-icon {
+      background-image: url(http://img.isxcxbackend1.cn/组233.png);
+    }
+    &.gs-icon {
+      background-image: url(http://img.isxcxbackend1.cn/恐龙动32.png);
+    }
+  }
+  h3 {
+    font-size: 18px;
+    margin-left:100px;
+    margin-bottom: 20px;
+  }
+  .btn {
+    width: 85px;
+    height: 45px;
+    line-height: 40px;
+    display: inline-block;
+    margin: 0 auto;
+    background: url(http://img.isxcxbackend1.cn/组217.png) center center #fafafa
+    no-repeat;
+    background-size: contain;
+  }
+}
+.diaborder {
+  border: 3.5px solid #000;
 }
 </style>

@@ -29,37 +29,39 @@ export default {
 
     getUserInfo(res){
       const _this = this;
-      http
-        .post("/game/manager/access", {
-          wxCode: _this.code
-        })
-        .then(
-          res => {
-            wx.setStorageSync("openId", res.data.openId);
-            wx.setStorageSync("gameId", res.data.gameId);
-            const listOptions = {};
-            res.data.list.forEach(element => {
-              listOptions[element.deviceId] = element.color;
-            });
-            _this.changeState({
-              devOptions: listOptions
-            });
-            console.log(res);
-            wx.getUserInfo({
-              success: res => {
-                _this.userInfo = res.userInfo;
-                wx.setStorageSync("userinfo", res.userInfo);
+      wx.getUserInfo({
+        success: res => {
+          _this.userInfo = res.userInfo;
+          wx.setStorageSync("userinfo", res.userInfo);
+          http
+            .post("/game/manager/access", {
+              nickName:res.userInfo.nickName,
+              imgUrl:res.userInfo.avatarUrl,
+              wxCode: _this.code
+            })
+            .then(
+              res => {
+                wx.setStorageSync("openId", res.data.openId);
+                wx.setStorageSync("gameId", res.data.gameId);
+                const listOptions = {};
+                res.data.list.forEach(element => {
+                  listOptions[element.deviceId] = element.color;
+                });
+                _this.changeState({
+                  devOptions: listOptions
+                });
                 const url = "../index/main";
                 // switchTab navigateTo
                 wx.navigateTo({ url });
+              },
+              res => {
+                _this.warning = true;
               }
-            });
-          },
-          res => {
-            _this.warning = true;
-            console.log(res, 2);
-          }
-        );
+            );
+
+        }
+      });
+
     },
     login() {
       const _this = this;
