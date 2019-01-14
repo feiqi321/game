@@ -523,9 +523,15 @@ export default {
     },
     listenSocket() {
       var _this = this;
+<<<<<<< Updated upstream
       this.socketTask = wx.connectSocket({
         url: "wss://www.isxcxbackend1.cn/websocket"
       });
+=======
+      console.log('****',getApp());
+      this.socketTask = getApp().globalData.socketTask;
+
+>>>>>>> Stashed changes
       this.socketTask.onMessage(function(res) {
         console.log("收到服务器内容1：", res.data);
         if (res.data == 1) {
@@ -567,7 +573,7 @@ export default {
     }
   },
 
-  mounted() {
+  mounted(){
     this.userInfo = wx.getStorageSync("userinfo");
     this.openId = wx.getStorageSync("openId");
     this.gameId = wx.getStorageSync("gameId");
