@@ -1,9 +1,16 @@
 {
     "pages": [
+<<<<<<< HEAD
       "pages/index/main",
       "pages/boss/main",
       "pages/third/main",
       "pages/first/main",
+=======
+        "pages/index/main",
+        "pages/third/main",
+        "pages/boss/main",
+        "pages/first/main",
+>>>>>>> 4afcd01dc84c6165c14a895649d26ad34e12d4c8
         "pages/logs/main",
         "pages/counter/main"
     ],
