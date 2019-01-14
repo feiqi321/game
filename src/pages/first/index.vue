@@ -80,6 +80,60 @@
           </p>
         </div>
       </van-dialog>
+      <!-- 下雪天 -->
+      <van-dialog
+        use-slot
+        async-close
+        :show="snow"
+        :show-confirm-button="false"
+        @close="snow=false"
+        close-on-click-overlay
+      >
+        <div class="diaborder cjdig">
+          <span class="cjimg"></span>
+          <h3>冬天到了</h3>
+          <p class="dialog-title">您的收集速度变慢了</p>
+          <p>
+            <span class="btn" @click="snow=false">确认</span>
+          </p>
+        </div>
+      </van-dialog>
+      <!-- 地震 -->
+      <van-dialog
+        use-slot
+        async-close
+        :show="earthquake"
+        :show-confirm-button="false"
+        @close="earthquake=false"
+        close-on-click-overlay
+      >
+        <div class="diaborder cjdig">
+          <span class="cjimg dz-icon"></span>
+          <h3>地震了</h3>
+          <p class="dialog-title">绿色能量不能再收集了</p>
+          <p>
+            <span class="btn" @click="earthquake=false">确认</span>
+          </p>
+        </div>
+      </van-dialog>
+      <!-- 怪兽来了 -->
+      <van-dialog
+        use-slot
+        async-close
+        :show="gsll"
+        :show-confirm-button="false"
+        @close="gsll=false"
+        close-on-click-overlay
+      >
+        <div class="diaborder cjdig">
+          <span class="cjimg gs-icon"></span>
+          <h3>怪兽入侵</h3>
+          <p class="dialog-title">一起攻击怪兽保护家园</p>
+          <p>
+            <span class="btn" @click="gsll=false">确认</span>
+          </p>
+        </div>
+      </van-dialog>
       <!-- 收集记录 -->
       <van-dialog
         use-slot
@@ -167,7 +221,7 @@
 import { mapMutations, mapState, mapActions } from "vuex";
 import http from "@/utils/http.js";
 import Notify from "@/../static/dist/notify/notify";
-let ISENDING=false;
+let ISENDING = false;
 export default {
   data() {
     return {
@@ -189,11 +243,14 @@ export default {
       listDig: false, //列表弹窗
       getUserInfoDig: false, //用户授权
       blueStatus: false, //蓝牙是否开启
-      hasSh:false,//是否有手环
-      isSlow:false,//是否冰冻
-      countDownTime:'',
+      hasSh: false, //是否有手环
+      isSlow: false, //是否冰冻
+      snow: false, //下雪了
+      earthquake: false, //地震
+      gsll: false, //怪兽来了
+      countDownTime: "",
       gsStatus: 0,
-      socketTask:null,
+      socketTask: null,
       animationOptions: [
         "http://img.isxcxbackend1.cn/橙色动图.gif",
         "http://img.isxcxbackend1.cn/黄动图.gif",
@@ -299,15 +356,11 @@ export default {
           });
         }
       });
-
     },
     filterDevs(devs) {
       const distanceDev = devs
         .filter(item => {
-          return item.accuracy < 1;
-        })
-        .filter(item => {
-          return item != this.braceletId;
+          return item.accuracy < 1 && item != this.braceletId;
         })
         .sort((a, b) => {
           return a.accuracy - b.accuracy;
@@ -331,7 +384,7 @@ export default {
     },
     handleFindDevs(devs) {
       const _this = this;
-      ISENDING=true;
+      ISENDING = true;
       const fDevs = _this.filterDevs(devs);
       if (fDevs.type) {
         http
@@ -348,17 +401,17 @@ export default {
                 braceletId: _this.braceletId,
                 openId: _this.openId,
                 gameId: _this.gameId,
-                time: res.data.continuTime*1000
+                time: res.data.continuTime * 1000
               });
-              ISENDING=false;
+              ISENDING = false;
               this.countDown(res.data.continuTime);
             },
             res => {
               Notify("网络异常2!");
             }
           );
-      }else{
-        ISENDING=false;
+      } else {
+        ISENDING = false;
       }
     },
     initUserinfo() {
@@ -394,12 +447,12 @@ export default {
         );
     },
 
-    reward(type){
-        if (this.status==0 &&　type == 1){
-          this.status = 1;
-        }else if (tis.totalStatus==0 && type == 2){
-          this.totalStatus = 1;
-        }
+    reward(type) {
+      if (this.status == 0 && type == 1) {
+        this.status = 1;
+      } else if (tis.totalStatus == 0 && type == 2) {
+        this.totalStatus = 1;
+      }
 
       const _this = this;
       http
@@ -454,54 +507,60 @@ export default {
         );
     },
 
-    countDown(time){
-      if(time<=0){
-        this.countDownTime='';
+    countDown(time) {
+      if (time <= 0) {
+        this.countDownTime = "";
         return;
       }
-      this.countDownTime=time;
+      this.countDownTime = time;
       setTimeout(() => {
-        this.countDown(time-1)
+        this.countDown(time - 1);
       }, 1000);
     },
-    listenSocket(){
+    listenSocket() {
       var _this = this;
-      this.socketTask = wx.connectSocket({url: "wss://www.isxcxbackend1.cn/websocket"});
+      this.socketTask = wx.connectSocket({
+        url: "wss://www.isxcxbackend1.cn/websocket"
+      });
       this.socketTask.onMessage(function(res) {
-        console.log('收到服务器内容1：' ,res.data)
-        if (res.data==1){//下雪了
+        console.log("收到服务器内容1：", res.data);
+        if (res.data == 1) {
+          //下雪了
           _this.gsStatus = 1;
           _this.isSlow = true;
           Notify("下雪了!");
-        }else if (res.data==10){//雪停了
+        } else if (res.data == 10) {
+          //雪停了
           _this.gsStatus = 1;
           _this.isSlow = false;
           Notify("雪停了!");
-        }else if(res.data ==2){//地震了
+        } else if (res.data == 2) {
+          //地震了
           _this.gsStatus = 1;
           _this.isSlow = false;
           Notify("地震了!");
-        }else if (res.data ==20){//地震停了
+        } else if (res.data == 20) {
+          //地震停了
           _this.gsStatus = 1;
           _this.isSlow = false;
           Notify("地震停了!");
-        }else if (res.data==3){//怪兽来袭
+        } else if (res.data == 3) {
+          //怪兽来袭
           _this.gsStatus = 3;
           _this.isSlow = false;
-        }else if (res.data==30){//怪兽事件结束
+        } else if (res.data == 30) {
+          //怪兽事件结束
           _this.gsStatus = 1;
           _this.isSlow = false;
         }
-      })
+      });
       //连接失败
       this.socketTask.onError(function() {
-        console.log('websocket连接失败！');
+        console.log("websocket连接失败！");
         _this.gsStatus = 1;
         _this.isSlow = false;
-      })
-
+      });
     }
-
   },
 
   mounted() {
@@ -740,7 +799,39 @@ export default {
     background-size: contain;
   }
 }
-
+.cjdig {
+  border-radius: 14px !important;
+  padding: 40px 20px 10px;
+  .cjimg {
+    width: 200px;
+    height: 200px;
+    background: url(http://img.isxcxbackend1.cn/组232.png) center center #fff
+      no-repeat;
+    background-size: contain;
+    display: block;
+    margin: 0 auto;
+    &.dz-icon {
+      background-image: url(http://img.isxcxbackend1.cn/组233.png);
+    }
+    &.gs-icon {
+      background-image: url(http://img.isxcxbackend1.cn/恐龙动32.png);
+    }
+  }
+  h3 {
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+  .btn {
+    width: 85px;
+    height: 45px;
+    line-height: 40px;
+    display: inline-block;
+    margin: 0 auto;
+    background: url(http://img.isxcxbackend1.cn/组217.png) center center #fafafa
+      no-repeat;
+    background-size: contain;
+  }
+}
 .diaborder {
   border: 3.5px solid #000;
 }
