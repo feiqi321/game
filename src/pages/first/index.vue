@@ -573,7 +573,6 @@ export default {
     this.gameId = wx.getStorageSync("gameId");
     this.braceletId = wx.getStorageSync("braceletId");
 
-    console.log(this.devOptions);
     // this.getUserInfo();
     this.openBlueTooth();
     this.initUserinfo();

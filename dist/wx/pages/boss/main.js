@@ -263,7 +263,7 @@ if (false) {(function () {
     listenSocket: function listenSocket() {
       console.info(999);
       var _this = this;
-      this.socketTask = wx.connectSocket({ url: "wss://www.isxcxbackend1.cn/websocket" });
+      this.socketTask = getApp().globalData.socketTask;
       this.socketTask.onMessage(function (res) {
 
         if (res.data.indexOf("98") >= 0) {
@@ -305,6 +305,8 @@ if (false) {(function () {
     this.getUserInfo();
     this.initTime();
     this.initBoss();
+  },
+  mounted: function mounted() {
     this.listenSocket();
   }
 });

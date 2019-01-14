@@ -31,7 +31,10 @@
           <dd class="score">{{ myMoney }}</dd>
         </dl>
       </div>
-      <div class="rigth-nav"><span class="i-sb active"></span></div>
+      <div class="rigth-nav">
+        <span class="i-gs" @click="toBoss" v-if="gsStatus===3"></span>
+        <span class="i-sb active"></span>
+      </div>
     </div>
     <div id="real90"></div>
     <div @longpress="execDeleteFn($event)">
@@ -131,6 +134,7 @@
         </div>
       </div>
     </van-dialog>
+    <div class="hgbj" v-if="gsStatus===3"></div>
   </div>
 </template>
 
@@ -145,6 +149,7 @@ export default {
       gameId:null,
       ftHide: false,
       chooseType: 0,
+      gsStatus: 0,
       baseUrl: "http://img.isxcxbackend1.cn/",
       //底部可购买的数组
       pic: [[], [], []],
@@ -254,6 +259,7 @@ export default {
     this.gameId = wx.getStorageSync("gameId");
     this.getCurrentList();
     this.getMyBuild();
+    this.listenSocket();
   },
   computed: {
     whichActive() {
@@ -267,6 +273,10 @@ export default {
     }
   },
   methods: {
+    toBoss() {
+      const url = "../boss/main";
+      wx.navigateTo({ url });
+    },
     getMyBuild(){
       var _this = this
       //已建 图片
@@ -564,6 +574,37 @@ export default {
       var num = this.buyDig.buyNum + num;
       num = num < 1 ? 1 : num;
       this.buyDig.buyNum = num;
+    },
+    listenSocket(){
+      var _this = this;
+      this.socketTask = getApp().globalData.socketTask;
+      this.socketTask.onMessage(function(res) {
+        console.log('收到服务器内容3：' ,res.data)
+        if (res.data==1){//下雪了
+          _this.gsStatus = 1;
+          Notify("下雪了!");
+        }else if (res.data==10){//雪停了
+          _this.gsStatus = 1;
+          Notify("雪停了!");
+        }else if(res.data ==2){//地震了
+          _this.gsStatus = 1;
+          Notify("地震了!");
+        }else if (res.data ==20){//地震停了
+          _this.gsStatus = 1;
+          Notify("地震停了!");
+        }else if (res.data==3){//怪兽来袭
+          _this.gsStatus = 3;
+        }else if (res.data==30){//怪兽事件结束
+          _this.gsStatus = 1;
+        }
+      }),
+        //连接失败
+        this.socketTask.onError(function() {
+          console.log('websocket连接失败！');
+          _this.gsStatus = 1;
+          _this.isSlow = false;
+        })
+
     }
   }
 };
@@ -657,6 +698,16 @@ export default {
 
     .rigth-nav {
       margin-top: 25px;
+      .i-gs {
+        background: url(http://img.isxcxbackend1.cn/boss组203.png) center center
+        no-repeat;
+        background-size: contain;
+        width: 24px;
+        height: 24px;
+        display: inline-block;
+        margin-right: 20px;
+        animation: an1 ease 1s infinite alternate;
+      }
       .i-sb {
         background: url(http://img.isxcxbackend1.cn/组168.png) center center
           no-repeat;
@@ -962,5 +1013,16 @@ view[hidden] {
   visibility: hidden;
   position: fixed;
   top: -100%;
+}
+.hgbj {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: url(http://img.isxcxbackend1.cn/红光闪动.gif) center center
+  no-repeat;
+  background-size: cover;
+  z-index: 0;
 }
 </style>
