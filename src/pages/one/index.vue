@@ -1,18 +1,7 @@
 <template>
   <div class="main">
-    <span class="common-msg">我是提示</span>
-    <div class="top-tool">
-      <div class="user-info" v-if="userInfo">
-        <dl>
-          <dt :style="{backgroundImage:'url('+userInfo.avatarUrl+')'}"></dt>
-          <dd class="name">{{userInfo.nickName}}</dd>
-          <!-- <dd class="score">999</dd> -->
-        </dl>
-      </div>
-    </div>
-    <span class="dw-tb"></span>
     <div class="btn-w">
-      <span @click="toUrl" class="btn">PARKI迷宫</span>
+      <button open-type="getUserInfo" lang="zh_CN" @getuserinfo="getUserInfo"></button>
     </div>
   </div>
 </template>
@@ -34,10 +23,17 @@ export default {
 
   methods: {
     ...mapMutations(["changeState"]),
-    toUrl(res) {
-      const url = "../first/main";
-      // switchTab navigateTo
-      wx.navigateTo({ url });
+    getUserInfo(res) {
+      const _this = this;
+      wx.getUserInfo({
+        success: res => {
+          _this.userInfo = res.userInfo;
+          wx.setStorageSync("userinfo", res.userInfo);
+          const url = "../index/main";
+          // switchTab navigateTo
+          wx.navigateTo({ url });
+        }
+      });
     },
     login() {
       const _this = this;
@@ -54,18 +50,20 @@ export default {
             })
             .then(
               res => {
-                wx.setStorageSync("openId", res.data.openId);
-                wx.setStorageSync("gameId", res.data.gameId);
-                const listOptions = {};
-                res.data.list.forEach(element => {
-                  listOptions[element.deviceId] = element.color;
-                });
-                _this.changeState({
-                  devOptions: listOptions
-                });
-                console.log(res);
+                  wx.setStorageSync("openId", res.data.openId);
+                  wx.setStorageSync("gameId", res.data.gameId);
+                  const listOptions = {};
+                  res.data.list.forEach(element => {
+                    listOptions[element.deviceId] = element.color;
+                  });
+                  _this.changeState({
+                    devOptions: listOptions
+                  });
+                  console.log(res);
+
               },
               res => {
+
                 console.log(res, 2);
               }
             );
@@ -83,30 +81,16 @@ export default {
     this.openId = wx.getStorageSync("openId");
     this.gameId = wx.getStorageSync("gameId");
     //if (!this.openId && !this.gameId) {
-    //this.login();
+    this.login();
     //}
   }
 };
 </script>
 
 <style lang="scss" scoped>
-.common-msg{
-  line-height: 48px;
-  z-index: 1000;
-  border:2px solid #000;
-  position: absolute;
-  width: 200px;
-  text-align: center;
-  background: #ff4b4b;
-  color: #fff;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%,-50%);
-  border-radius: 6px;
-}
 .main {
   height: 100%;
-  background: url(http://img.isxcxbackend1.cn/荟聚宜家中庭前期准备.jpg) center
+  background: url(http://img.isxcxbackend1.cn/start效果图1.jpg) center
     center #636e5d no-repeat;
   background-size: cover;
   overflow: hidden;
@@ -171,20 +155,17 @@ export default {
 }
 .btn-w {
   position: absolute;
-  top: 70%;
-  width: 165px;
+  top: 76%;
+  width: 250px;
   left: 50%;
   transform: translate(-50%, 0);
-  .btn {
+  button {
     width: 100%;
-    background: url(http://img.isxcxbackend1.cn/组182.png) center center #636e5d
-      no-repeat;
+    background: none;
     background-size: contain;
     height: 67px;
     line-height: 62px;
-    color: #3d3d3d;
-    display: inline-block;
-    text-align: center;
+    opacity: 0;
   }
 }
 </style>

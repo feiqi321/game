@@ -360,7 +360,7 @@ export default {
     filterDevs(devs) {
       const distanceDev = devs
         .filter(item => {
-          return item.accuracy < 1 && item != this.braceletId;
+          return item.accuracy < 1 && item.minor != this.braceletId;
         })
         .sort((a, b) => {
           return a.accuracy - b.accuracy;
@@ -370,7 +370,9 @@ export default {
           return item.typeId == distanceDev[0].minor;
         });
 
-        if (isExitDevs && this.devOptions[distanceDev[0].minor]) {
+        if (isExitDevs || !this.devOptions[distanceDev[0].minor]) {
+          console.log(this.devOptions)
+          console.log(isExitDevs,!this.devOptions[distanceDev[0].minor],'2')
           return false;
         } else {
           return {
@@ -379,6 +381,7 @@ export default {
           }; //distanceDev[0];
         }
       } else {
+        console.log(distanceDev.length,3)
         return false;
       }
     },
@@ -386,6 +389,7 @@ export default {
       const _this = this;
       ISENDING = true;
       const fDevs = _this.filterDevs(devs);
+      console.log(fDevs, "filter");
       if (fDevs.type) {
         http
           .post("/game/deviceColor/collect", {

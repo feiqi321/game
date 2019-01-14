@@ -9,25 +9,8 @@ const store = new Vuex.Store({
   state: {
     completed: [],//已完成颜色
     doingType: null,//手机中的颜色类型
-    scores:0,
-    devOptions: [//设备类型对应的deveiceID
-      {
-        deviceId: "123",
-        type: 1 //'blue'
-      },
-      {
-        deviceId: "123",
-        type: 2 //'blue'
-      },
-      {
-        deviceId: "123",
-        type: 3 //'blue'
-      },
-      {
-        deviceIdid: "123",
-        type: 4 //'blue'
-      }
-    ],
+    scores: 0,
+    devOptions: null
   },
   mutations: {
     changeState: (state, options) => {
@@ -63,16 +46,16 @@ const store = new Vuex.Store({
     }
   },
   actions: {
-    delayDetection({ commit, state }, { typeId, type,braceletId,openId,gameId, time }) {//延迟检测
+    delayDetection({ commit, state }, { typeId, type, braceletId, openId, gameId, time }) {//延迟检测
       commit('addDevToCompleted', { typeId, type, time })
       setTimeout(() => {
         wx.getBeacons({
           success(res) {
-            console.info(res,1)
+            console.info(res, 1)
             let length = 1;
-            if (braceletId==null || braceletId==""){
+            if (braceletId == null || braceletId == "") {
               length = 1;
-            }else{
+            } else {
               const bracelet = res.beacons
                 .filter(item => {
                   return item.minor = braceletId;
@@ -80,7 +63,7 @@ const store = new Vuex.Store({
                 .sort((a, b) => {
                   return a.accuracy - b.accuracy;
                 });
-              if (bracelet.length>0){
+              if (bracelet.length > 0) {
                 length = 0;
               }
             }
@@ -92,19 +75,19 @@ const store = new Vuex.Store({
               .sort((a, b) => {
                 return a.accuracy - b.accuracy;
               });
-            console.info(distanceDev[0].minor+"###"+typeId);
+            console.info(distanceDev[0].minor + "###" + typeId);
             if (distanceDev[0].minor == typeId) {
               console.info("123456");
               commit('updateDevCompleted', { typeId, type, time })
               console.info("654321");
-              console.log(state.completed,'已完成列表');
+              console.log(state.completed, '已完成列表');
               //如果超过3个清空提交收集数据并清空已完成列表
               http.post("/game/deviceColor/confirm", {
-                  openId: openId,
-                  gameId: gameId, //游戏id
-                  deviceId: typeId,
-                  length:length
-                })
+                openId: openId,
+                gameId: gameId, //游戏id
+                deviceId: typeId,
+                length: length
+              })
                 .then(
                   res => {
                     commit('setScores', res.data.scores)
