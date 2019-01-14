@@ -193,7 +193,7 @@ export default {
       isSlow:false,//是否冰冻
       countDownTime:'',
       gsStatus: 0,
-
+      socketTask:null,
       animationOptions: [
         "http://img.isxcxbackend1.cn/橙色动图.gif",
         "http://img.isxcxbackend1.cn/黄动图.gif",
@@ -246,8 +246,8 @@ export default {
         })
         .then(
           res => {
-            wx.setStorageSync("braceletId", _this.userId);
-            _this.braceletId = _this.userId;
+            wx.setStorageSync("braceletId", res.data.deviceId);
+            _this.braceletId = res.data.deviceId;
           },
           res => {
             Notify("网络异常1!");
@@ -466,9 +466,9 @@ export default {
     },
     listenSocket(){
       var _this = this;
-      wx.connectSocket({url: "wss://www.isxcxbackend1.cn/websocket"});
-      wx.onSocketMessage(function(res) {
-        console.log('收到服务器内容：' ,res.data)
+      this.socketTask = wx.connectSocket({url: "wss://www.isxcxbackend1.cn/websocket"});
+      this.socketTask.onMessage(function(res) {
+        console.log('收到服务器内容1：' ,res.data)
         if (res.data==1){//下雪了
           _this.gsStatus = 1;
           _this.isSlow = true;
@@ -494,7 +494,7 @@ export default {
         }
       })
       //连接失败
-      wx.onSocketError(function() {
+      this.socketTask.onError(function() {
         console.log('websocket连接失败！');
         _this.gsStatus = 1;
         _this.isSlow = false;

@@ -109,6 +109,7 @@ export default {
       listDig2: false,
       totalAttack:0,
       overtime:null,
+      socketTask:null,
       jdtWidth: 100,
       gsStatus:0,
       gameId: null,
@@ -134,8 +135,8 @@ export default {
     addFs() {
       var damage = Math.floor(Math.random() * 3 + 2) ;
       this.totalAttack = this.totalAttack+damage;
-      wx.sendSocketMessage({
-        data: this.openId+','+this.gameId+","+this.totalAttack
+      this.socketTask.send({
+        data: this.openId+','+this.gameId+","+damage
       })
       this.fsList.push(-damage);
       setTimeout(() => {
@@ -168,21 +169,23 @@ export default {
       }, 1000);
     },
     listenSocket(){
+      console.info(999)
       var _this = this;
-      wx.connectSocket({url: "wss://www.isxcxbackend1.cn/websocket"});
-      wx.onSocketMessage(function(res) {
-        console.log('收到服务器内容：' ,res.data)
+      this.socketTask =  wx.connectSocket({url: "wss://www.isxcxbackend1.cn/websocket"});
+      this.socketTask.onMessage(function(res) {
+
         if (res.data.indexOf("98")>=0){//boss攻击中
           _this.jdtWidth = res.data.split("@")[1];
         }else if (res.data.indexOf("99")>=0){//boss死掉了
           _this.listDig = true;
+          _this.jdtWidth = 0;
         }else if (res.data.indexOf("97")>=0){//boss到时间未死掉
           _this.listDig2 = true;
         }
       })
 
       //连接失败
-      wx.onSocketError(function() {
+      this.socketTask.onError(function() {
         console.log('websocket连接失败！');
 
       })
@@ -214,6 +217,7 @@ export default {
     this.getUserInfo();
     this.initTime();
     this.initBoss();
+    this.listenSocket();
   }
 };
 </script>
