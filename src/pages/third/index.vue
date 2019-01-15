@@ -173,8 +173,6 @@ export default {
       warning:null,
       warningText:'',
       userInfo: null,
-      openId:null,
-      gameId:null,
       ftHide: false,
       chooseType: 0,
       gsStatus: 0,
@@ -229,6 +227,10 @@ export default {
         dia1: true
       },
       monster:true
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
     };
   },
   watch: {
@@ -289,8 +291,7 @@ export default {
     }, 80);
   },
   mounted() {
-    this.openId = wx.getStorageSync("openId");
-    this.gameId = wx.getStorageSync("gameId");
+
     this.getCurrentList();
     this.getMyBuild();
     this.listenSocket();
@@ -312,10 +313,6 @@ export default {
       const _this = this;
       httpReq({
         url: "/game/device/query",
-        data: {
-          openId:_this.openId,
-          gameId:_this.gameId
-        }
       }).then(({ data }) => {
         if (data != null) {
           _this.myMoney = data.scores;
@@ -335,10 +332,6 @@ export default {
       //已建 图片
       httpReq({
         url: "/game/warehouse/findMyBuild",
-        data: {
-          openId:_this.openId,
-          gameId:_this.gameId
-        }
       }).then(({ data }) => {
         if (data != null) {
           this.picInfo = data.reduce((acc, item) => {
@@ -375,8 +368,6 @@ export default {
       httpReq({
         url: "/game/warehouse/findAllShop",
         data: {
-          openId:_this.openId,
-          gameId:_this.gameId,
           type: this.currentType
         }
       }).then(({ data }) => {
@@ -392,8 +383,6 @@ export default {
       httpReq({
         url: "/game/warehouse/findAllMyWareHouse",
         data: {
-          openId:_this.openId,
-          gameId:_this.gameId,
           type: this.currentType
         }
       }).then(({ data }) => {
@@ -433,8 +422,6 @@ export default {
       httpReq({
         url:'/game/warehouse/destroy',
         data:{
-          openId:_this.openId,
-          gameId:_this.gameId,
           id,destroyPrice
         }
       }).then(({data})=>{
@@ -452,8 +439,6 @@ export default {
       httpReq({
         url: "/game/warehouse/buyProduct",
         data: {
-          openId:_this.openId,
-          gameId:_this.gameId,
           shopId: this.buyDig.current.id,
           num: this.buyDig.buyNum
         }
@@ -529,8 +514,6 @@ export default {
         httpReq({
           url: "/game/warehouse/build",
           data: {
-            openId:_this.openId,
-            gameId:_this.gameId,
             wareId: obj.id,
             posi: index
           }
@@ -1087,6 +1070,10 @@ view[hidden] {
   position: fixed;
   top: -100%;
 }
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 .commonDia {
   height: 60vh;
   width: 78vw;
@@ -1149,4 +1136,8 @@ view[hidden] {
   opacity: .6;
   position: absolute;
 }
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 </style>

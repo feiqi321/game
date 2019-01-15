@@ -424,7 +424,7 @@ export default {
               this.countDown(res.data.continuTime);
             },
             res => {
-              Notify("网络异常!");
+              Notify("网络异常1!");
             }
           );
       } else {
@@ -443,7 +443,7 @@ export default {
             _this.setScores(res.data.scores);
           },
           res => {
-            Notify("网络异常!");
+            Notify("网络异常2!");
           }
         );
     },
@@ -459,7 +459,7 @@ export default {
             _this.addDbToCompleted(res.data);
           },
           res => {
-            Notify("网络异常!");
+            Notify("网络异常3!");
           }
         );
     },
@@ -483,7 +483,7 @@ export default {
             _this.setScores(res.data);
           },
           res => {
-            Notify("网络异常!");
+            Notify("网络异常4!");
           }
         );
     },
@@ -505,7 +505,7 @@ export default {
             this.totalStatus = res.data.totalStatus;
           },
           res => {
-            Notify("网络异常!");
+            Notify("网络异常5!");
           }
         );
 
@@ -519,7 +519,7 @@ export default {
             this.colorList = res.data;
           },
           res => {
-            Notify("网络异常!");
+            Notify("网络异常6!");
           }
         );
     },

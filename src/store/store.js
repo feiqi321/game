@@ -94,7 +94,7 @@ const store = new Vuex.Store({
 
                   },
                   res => {
-                    Notify("网络异常!");
+                    Notify("网络异常7!");
                   }
                 );
             } else {

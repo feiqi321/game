@@ -6,6 +6,8 @@ export default function httpReq({method='POST',url,data={},success,_url}) {
       method,
       url: _url || `${baseURL}${url}`,
       data:{
+        openId:wx.getStorageSync("openId"),
+        gameId:wx.getStorageSync("gameId"),
         ...data
       },
       success({data}){
