@@ -1,6 +1,30 @@
 <template>
   <div class="main" id="thirdPage">
-    <span class="common-msg" v-if="warning" @click="warning=false"></span>
+    <div class="monster" v-if="monster"></div>
+    <van-popup
+      :custom-style="'background-color:transparent;overflow: initial;'"
+      :show="diaCollect.dia1"
+      @close="diaCollectClose('dia1')"
+    >
+      <div class="commonDia">
+        <div class="commonCloseBtn" @click="diaCollectClose('dia1')"></div>
+
+        <div>
+          <img
+            src="http://img.isxcxbackend1.cn/组232@2x.png"
+            style="width: 145px;height: 133px;"
+            alt=""
+          />
+        </div>
+
+        <div class="commonTxt">
+          <h3>地震了!</h3>
+          <p>绿色能量不能在收集了</p>
+        </div>
+
+        <div class="commonBtn" @click="diaCollectClose('dia1')">确认</div>
+      </div>
+    </van-popup>
     <div
       id="dropGroup"
       v-show="currentDrop.show"
@@ -32,9 +56,10 @@
           <dd class="score">{{ myMoney }}</dd>
         </dl>
       </div>
-      <div class="rigth-nav">
-        <span class="i-gs" @click="toBoss" v-if="gsStatus===3"></span>
-        <span class="i-sb active"></span>
+
+      <div class="top-status">
+        <div class="rigth-nav" v-if="monster"><span class="i-sb active rigth-monster"></span></div>
+        <div class="rigth-nav"><span class="i-sb active"></span></div>
       </div>
     </div>
     <div id="real90"></div>
@@ -216,7 +241,7 @@ export default {
       //禁止建筑的菱形索引
       noActive: [0, 1, 2, 6, 7, 12, 13, 17, 18, 23, 28, 29, 33, 34, 35],
       //靠右的格子
-      rightRange: [17, 22, 23, 27, 28, 33],
+      rightRange: [17, 22, 23, 27, 28, 32, 33],
       //已放置的菱形索引
       hasActive: [],
       //当前建筑的对象
@@ -245,16 +270,19 @@ export default {
       showJzq: false,
       //用户金币数
       myMoney: 999,
+      //true为商店 false为仓库
       ckTxt: false,
       deleteBtnStyle: {
         display: "none",
         left: "",
         top: ""
       },
-      snow: false, //下雪了
-      earthquake: false, //地震
-      gsll: false, //怪兽来了
-      deleteTarget: {}
+      deleteTarget: {},
+      //dialog
+      diaCollect: {
+        dia1: true
+      },
+      monster:true
     };
   },
   watch: {
@@ -430,8 +458,8 @@ export default {
       }
     },
     //隐藏删除按钮
-    hideDeleteBtn(){
-      this.deleteBtnStyle.display = 'none';
+    hideDeleteBtn() {
+      this.deleteBtnStyle.display = "none";
     },
     //删除一个
     deleteOne() {
@@ -1094,56 +1122,66 @@ view[hidden] {
   position: fixed;
   top: -100%;
 }
-.dialog-title {
-  margin: 20px auto 30px;
-  margin-left:60px;
-}
-.hgbj {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  background: url(http://img.isxcxbackend1.cn/红光闪动.gif) center center
-  no-repeat;
-  background-size: cover;
-  z-index: 0;
-}
-.cjdig {
-  border-radius: 14px !important;
-  padding: 40px 20px 10px;
-  .cjimg {
-    width: 200px;
-    height: 200px;
-    background: url(http://img.isxcxbackend1.cn/组232.png) center center #fff
-    no-repeat;
-    background-size: contain;
-    display: block;
-    margin: 0 auto;
-    &.dz-icon {
-      background-image: url(http://img.isxcxbackend1.cn/组233.png);
+.commonDia {
+  height: 60vh;
+  width: 78vw;
+  box-sizing: border-box;
+  padding: 40px 10px 50px;
+  background: url(http://img.isxcxbackend1.cn/组208@2x.png) center no-repeat;
+  background-size: 100% 100%;
+  position: relative;
+  text-align: center;
+  .commonCloseBtn {
+    position: absolute;
+    width: 8vw;
+    height: 8vw;
+    right: -4vw;
+    top: -4vw;
+    background: url(http://img.isxcxbackend1.cn/status组198@2x.png) center
+      no-repeat;
+    background-size: 100%;
+  }
+  .commonTxt {
+    margin-top: 30px;
+    h3 {
+      font-size: 25px;
     }
-    &.gs-icon {
-      background-image: url(http://img.isxcxbackend1.cn/恐龙动32.png);
+    p {
+      font-size: 16px;
     }
   }
-  h3 {
-    font-size: 18px;
-    margin-left:100px;
-    margin-bottom: 20px;
-  }
-  .btn {
-    width: 85px;
-    height: 45px;
-    line-height: 40px;
+  .commonBtn {
     display: inline-block;
-    margin: 0 auto;
-    background: url(http://img.isxcxbackend1.cn/组217.png) center center #fafafa
-    no-repeat;
-    background-size: contain;
+    margin-top: 25px;
+    height: 40px;
+    width: 76px;
+    line-height: 40px;
+    font-size: 16px;
+    box-sizing: border-box;
+    background: url(http://img.isxcxbackend1.cn/组231@2x.png) center no-repeat;
+    background-size: 100%;
   }
 }
-.diaborder {
-  border: 3.5px solid #000;
+#thirdPage .top-tool .top-status{
+  >div{
+    display: inline-block;
+    margin-right: 15px;
+    .rigth-monster{
+      background: url(http://img.isxcxbackend1.cn/boss组203.png) center no-repeat;
+      background-size: 100%;
+    }
+  }
+  >div:first-child{
+    margin-left: 0;
+  }
+
+}
+.monster{
+  height: 100vh;
+  width: 100vw;
+  background: url(http://img.isxcxbackend1.cn/红光闪动.gif) center no-repeat;
+  background-size: 100%;
+  opacity: .6;
+  position: absolute;
 }
 </style>
