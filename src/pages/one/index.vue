@@ -18,6 +18,7 @@ export default {
       warning:false,
       gameId: null,
       code:null,
+      status:0,
       userInfo: null //用户信息
     };
   },
@@ -29,55 +30,60 @@ export default {
 
     getUserInfo(res){
       const _this = this;
-      wx.getUserInfo({
-        success: res => {
-          _this.userInfo = res.userInfo;
-          wx.setStorageSync("userinfo", res.userInfo);
-          http
-            .post("/game/manager/access", {
-              nickName:res.userInfo.nickName,
-              imgUrl:res.userInfo.avatarUrl,
-              wxCode: _this.code
-            })
-            .then(
-              res => {
-                wx.setStorageSync("openId", res.data.openId);
-                wx.setStorageSync("gameId", res.data.gameId);
-                const listOptions = {};
-                res.data.list.forEach(element => {
-                  listOptions[element.deviceId] = element.color;
-                });
-                _this.changeState({
-                  devOptions: listOptions
-                });
-                const url = "../index/main";
-                // switchTab navigateTo
-                wx.navigateTo({ url });
-              },
-              res => {
-                _this.warning = true;
-              }
-            );
-
-        }
-      });
-
-    },
-    login() {
-      const _this = this;
-      wx.showLoading({
-        title: "加载中"
-      });
+      if (_this.status==1){
+        return;
+      }
+      _this.status = 1;
       wx.login({
         success: res => {
-          console.log(res);
-          this.code = res.code;
+          _this.code = res.code;
+          wx.getUserInfo({
+            success: res => {
+              _this.userInfo = res.userInfo;
+              wx.setStorageSync("userinfo", res.userInfo);
+              http
+                .post("/game/manager/access", {
+                  nickName:res.userInfo.nickName,
+                  imgUrl:res.userInfo.avatarUrl,
+                  wxCode: _this.code
+                })
+                .then(
+                  res => {
+                    wx.setStorageSync("openId", res.data.openId);
+                    wx.setStorageSync("gameId", res.data.gameId);
+                    const listOptions = {};
+                    res.data.list.forEach(element => {
+                      listOptions[element.deviceId] = element.color;
+                    });
+                    _this.changeState({
+                      devOptions: listOptions
+                    });
+                    const url = "../index/main";
+                    // switchTab navigateTo
+                    wx.navigateTo({ url });
+                    setTimeout(()=>{
+                      _this.status = 0;
+                    },5000)
+
+                  },
+                  res => {
+                    _this.warning = true;
+                    setTimeout(()=>{
+                      _this.status = 0;
+                    },5000)
+                  }
+                );
+
+            }
+          });
         },
-        fail: () => {},
+        fail: () => {_this.status = 0;},
         complete: () => {
           wx.hideLoading();
         }
       });
+
+
     }
   },
 
@@ -85,9 +91,7 @@ export default {
     this.userInfo = wx.getStorageSync("userinfo");
     this.openId = wx.getStorageSync("openId");
     this.gameId = wx.getStorageSync("gameId");
-    //if (!this.openId && !this.gameId) {
-    this.login();
-    //}
+
   }
 };
 </script>
