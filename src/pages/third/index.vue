@@ -215,28 +215,20 @@ export default {
       },
       showJzq: false,
       //用户金币数
-<<<<<<< HEAD
       myMoney: 0,
-=======
-      myMoney: 999,
       //true为商店 false为仓库
->>>>>>> 6450bd9d47ea88db123dd09b856dea14ea917b48
       ckTxt: false,
       deleteBtnStyle: {
         display: "none",
         left: "",
         top: ""
       },
-<<<<<<< HEAD
-      deleteTarget: {}
-=======
       deleteTarget: {},
       //dialog
       diaCollect: {
         dia1: true
       },
       monster:true
->>>>>>> 6450bd9d47ea88db123dd09b856dea14ea917b48
     };
   },
   watch: {
@@ -1095,10 +1087,6 @@ view[hidden] {
   position: fixed;
   top: -100%;
 }
-<<<<<<< HEAD
-
-
-=======
 .commonDia {
   height: 60vh;
   width: 78vw;
@@ -1161,5 +1149,4 @@ view[hidden] {
   opacity: .6;
   position: absolute;
 }
->>>>>>> 6450bd9d47ea88db123dd09b856dea14ea917b48
 </style>
