@@ -135,61 +135,7 @@
         </div>
       </div>
     </van-dialog>
-    <!-- 下雪天 -->
-    <van-dialog
-      use-slot
-      async-close
-      :show="snow"
-      :show-confirm-button="false"
-      @close="snow=false"
-      close-on-click-overlay
-    >
-      <div class="diaborder cjdig">
-        <span class="cjimg"></span>
-        <h3>冬天到了</h3>
-        <p class="dialog-title">您的收集速度变慢了</p>
-        <p>
-          <span class="btn" @click="snow=false">确认</span>
-        </p>
-      </div>
-    </van-dialog>
-    <!-- 地震 -->
-    <van-dialog
-      use-slot
-      async-close
-      :show="earthquake"
-      :show-confirm-button="false"
-      @close="earthquake=false"
-      close-on-click-overlay
-    >
-      <div class="diaborder cjdig">
-        <span class="cjimg dz-icon"></span>
-        <h3>地震了</h3>
-        <p class="dialog-title">绿色能量不能再收集了</p>
-        <p>
-          <span class="btn" @click="earthquake=false">确认</span>
-        </p>
-      </div>
-    </van-dialog>
-    <!-- 怪兽来了 -->
-    <van-dialog
-      use-slot
-      async-close
-      :show="gsll"
-      :show-confirm-button="false"
-      @close="gsll=false"
-      close-on-click-overlay
-    >
-      <div class="diaborder cjdig">
-        <span class="cjimg gs-icon"></span>
-        <h3>怪兽入侵</h3>
-        <p class="dialog-title">一起攻击怪兽保护家园</p>
-        <p>
-          <span class="btn" @click="gsll=false">确认</span>
-        </p>
-      </div>
-    </van-dialog>
-    <div class="hgbj" v-if="gsStatus===3"></div>
+
   </div>
 </template>
 
@@ -244,16 +190,13 @@ export default {
       },
       showJzq: false,
       //用户金币数
-      myMoney: 999,
+      myMoney: 0,
       ckTxt: false,
       deleteBtnStyle: {
         display: "none",
         left: "",
         top: ""
       },
-      snow: false, //下雪了
-      earthquake: false, //地震
-      gsll: false, //怪兽来了
       deleteTarget: {}
     };
   },
@@ -320,6 +263,7 @@ export default {
     this.getCurrentList();
     this.getMyBuild();
     this.listenSocket();
+    this.initUserinfo();
   },
   computed: {
     whichActive() {
@@ -333,6 +277,21 @@ export default {
     }
   },
   methods: {
+    initUserinfo() {
+      const _this = this;
+      httpReq({
+        url: "/game/device/query",
+        data: {
+          openId:_this.openId,
+          gameId:_this.gameId
+        }
+      }).then(({ data }) => {
+        if (data != null) {
+          _this.myMoney = data.scores;
+        }
+      });
+
+    },
     toBoss() {
       const url = "../boss/main";
       wx.navigateTo({ url });
@@ -1094,56 +1053,6 @@ view[hidden] {
   position: fixed;
   top: -100%;
 }
-.dialog-title {
-  margin: 20px auto 30px;
-  margin-left:60px;
-}
-.hgbj {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  background: url(http://img.isxcxbackend1.cn/红光闪动.gif) center center
-  no-repeat;
-  background-size: cover;
-  z-index: 0;
-}
-.cjdig {
-  border-radius: 14px !important;
-  padding: 40px 20px 10px;
-  .cjimg {
-    width: 200px;
-    height: 200px;
-    background: url(http://img.isxcxbackend1.cn/组232.png) center center #fff
-    no-repeat;
-    background-size: contain;
-    display: block;
-    margin: 0 auto;
-    &.dz-icon {
-      background-image: url(http://img.isxcxbackend1.cn/组233.png);
-    }
-    &.gs-icon {
-      background-image: url(http://img.isxcxbackend1.cn/恐龙动32.png);
-    }
-  }
-  h3 {
-    font-size: 18px;
-    margin-left:100px;
-    margin-bottom: 20px;
-  }
-  .btn {
-    width: 85px;
-    height: 45px;
-    line-height: 40px;
-    display: inline-block;
-    margin: 0 auto;
-    background: url(http://img.isxcxbackend1.cn/组217.png) center center #fafafa
-    no-repeat;
-    background-size: contain;
-  }
-}
-.diaborder {
-  border: 3.5px solid #000;
-}
+
+
 </style>

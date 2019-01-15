@@ -340,6 +340,7 @@ export default {
         success(res) {
           _this.blueStatus = true;
           _this.searchBlueTooth();
+
         },
         fail(res) {
           wx.onBluetoothAdapterStateChange(function(res) {
@@ -354,6 +355,7 @@ export default {
     searchBlueTooth() {
       //搜索设备
       const _this = this;
+      console.info("searchBlueTooth");
       if (!this.blueStatus) {
         Notify("请打开蓝牙设备!");
         return;
@@ -368,6 +370,7 @@ export default {
       });
     },
     filterDevs(devs) {
+      console.info("filterDevs");
       const distanceDev = devs
         .filter(item => {
           return item.accuracy < 1 && item.minor != this.braceletId;
