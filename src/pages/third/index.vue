@@ -227,10 +227,7 @@ export default {
         dia1: true
       },
       monster:true
-<<<<<<< Updated upstream
-=======
 
->>>>>>> Stashed changes
     };
   },
   watch: {
@@ -1070,10 +1067,6 @@ view[hidden] {
   position: fixed;
   top: -100%;
 }
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
 .commonDia {
   height: 60vh;
   width: 78vw;
@@ -1136,8 +1129,4 @@ view[hidden] {
   opacity: .6;
   position: absolute;
 }
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
 </style>
