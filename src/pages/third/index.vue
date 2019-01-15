@@ -7,7 +7,7 @@
       @close="diaCollectClose('dia1')"
     >
       <div class="commonDia">
-        <div class="commonCloseBtn" @click="diaCollectClose('dia1')"></div>
+        <!--<div class="commonCloseBtn" @click="diaCollectClose('dia1')"></div>-->
 
         <div>
           <img
@@ -334,6 +334,9 @@ export default {
     toBoss() {
       const url = "../boss/main";
       wx.navigateTo({ url });
+    },
+    diaCollectClose(target) {
+      this.diaCollect[target] = false;
     },
     getMyBuild(){
       var _this = this
