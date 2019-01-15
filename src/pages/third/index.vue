@@ -252,12 +252,7 @@ export default {
         dia2: false,
         dia3: false
       },
-<<<<<<< Updated upstream
-      monster:true
-=======
       monster:false
->>>>>>> Stashed changes
-
     };
   },
   watch: {
@@ -1159,8 +1154,5 @@ view[hidden] {
   opacity: .6;
   position: absolute;
 }
-<<<<<<< Updated upstream
-=======
 
->>>>>>> Stashed changes
 </style>
