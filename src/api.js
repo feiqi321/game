@@ -11,8 +11,7 @@ export default function httpReq({method='POST',url,data={},success,_url}) {
         ...data
       },
       success({data}){
-        if (data.code == 200) {resolve(data);}
-        else{console.log(data.msg)}
+        resolve(data);
       },
       fail(){
         console.log(url+'服务调用失败');

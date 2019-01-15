@@ -1,5 +1,7 @@
 <template>
   <div class="main" id="thirdPage">
+    <span class="common-msg" v-if="warning" @click="warning = false"
+      >{{ warningText }}</span>
     <div class="monster" v-if="monster"></div>
     <van-popup
       :custom-style="'background-color:transparent;overflow: initial;'"
@@ -82,7 +84,9 @@
       </div>
 
       <div class="top-status">
-        <div class="rigth-nav" v-if="monster"><span class="i-sb active rigth-monster"></span></div>
+        <div class="rigth-nav" v-if="monster">
+          <span class="i-sb active rigth-monster"></span>
+        </div>
         <div class="rigth-nav"><span class="i-sb active"></span></div>
       </div>
     </div>
@@ -116,13 +120,18 @@
         v-for="i in 36"
         :key="i"
       >
-        {{ i }}
+        <!--{{ i }}-->
       </div>
     </div>
     <!-- 建造区 -->
     <div class="ft-box" v-show="!ftHide">
       <!--购买区-->
-      <div v-if="chooseType == ind" v-for="(it, ind) in 2" :key="ind">
+      <div
+        class="ft-wrap"
+        v-if="chooseType == ind"
+        v-for="(it, ind) in 2"
+        :key="ind"
+      >
         <dl v-for="(item, index) in pic[ind]" :key="index">
           <dt
             v-if="ckTxt"
@@ -184,7 +193,6 @@
         </div>
       </div>
     </van-dialog>
-
   </div>
 </template>
 
@@ -194,8 +202,7 @@ import { throttle } from "../../utils/index";
 export default {
   data() {
     return {
-      warning:null,
-      warningText:'',
+
       userInfo: null,
       ftHide: false,
       chooseType: 0,
@@ -252,7 +259,9 @@ export default {
         dia2: false,
         dia3: false
       },
-      monster:false
+      monster: false,
+      warning: false,
+      warningText: ""
     };
   },
   watch: {
@@ -265,13 +274,13 @@ export default {
     chooseType: "getCurrentList"
   },
   beforeCreate() {
-    var _this = this
+    var _this = this;
     //获取植物
     httpReq({
       url: "/game/warehouse/findAllShop",
       data: {
-        openId:_this.openId,
-        gameId:_this.gameId,
+        openId: _this.openId,
+        gameId: _this.gameId,
         type: 1
       }
     }).then(({ data }) => {
@@ -286,8 +295,8 @@ export default {
     httpReq({
       url: "/game/warehouse/findAllShop",
       data: {
-        openId:_this.openId,
-        gameId:_this.gameId,
+        openId: _this.openId,
+        gameId: _this.gameId,
         type: 2
       }
     }).then(({ data }) => {
@@ -313,7 +322,6 @@ export default {
     }, 80);
   },
   mounted() {
-
     this.getCurrentList();
     this.getMyBuild();
     this.listenSocket();
@@ -334,13 +342,12 @@ export default {
     initUserinfo() {
       const _this = this;
       httpReq({
-        url: "/game/device/query",
+        url: "/game/device/query"
       }).then(({ data }) => {
         if (data != null) {
           _this.myMoney = data.scores;
         }
       });
-
     },
     toBoss() {
       const url = "../boss/main";
@@ -349,16 +356,16 @@ export default {
     diaCollectClose(target) {
       this.diaCollect[target] = false;
     },
-    getMyBuild(){
-      var _this = this
+    getMyBuild() {
+      var _this = this;
       //已建 图片
       httpReq({
-        url: "/game/warehouse/findMyBuild",
+        url: "/game/warehouse/findMyBuild"
       }).then(({ data }) => {
         if (data != null) {
           this.picInfo = data.reduce((acc, item) => {
             acc.push({
-              obj:item,
+              obj: item,
               name: item.url,
               index: item.posi
             });
@@ -379,6 +386,8 @@ export default {
     },
     //仓库切换时 更新列表
     getCurrentList() {
+      //切换时清空pic
+      this.$set(this.pic, this.currentType - 1, []);
       if (this.ckTxt) {
         this.getShopList();
       } else {
@@ -386,7 +395,7 @@ export default {
       }
     },
     getShopList() {
-      var _this = this
+      var _this = this;
       httpReq({
         url: "/game/warehouse/findAllShop",
         data: {
@@ -401,7 +410,7 @@ export default {
       });
     },
     getMyList() {
-      var _this = this
+      var _this = this;
       httpReq({
         url: "/game/warehouse/findAllMyWareHouse",
         data: {
@@ -440,20 +449,21 @@ export default {
     //删除一个
     deleteOne() {
       var _this = this;
-      let {id, destroyPrice} = this.deleteTarget.obj;
+      let { id, destroyPrice } = this.deleteTarget.obj;
       httpReq({
-        url:'/game/warehouse/destroy',
-        data:{
-          id,destroyPrice
+        url: "/game/warehouse/destroy",
+        data: {
+          id,
+          destroyPrice
         }
-      }).then(({data})=>{
+      }).then(({ data }) => {
         this.myMoney = data;
         this.hideDeleteBtn();
         this.switchJzq();
-        this.picInfo = this.picInfo.filter((item)=>{
+        this.picInfo = this.picInfo.filter(item => {
           return item.index != this.currentActive;
-        })
-      })
+        });
+      });
     },
     //购买按钮
     buyOneHandle() {
@@ -464,8 +474,13 @@ export default {
           shopId: this.buyDig.current.id,
           num: this.buyDig.buyNum
         }
-      }).then(({ data }) => {
-        this.myMoney = data;
+      }).then(({ code, data, msg }) => {
+        if (code == 200) {
+          this.myMoney = data;
+        } else {
+          this.warningText = msg;
+          this.warning = true;
+        }
         this.buyDig.dig = false;
       });
     },
@@ -633,7 +648,7 @@ export default {
       num = num < 1 ? 1 : num;
       this.buyDig.buyNum = num;
     },
-    listenSocket(){
+    listenSocket() {
       var _this = this;
       this.socketTask = getApp().globalData.socketTask;
       this.socketTask.onMessage(function(res) {
@@ -664,11 +679,10 @@ export default {
       }),
         //连接失败
         this.socketTask.onError(function() {
-          console.log('websocket连接失败！');
+          console.log("websocket连接失败！");
           _this.gsStatus = 1;
           _this.isSlow = false;
-        })
-
+        });
     }
   }
 };
@@ -679,10 +693,10 @@ export default {
   width: 100vw;
   height: 100vh;
   overflow: hidden;
-  .common-msg{
+  .common-msg {
     line-height: 48px;
     z-index: 1000;
-    border:2px solid #000;
+    border: 2px solid #000;
     position: absolute;
     width: 200px;
     text-align: center;
@@ -690,7 +704,7 @@ export default {
     color: #fff;
     left: 50%;
     top: 50%;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%, -50%);
     border-radius: 6px;
   }
   .showImg {
@@ -778,7 +792,7 @@ export default {
       margin-top: 25px;
       .i-gs {
         background: url(http://img.isxcxbackend1.cn/boss组203.png) center center
-        no-repeat;
+          no-repeat;
         background-size: contain;
         width: 24px;
         height: 24px;
@@ -812,6 +826,9 @@ export default {
     left: 50%;
     transform: translate(-50%, 0);
     transition: all ease 0.3s;
+    .ft-wrap {
+      min-height: 68px;
+    }
     & > div {
       // justify-content: space-around;
       flex-wrap: wrap;
@@ -1132,27 +1149,40 @@ view[hidden] {
     background-size: 100%;
   }
 }
-#thirdPage .top-tool .top-status{
-  >div{
+#thirdPage .top-tool .top-status {
+  > div {
     display: inline-block;
     margin-right: 15px;
-    .rigth-monster{
-      background: url(http://img.isxcxbackend1.cn/boss组203.png) center no-repeat;
+    .rigth-monster {
+      background: url(http://img.isxcxbackend1.cn/boss组203.png) center
+        no-repeat;
       background-size: 100%;
     }
   }
-  >div:first-child{
+  > div:first-child {
     margin-left: 0;
   }
-
 }
-.monster{
+.monster {
   height: 100vh;
   width: 100vw;
   background: url(http://img.isxcxbackend1.cn/红光闪动.gif) center no-repeat;
   background-size: 100%;
-  opacity: .6;
+  opacity: 0.6;
   position: absolute;
 }
-
+.common-msg {
+  line-height: 48px;
+  z-index: 1000;
+  border: 2px solid #000;
+  position: absolute;
+  width: 200px;
+  text-align: center;
+  background: #ff4b4b;
+  color: #fff;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 6px;
+}
 </style>
