@@ -1,5 +1,4 @@
 <script>
-require("@/font/iconfont.css");
 export default {
   mounted() {
     console.log(
