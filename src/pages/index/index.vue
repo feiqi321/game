@@ -12,7 +12,7 @@
     </div>
     <span class="dw-tb"></span>
     <div class="btn-w">
-      <span @click="toUrl" class="btn icon-bangzhuzhongxin">PARKI迷宫</span>
+      <span @click="toUrl" class="btn">迷宫</span>
     </div>
   </div>
 </template>

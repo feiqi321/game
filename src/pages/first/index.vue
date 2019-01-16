@@ -426,7 +426,8 @@ export default {
               this.countDown(res.data.continuTime);
             },
             res => {
-              Notify("网络异常1!");
+              _this.warning = true;
+              _this.warningText = res;
             }
           );
       } else {
@@ -638,6 +639,7 @@ export default {
     dd {
       margin-left: 70px;
       &.name {
+        text-align:left;
         margin-top: 5px;
         font-weight: bold;
         color: #000;
@@ -645,7 +647,7 @@ export default {
       &.score {
         width: 93px;
         height: 28px;
-        line-height: 24px;
+        line-height: 28px;
         background: url(http://img.isxcxbackend1.cn/组90@2x.png) center center
           no-repeat;
         background-size: contain;

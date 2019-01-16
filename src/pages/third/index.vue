@@ -5,6 +5,30 @@
     <div class="monster" v-if="monster"></div>
     <van-popup
       :custom-style="'background-color:transparent;overflow: initial;'"
+      :show="diaCollect.dia2"
+      @close="diaCollectClose('dia2')"
+    >
+      <div class="commonDia">
+        <!--<div class="commonCloseBtn" @click="diaCollectClose('dia1')"></div>-->
+
+        <div>
+          <img
+            src="http://img.isxcxbackend1.cn/组232@2x.png"
+            style="width: 145px;height: 133px;"
+            alt=""
+          />
+        </div>
+
+        <div class="commonTxt">
+          <h3>冬天到了!</h3>
+          <p>您的收集速度变慢了</p>
+        </div>
+
+        <div class="commonBtn" @click="diaCollectClose('dia2')">确认</div>
+      </div>
+    </van-popup>
+    <van-popup
+      :custom-style="'background-color:transparent;overflow: initial;'"
       :show="diaCollect.dia1"
       @close="diaCollectClose('dia1')"
     >
@@ -798,7 +822,7 @@ export default {
         &.score {
           width: 93px;
           height: 28px;
-          line-height: 24px;
+          line-height: 28px;
           background: url(http://img.isxcxbackend1.cn/组90@2x.png) center center
             no-repeat;
           background-size: contain;
@@ -1024,7 +1048,7 @@ export default {
       width: 78px;
       background: #5f8076;
       height: 50px;
-      border: 1rpx dashed #e2dee8;
+      border: 1px dashed #e2dee8;
       box-sizing: border-box;
       opacity: 0.8;
     }
@@ -1197,6 +1221,7 @@ view[hidden] {
   opacity: 0.6;
   position: absolute;
 }
+
 .common-msg {
   line-height: 48px;
   z-index: 1000;
@@ -1211,4 +1236,5 @@ view[hidden] {
   transform: translate(-50%, -50%);
   border-radius: 6px;
 }
+
 </style>
