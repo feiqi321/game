@@ -1,9 +1,9 @@
 {
     "pages": [
-      "pages/third/main",
-      "pages/one/main",
-      "pages/index/main",
-      "pages/boss/main",
+        "pages/one/main",
+        "pages/third/main",
+        "pages/index/main",
+        "pages/boss/main",
         "pages/first/main",
         "pages/counter/main"
     ],

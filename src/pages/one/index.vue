@@ -113,7 +113,7 @@ export default {
   }
 .main {
   height: 100%;
-  background: url(http://img.isxcxbackend1.cn/start效果图1.jpg) center
+  background: url(http://img.isxcxbackend1.cn/图层2.png) center
     center #636e5d no-repeat;
   background-size: cover;
   overflow: hidden;
@@ -179,7 +179,7 @@ export default {
 .btn-w {
   position: absolute;
   top: 76%;
-  width: 250px;
+  width: 100%;
   left: 50%;
   transform: translate(-50%, 0);
   button {
@@ -188,7 +188,11 @@ export default {
     background-size: contain;
     height: 67px;
     line-height: 62px;
-    opacity: 0;
+    opacity: 1;
+    background: url(http://img.isxcxbackend1.cn/start-gif.gif) center center
+      no-repeat;
+    background-size: cover;
+    &::after{ border: none; } 
   }
 }
 </style>

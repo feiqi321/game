@@ -1,4 +1,5 @@
 <script>
+require("@/font/iconfont.css");
 export default {
   mounted() {
     console.log(this.$mp.app.globalData.socketTask =wx.connectSocket({url: "wss://www.isxcxbackend1.cn/websocket"}) )
@@ -17,6 +18,7 @@ export default {
 <style>
 page{
   height: 100%;
+  font-family: "iconfont" !important;
 }
 .container {
   height: 100%;
