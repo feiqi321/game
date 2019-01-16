@@ -9,6 +9,11 @@
       @close="diaCollectClose('dia2')"
     >
       <div class="commonDia">
+<<<<<<< Updated upstream
+=======
+        <!--<div class="commonCloseBtn" @click="diaCollectClose('dia1')"></div>-->
+
+>>>>>>> Stashed changes
         <div>
           <img
             src="http://img.isxcxbackend1.cn/组232@2x.png"
@@ -299,11 +304,16 @@ export default {
         dia2: false,
         dia3: false
       },
+<<<<<<< Updated upstream
       monster: false,
       warning: false,
       warningText: "",
       //抖动开关
       dzan:false
+=======
+      monster:false
+
+>>>>>>> Stashed changes
     };
   },
   watch: {
