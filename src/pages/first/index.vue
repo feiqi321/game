@@ -816,11 +816,11 @@ export default {
   border-radius: 14px !important;
   padding: 40px 20px 10px;
   .dia-field {
-    line-height: 40px;
-    height: 40px;
+    line-height: 20px;
+    height: 20px;
     border-radius: 4px;
     border: 3rpx solid #262724;
-    padding: 0 20px;
+    padding: 10px 20px;
   }
   .btn {
     width: 85px;

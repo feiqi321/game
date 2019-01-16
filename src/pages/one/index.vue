@@ -1,5 +1,7 @@
 <template>
   <div class="main">
+    <div class="title">Parki LAND</div>
+    <span class="yd"></span>
     <span class="common-msg" v-if="warning" @click="warning=false">！游戏尚未开始</span>
     <div class="btn-w">
       <button open-type="getUserInfo" lang="zh_CN" @getuserinfo="getUserInfo"></button>
@@ -182,6 +184,7 @@ export default {
   width: 100%;
   left: 50%;
   transform: translate(-50%, 0);
+  z-index: 100;
   button {
     width: 100%;
     background: none;
@@ -194,6 +197,25 @@ export default {
     background-size: cover;
     &::after{ border: none; } 
   }
+}
+.yd{
+  background: url(http://img.isxcxbackend1.cn/%E4%BA%91@3x.png) center top
+      no-repeat;
+    background-size: 100% auto;
+    position: absolute;
+    width: 100%;
+    height: 50%;
+
+    left: 0;
+    top:0;
+    z-index: 1;
+}
+.title{
+  text-align: center;
+  padding-top: 60px;
+  font-size: 35px;
+  font-weight: bold;
+
 }
 </style>
 
