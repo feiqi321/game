@@ -3,7 +3,7 @@
     <span class="common-msg" v-if="warning" @click="warning=false">{{warningText}}</span>
     <van-notify id="van-notify"/>
     <div class="first">
-      <div class="top-tool">
+      <div class="top-tool dzan">
         <div class="user-info">
           <dl>
             <dt :style="{backgroundImage:'url('+userInfo.avatarUrl+')'}"></dt>
@@ -624,6 +624,26 @@ export default {
 .top-tool {
   display: flex;
   justify-content: space-between;
+  @keyframes an2 {
+      10% {
+        transform: translate(-5%,-5%);
+      }
+      30% {
+        transform: translate(-2%,-3%)
+      }
+      30% {
+        transform: translate(-4%,-8%)
+      }
+      30% {
+        transform: translate(5%,-7%)
+      }
+      100% {
+        transform: translate(5%,2%)
+      }
+  }
+  &.dzan{
+    animation: an2 1s infinite ease-in-out alternate;
+  }
   .user-info {
     dt {
       width: 60px;
