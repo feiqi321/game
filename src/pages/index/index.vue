@@ -1,12 +1,10 @@
 <template>
   <div class="main">
-    <!--<span class="common-msg">我是提示</span>-->
     <div class="top-tool">
       <div class="user-info" v-if="userInfo">
         <dl>
           <dt :style="{backgroundImage:'url('+userInfo.avatarUrl+')'}"></dt>
           <dd class="name">{{userInfo.nickName}}</dd>
-          <!-- <dd class="score">999</dd> -->
         </dl>
       </div>
     </div>
@@ -82,9 +80,6 @@ export default {
     this.userInfo = wx.getStorageSync("userinfo");
     this.openId = wx.getStorageSync("openId");
     this.gameId = wx.getStorageSync("gameId");
-    //if (!this.openId && !this.gameId) {
-    //this.login();
-    //}
   }
 };
 </script>

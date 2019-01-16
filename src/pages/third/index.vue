@@ -9,8 +9,6 @@
       @close="diaCollectClose('dia2')"
     >
       <div class="commonDia">
-        <!--<div class="commonCloseBtn" @click="diaCollectClose('dia1')"></div>-->
-
         <div>
           <img
             src="http://img.isxcxbackend1.cn/组232@2x.png"
@@ -208,9 +206,6 @@
       <div @click="openCk">
         {{ ckTxt ? "商店" : "仓库" }} <span class="ck ic"></span>
       </div>
-      <!--<div class="rtool " @click="triggerFt">-->
-      <!--仓库 <span class="ck ic"></span>-->
-      <!--</div>-->
     </div>
     <!-- 弹窗 -->
     <van-dialog
@@ -545,17 +540,7 @@ export default {
       this.getCurrentList();
     },
     load(e) {
-      // let _height = e.target.height;
-      // let _width = e.target.width;
-      // let index = e.target.dataset.index;
-      // let realIndex = this.picInfo.findIndex(item => {
-      //   return item.index == index;
-      // });
-      // this.$set(
-      //   this.picInfo,
-      //   realIndex,
-      //   Object.assign(this.picInfo[realIndex], { _height, _width })
-      // );
+
     },
     switchJzq() {
       this.showJzq = !this.showJzq;
