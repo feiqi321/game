@@ -5,12 +5,10 @@
     <div class="monster" v-if="monster"></div>
     <van-popup
       :custom-style="'background-color:transparent;overflow: initial;'"
-      :show="diaCollect.dia2"
-      @close="diaCollectClose('dia2')"
+      :show="diaCollect.dia1"
+      @close="diaCollectClose('dia1')"
     >
       <div class="commonDia">
-        <!--<div class="commonCloseBtn" @click="diaCollectClose('dia1')"></div>-->
-
         <div>
           <img
             src="http://img.isxcxbackend1.cn/组232@2x.png"
@@ -24,17 +22,15 @@
           <p>您的收集速度变慢了</p>
         </div>
 
-        <div class="commonBtn" @click="diaCollectClose('dia2')">确认</div>
+        <div class="commonBtn" @click="diaCollectClose('dia1')">确认</div>
       </div>
     </van-popup>
     <van-popup
       :custom-style="'background-color:transparent;overflow: initial;'"
-      :show="diaCollect.dia1"
-      @close="diaCollectClose('dia1')"
+      :show="diaCollect.dia2"
+      @close="diaCollectClose('dia2')"
     >
       <div class="commonDia">
-        <!--<div class="commonCloseBtn" @click="diaCollectClose('dia1')"></div>-->
-
         <div>
           <img
             src="http://img.isxcxbackend1.cn/组232@2x.png"
@@ -48,7 +44,29 @@
           <p>绿色能量不能在收集了</p>
         </div>
 
-        <div class="commonBtn" @click="diaCollectClose('dia1')">确认</div>
+        <div class="commonBtn" @click="diaCollectClose('dia2')">确认</div>
+      </div>
+    </van-popup>
+    <van-popup
+      :custom-style="'background-color:transparent;overflow: initial;'"
+      :show="diaCollect.dia3"
+      @close="diaCollectClose('dia3')"
+    >
+      <div class="commonDia">
+        <div>
+          <img
+            src="http://img.isxcxbackend1.cn/恐龙动32@2x.png"
+            style="width: 145px;height: 133px;"
+            alt=""
+          />
+        </div>
+
+        <div class="commonTxt">
+          <h3>地震了!</h3>
+          <p>绿色能量不能在收集了</p>
+        </div>
+
+        <div class="commonBtn" @click="diaCollectClose('dia3')">确认</div>
       </div>
     </van-popup>
     <div
@@ -87,7 +105,10 @@
         <div class="rigth-nav" v-if="monster">
           <span class="i-sb active rigth-monster"></span>
         </div>
-        <div class="rigth-nav"><span class="i-sb active"></span></div>
+        <div class="rigth-nav" @click="nativeTo('../first/main')">
+          <span class="i-sb active rigth-gotoSec"></span>
+        </div>
+        <div class="rigth-nav" @click="nativeTo('../index/main')"><span class="i-sb active"></span></div>
       </div>
     </div>
     <div id="real90"></div>
@@ -187,7 +208,7 @@
           <span class="after" @click="changeCount(1)">+</span>
           {{ buyDig.buyNum }}
         </div>
-        <p class="total">{{ buyDig.price * buyDig.buyNum }}</p>
+        <p class="total">所需能量:{{ buyDig.price * buyDig.buyNum }}</p>
         <div class="btn-w">
           <span class="buy-btn" @click="buyOneHandle">购买</span>
         </div>
@@ -350,7 +371,7 @@ export default {
       });
     },
     toBoss() {
-      const url = "../boss/main";
+      const url = "../boss/main?pageNo=2";
       wx.navigateTo({ url });
     },
     diaCollectClose(target) {
@@ -525,6 +546,11 @@ export default {
       this.currentDrop.src = url;
       // this.triggerFt();
     },
+    nativeTo(path){
+      wx.navigateTo({
+        url:path
+      })
+    },
     //触摸移动
     // tMove(e) {
     //
@@ -654,27 +680,23 @@ export default {
       this.socketTask.onMessage(function(res) {
         if (res.data == 1) {
           //下雪了
-          _this.snow = true;
-          _this.gsStatus = 1;
+          _this.diaCollect.dia1 = true;
         } else if (res.data == 10) {
           //雪停了
-          _this.gsStatus = 1;
         } else if (res.data == 2) {
           //地震了
-          _this.earthquake = true;
-          _this.gsStatus = 1;
-          Notify("地震了!");
+          _this.diaCollect.dia2 = true;
         } else if (res.data == 20) {
           //地震停了
-          _this.gsStatus = 1;
         } else if (res.data == 3) {
           //怪兽来袭
-          _this.gsll = true;
-          _this.gsStatus = 3;
+          _this.diaCollect.dia3 = true;
         } else if (res.data == 30) {
           //怪兽事件结束
-          _this.gsStatus = 1;
-          _this.isSlow = false;
+        } else if (res.data = 100) {
+          wx.reLaunch({
+            url: "../one/Index"
+          })
         }
       }),
         //连接失败
@@ -1152,10 +1174,14 @@ view[hidden] {
 #thirdPage .top-tool .top-status {
   > div {
     display: inline-block;
-    margin-right: 15px;
+    margin-left: 15px;
     .rigth-monster {
       background: url(http://img.isxcxbackend1.cn/boss组203.png) center
         no-repeat;
+      background-size: 100%;
+    }
+    .rigth-gotoSec{
+      background: url(http://img.isxcxbackend1.cn/组218@3x.png) center no-repeat;
       background-size: 100%;
     }
   }

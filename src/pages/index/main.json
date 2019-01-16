@@ -1,5 +1,5 @@
 {
-  "navigationBarTitleText": "PARKI迷宫",
+  "navigationBarTitleText": "Parki地图",
   "usingComponents": {
     "van-button": "../../../static/dist/button/index",
     "van-icon": "../../../static/dist/icon/index",

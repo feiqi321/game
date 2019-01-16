@@ -1,6 +1,6 @@
 {
   "disableScroll":true,
-  "navigationBarTitleText": "建筑页面",
+  "navigationBarTitleText": "Parki Land",
   "usingComponents": {
     "van-button": "../../../static/dist/button/index",
     "van-icon": "../../../static/dist/icon/index",
