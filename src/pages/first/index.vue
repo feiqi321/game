@@ -1,10 +1,10 @@
 <template>
   <div class="main">
-    <div class="xhbj" v-if="snow"></div>
+    <div class="xhbj" v-if="snowjpg"></div>
     <span class="common-msg" v-if="warning" @click="warning=false">{{warningText}}</span>
     <van-notify id="van-notify"/>
     <div class="first">
-      <div class="top-tool dzan">
+      <div class="top-tool" :class="[earthquakejpg? 'dzan':'']" >
         <div class="user-info">
           <dl>
             <dt :style="{backgroundImage:'url('+userInfo.avatarUrl+')'}"></dt>
@@ -88,6 +88,7 @@
         use-slot
         async-close
         :show="snow"
+        z-index="1"
         :show-confirm-button="false"
         @close="snow=false"
         close-on-click-overlay
@@ -251,7 +252,9 @@ export default {
       hasSh: false, //是否有手环
       isSlow: false, //是否冰冻
       snow: false, //下雪了
+      snowjpg: false,//下雪动画
       earthquake: false, //地震
+      earthquakejpg:false,//地震动画
       gsll: false, //怪兽来了
       countDownTime: "",
       gsStatus: 0,
@@ -416,6 +419,7 @@ export default {
           })
           .then(
             res => {
+              console.log("collect");
               _this.delayDetection({
                 typeId: fDevs.typeId,
                 type: fDevs.type,
@@ -546,33 +550,44 @@ export default {
         if (res.data == 1) {
           //下雪了
           _this.snow = true;
+          _this.snowjpg = true;
           _this.gsStatus = 1;
           _this.isSlow = true;
           Notify("下雪了!");
         } else if (res.data == 10) {
           //雪停了
+          _this.snowjpg = false;
           _this.gsStatus = 1;
           _this.isSlow = false;
         } else if (res.data == 2) {
           //地震了
+          _this.snowjpg = false;
           _this.earthquake = true;
+          _this.earthquakejpg = true;
           _this.snow = false;
           _this.gsStatus = 1;
           _this.isSlow = false;
         } else if (res.data == 20) {
+          _this.snowjpg = false;
+          _this.earthquakejpg = false;
           //地震停了
           _this.gsStatus = 1;
           _this.isSlow = false;
         } else if (res.data == 3) {
+          _this.snowjpg = false;
+          _this.earthquakejpg = false;
           //怪兽来袭
           _this.gsll = true;
           _this.gsStatus = 3;
           _this.isSlow = false;
         } else if (res.data == 30) {
+          _this.snowjpg = false;
+          _this.earthquakejpg = false;
           //怪兽事件结束
           _this.gsStatus = 1;
           _this.isSlow = false;
         }else if (res.data = 100) {
+          _this.earthquakejpg = false;
           wx.reLaunch({
             url: "../one/Index"
           })
@@ -620,6 +635,8 @@ export default {
 .first {
   padding: 15px 30px;
   text-align: center;
+  background: url(http://img.isxcxbackend1.cn/1.88888.gif) center center
+  no-repeat;
   position: relative;
   z-index: 1;
 }
@@ -1066,6 +1083,7 @@ export default {
   background: url(http://img.isxcxbackend1.cn/%E5%AE%8C%E6%88%90%E6%89%8B%E6%9C%BA%E9%9B%AA%E8%8A%B1.gif) center center
     no-repeat;
   background-size: cover;
+  pointer-events: none;
   z-index: 2;
 }
 </style>

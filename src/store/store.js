@@ -51,7 +51,7 @@ const store = new Vuex.Store({
       setTimeout(() => {
         wx.getBeacons({
           success(res) {
-            console.info(res, 1)
+            console.info(res, "action")
             let length = 1;
             if (braceletId == null || braceletId == "") {
               length = 1;

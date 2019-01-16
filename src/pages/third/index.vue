@@ -84,8 +84,8 @@
         </div>
 
         <div class="commonTxt">
-          <h3>地震了!</h3>
-          <p>绿色能量不能在收集了</p>
+          <h3>怪兽入侵!</h3>
+          <p>一起攻击怪兽保护家园</p>
         </div>
 
         <div class="commonBtn" @click="diaCollectClose('dia3')">确认</div>
@@ -694,17 +694,33 @@ export default {
           _this.diaCollect.dia1 = true;
         } else if (res.data == 10) {
           //雪停了
+          _this.diaCollect.dia1 = false;
         } else if (res.data == 2) {
           //地震了
+          _this.dzan = true;
+          _this.diaCollect.dia1 = false;
           _this.diaCollect.dia2 = true;
         } else if (res.data == 20) {
           //地震停了
+          _this.dzan = false;
+          _this.diaCollect.dia1 = false;
+          _this.diaCollect.dia2 = false;
         } else if (res.data == 3) {
           //怪兽来袭
+          _this.diaCollect.dia1 = false;
+          _this.diaCollect.dia2 = false;
           _this.diaCollect.dia3 = true;
         } else if (res.data == 30) {
           //怪兽事件结束
+          _this.diaCollect.dia1 = false;
+          _this.diaCollect.dia2 = false;
+          _this.diaCollect.dia3 = false;
+          _this.dzan = true;
         } else if (res.data = 100) {
+          _this.dzan = true;
+          _this.diaCollect.dia1 = false;
+          _this.diaCollect.dia2 = false;
+          _this.diaCollect.dia3 = false;
           wx.reLaunch({
             url: "../one/Index"
           })
