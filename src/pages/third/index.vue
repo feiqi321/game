@@ -5,6 +5,30 @@
     <div class="monster" v-if="monster"></div>
     <van-popup
       :custom-style="'background-color:transparent;overflow: initial;'"
+      :show="diaCollect.dia2"
+      @close="diaCollectClose('dia2')"
+    >
+      <div class="commonDia">
+        <!--<div class="commonCloseBtn" @click="diaCollectClose('dia1')"></div>-->
+
+        <div>
+          <img
+            src="http://img.isxcxbackend1.cn/组232@2x.png"
+            style="width: 145px;height: 133px;"
+            alt=""
+          />
+        </div>
+
+        <div class="commonTxt">
+          <h3>冬天到了!</h3>
+          <p>您的收集速度变慢了</p>
+        </div>
+
+        <div class="commonBtn" @click="diaCollectClose('dia2')">确认</div>
+      </div>
+    </van-popup>
+    <van-popup
+      :custom-style="'background-color:transparent;overflow: initial;'"
       :show="diaCollect.dia1"
       @close="diaCollectClose('dia1')"
     >
@@ -280,9 +304,14 @@ export default {
         dia2: false,
         dia3: false
       },
+<<<<<<< Updated upstream
       monster: false,
       warning: false,
       warningText: ""
+=======
+      monster:false
+
+>>>>>>> Stashed changes
     };
   },
   watch: {
@@ -1197,6 +1226,7 @@ view[hidden] {
   opacity: 0.6;
   position: absolute;
 }
+<<<<<<< Updated upstream
 .common-msg {
   line-height: 48px;
   z-index: 1000;
@@ -1211,4 +1241,7 @@ view[hidden] {
   transform: translate(-50%, -50%);
   border-radius: 6px;
 }
+=======
+
+>>>>>>> Stashed changes
 </style>

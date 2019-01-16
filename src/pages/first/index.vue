@@ -426,7 +426,8 @@ export default {
               this.countDown(res.data.continuTime);
             },
             res => {
-              Notify("网络异常1!");
+              _this.warning = true;
+              _this.warningText = res;
             }
           );
       } else {
