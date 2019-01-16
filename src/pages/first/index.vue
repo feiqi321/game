@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <div class="xhbj"></div>
+    <div class="xhbj" v-if="snow"></div>
     <span class="common-msg" v-if="warning" @click="warning=false">{{warningText}}</span>
     <van-notify id="van-notify"/>
     <div class="first">
@@ -25,7 +25,7 @@
       </div>
       <div class="probar">
         <p>
-          <span class="m-icon"></span>
+          <span :class="['m-icon',hasSh?'active':'']"></span>
         </p>
         <p>收集中Collection</p>
         <p :class="{bar:true,active:animationBg!==''? true : false,slow:isSlow&animationBg}">{{countDownTime}}</p>
@@ -47,8 +47,9 @@
               src="/static/images/ok.png"
               class="m-icon"
               mode="widthFix"
-              v-show="completed[n]&&completed[n].status===1"
+              v-show="completed[n]&&completed[n].status===1&&!hasSh"
             >
+            <span class="sh-icon" v-if="completed[n]&&completed[n].status===1&&hasSh">+8</span>
           </dd>
         </dl>
       </div>
@@ -766,6 +767,9 @@ export default {
     width: 24px;
     height: 24px;
     display: inline-block;
+    &.active{
+      background-image: url(http://img.isxcxbackend1.cn/小孩.gif);
+    }
   }
   .bar {
     background: url(http://img.isxcxbackend1.cn/空条子.png) center center
@@ -810,6 +814,18 @@ export default {
     dd {
       width: 50%;
       margin: 10px auto;
+    }
+    .sh-icon{
+      font-weight: normal;
+      font-size: 12px;
+      height: 16px;
+      line-height: 20px;
+      padding-left: 20px;
+      display: inline-block;
+      background: url(http://img.isxcxbackend1.cn/boy组223.png) left center
+         no-repeat;
+      background-size: auto 100%;
+      vertical-align: middle;
     }
   }
 }
