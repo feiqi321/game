@@ -1,5 +1,6 @@
 <template>
   <div class="main">
+    <div class="xhbj"></div>
     <span class="common-msg" v-if="warning" @click="warning=false">{{warningText}}</span>
     <van-notify id="van-notify"/>
     <div class="first">
@@ -1039,6 +1040,17 @@ export default {
     no-repeat;
   background-size: cover;
   z-index: 0;
+}
+.xhbj{
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: url(http://img.isxcxbackend1.cn/%E5%AE%8C%E6%88%90%E6%89%8B%E6%9C%BA%E9%9B%AA%E8%8A%B1.gif) center center
+    no-repeat;
+  background-size: cover;
+  z-index: 2;
 }
 </style>
 
