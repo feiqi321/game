@@ -304,14 +304,9 @@ export default {
         dia2: false,
         dia3: false
       },
-<<<<<<< Updated upstream
       monster: false,
       warning: false,
       warningText: ""
-=======
-      monster:false
-
->>>>>>> Stashed changes
     };
   },
   watch: {
@@ -827,7 +822,7 @@ export default {
         &.score {
           width: 93px;
           height: 28px;
-          line-height: 24px;
+          line-height: 28px;
           background: url(http://img.isxcxbackend1.cn/组90@2x.png) center center
             no-repeat;
           background-size: contain;
@@ -1053,7 +1048,7 @@ export default {
       width: 78px;
       background: #5f8076;
       height: 50px;
-      border: 1rpx dashed #e2dee8;
+      border: 1px dashed #e2dee8;
       box-sizing: border-box;
       opacity: 0.8;
     }
@@ -1226,7 +1221,7 @@ view[hidden] {
   opacity: 0.6;
   position: absolute;
 }
-<<<<<<< Updated upstream
+
 .common-msg {
   line-height: 48px;
   z-index: 1000;
@@ -1241,7 +1236,5 @@ view[hidden] {
   transform: translate(-50%, -50%);
   border-radius: 6px;
 }
-=======
 
->>>>>>> Stashed changes
 </style>
