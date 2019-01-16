@@ -112,7 +112,7 @@
         />
       </div>
     </div>
-    <div class="top-tool">
+    <div class="top-tool" :class="{'dzan':dzan}">
       <div class="user-info">
         <dl v-if="userInfo">
           <dt
@@ -301,7 +301,9 @@ export default {
       },
       monster: false,
       warning: false,
-      warningText: ""
+      warningText: "",
+      //抖动开关
+      dzan:false
     };
   },
   watch: {
@@ -746,6 +748,26 @@ export default {
     z-index: 5;
     width: 90px;
     height: 90px;
+  }
+  @keyframes an2 {
+    10% {
+      transform: translate(-5%,-5%);
+    }
+    30% {
+      transform: translate(-2%,-3%)
+    }
+    30% {
+      transform: translate(-4%,-8%)
+    }
+    30% {
+      transform: translate(5%,-7%)
+    }
+    100% {
+      transform: translate(5%,2%)
+    }
+  }
+  .dzan{
+    animation: an2 1s infinite ease-in-out alternate;
   }
   #dropGroup {
     position: absolute;
