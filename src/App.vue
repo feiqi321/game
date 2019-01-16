@@ -33,7 +33,7 @@ page {
   font-family: textfont !important;
 
 }
-view,text{
+view,text,label,page,[class]{
   font-family: textfont !important;
   font-style: normal;
   -webkit-font-smoothing: antialiased;
