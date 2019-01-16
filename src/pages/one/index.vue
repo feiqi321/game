@@ -115,7 +115,7 @@ export default {
   height: 100%;
   background: url(http://img.isxcxbackend1.cn/start效果图1.jpg) center
     center #636e5d no-repeat;
-  background-size: cover;
+  background-size: 100% 100%;
   overflow: hidden;
 }
 .top-tool {

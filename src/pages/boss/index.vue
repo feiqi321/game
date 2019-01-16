@@ -58,7 +58,7 @@
           <p class="second-part">你对怪兽的伤害为99%</p>
           <p class="bettwen-button">你获得了XXX能量作为奖励</p>
           <div class="btn">
-            <p class="confirmShow">确认</p>
+            <p class="confirmShow"  @click="toPageReturn">确认</p>
           </div>
           <div class="failbj"></div>
         </div>
@@ -86,7 +86,7 @@
         <p class="second-part"></p>
         <p class="bettwen-button">您的家园被摧毁了</p>
         <div class="btn">
-          <p class="confirmShow">确认</p>
+          <p class="confirmShow" @click="toPageReturn">确认</p>
         </div>
         <div class="failbj"></div>
       </div>
@@ -112,6 +112,7 @@ export default {
       socketTask:null,
       jdtWidth: 100,
       gsStatus:0,
+      pageNo:null,
       gameId: null,
       openId: null,
       braceletId: null, //用户设备id
@@ -169,7 +170,6 @@ export default {
       }, 1000);
     },
     listenSocket(){
-      console.info(999)
       var _this = this;
       this.socketTask = getApp().globalData.socketTask;
       this.socketTask.onMessage(function(res) {
@@ -181,6 +181,10 @@ export default {
           _this.jdtWidth = 0;
         }else if (res.data.indexOf("97")>=0){//boss到时间未死掉
           _this.listDig2 = true;
+        }else if (res.data = 100) {
+          wx.reLaunch({
+            url: "../one/Index"
+          })
         }
       })
 
@@ -207,7 +211,25 @@ export default {
             Notify("网络异常!");
           }
         );
+    },
+    toPageReturn(){
+      var url;
+      if (this.pageNo==1){
+        url = "../first/index";
+      }else{
+        url = "../third/index";
+      }
+      wx.navigateTo({ url });
+    },
+    /**
+     * 生命周期函数--监听页面加载
+     */
+    onLoad: function (options) {
+      this.setData({
+        "pageNo": options.pageNo
+      })
     }
+
   },
 
   created() {

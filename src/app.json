@@ -1,8 +1,8 @@
 {
     "pages": [
-      "pages/third/main",
       "pages/one/main",
       "pages/index/main",
+      "pages/third/main",
       "pages/boss/main",
         "pages/first/main",
         "pages/counter/main"

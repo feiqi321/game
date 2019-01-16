@@ -1,6 +1,6 @@
 {
   "disableScroll":true,
-  "navigationBarTitleText": "boss",
+  "navigationBarTitleText": "Parki战斗",
   "usingComponents": {
     "van-button": "../../../static/dist/button/index",
     "van-icon": "../../../static/dist/icon/index",

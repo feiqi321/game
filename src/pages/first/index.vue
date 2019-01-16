@@ -26,8 +26,8 @@
         <p>
           <span class="m-icon"></span>
         </p>
-        <p>收集中</p>
-        <p :class="{bar:true,active:animationBg!==''? true : false,slow:isSlow}">{{countDownTime}}</p>
+        <p>收集中Collection</p>
+        <p :class="{bar:true,active:animationBg!==''? true : false,slow:isSlow&animationBg}">{{countDownTime}}</p>
       </div>
 
       <div class="nlbox">
@@ -289,7 +289,7 @@ export default {
     ...mapActions(["delayDetection"]),
     ...mapMutations(["setScores", "addDbToCompleted"]),
     toBoss() {
-      const url = "../boss/main";
+      const url = "../boss/main?pageNo=1";
       wx.navigateTo({ url });
     },
     bindBraceletId() {
@@ -314,10 +314,12 @@ export default {
           res => {
             wx.setStorageSync("braceletId", res.data.deviceId);
             _this.braceletId = res.data.deviceId;
+            _this.warning = true;
+            _this.warningText = "手环绑定成功";
           },
           res => {
             _this.warning = true;
-            _this.warningText = res.msg;
+            _this.warningText = res;
           }
         );
     },
@@ -548,19 +550,16 @@ export default {
           //雪停了
           _this.gsStatus = 1;
           _this.isSlow = false;
-          Notify("雪停了!");
         } else if (res.data == 2) {
           //地震了
           _this.earthquake = true;
           _this.snow = false;
           _this.gsStatus = 1;
           _this.isSlow = false;
-          Notify("地震了!");
         } else if (res.data == 20) {
           //地震停了
           _this.gsStatus = 1;
           _this.isSlow = false;
-          Notify("地震停了!");
         } else if (res.data == 3) {
           //怪兽来袭
           _this.gsll = true;
@@ -570,6 +569,10 @@ export default {
           //怪兽事件结束
           _this.gsStatus = 1;
           _this.isSlow = false;
+        }else if (res.data = 100) {
+          wx.reLaunch({
+            url: "../one/Index"
+          })
         }
       });
       //连接失败

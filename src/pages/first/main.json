@@ -1,5 +1,5 @@
 {
-  "navigationBarTitleText": "能量搜集",
+  "navigationBarTitleText": "Parki能量",
   "usingComponents": {
     "van-button": "../../../static/dist/button/index",
     "van-icon": "../../../static/dist/icon/index",
