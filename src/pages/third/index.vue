@@ -105,7 +105,10 @@
         <div class="rigth-nav" v-if="monster">
           <span class="i-sb active rigth-monster"></span>
         </div>
-        <div class="rigth-nav"><span class="i-sb active"></span></div>
+        <div class="rigth-nav" @click="nativeTo('../first/main')">
+          <span class="i-sb active rigth-gotoSec"></span>
+        </div>
+        <div class="rigth-nav" @click="nativeTo('../index/main')"><span class="i-sb active"></span></div>
       </div>
     </div>
     <div id="real90"></div>
@@ -205,7 +208,7 @@
           <span class="after" @click="changeCount(1)">+</span>
           {{ buyDig.buyNum }}
         </div>
-        <p class="total">{{ buyDig.price * buyDig.buyNum }}</p>
+        <p class="total">所需能量:{{ buyDig.price * buyDig.buyNum }}</p>
         <div class="btn-w">
           <span class="buy-btn" @click="buyOneHandle">购买</span>
         </div>
@@ -542,6 +545,11 @@ export default {
       this.currentDrop.tools = false;
       this.currentDrop.src = url;
       // this.triggerFt();
+    },
+    nativeTo(path){
+      wx.navigateTo({
+        url:path
+      })
     },
     //触摸移动
     // tMove(e) {
@@ -1166,10 +1174,14 @@ view[hidden] {
 #thirdPage .top-tool .top-status {
   > div {
     display: inline-block;
-    margin-right: 15px;
+    margin-left: 15px;
     .rigth-monster {
       background: url(http://img.isxcxbackend1.cn/boss组203.png) center
         no-repeat;
+      background-size: 100%;
+    }
+    .rigth-gotoSec{
+      background: url(http://img.isxcxbackend1.cn/组218@3x.png) center no-repeat;
       background-size: 100%;
     }
   }
