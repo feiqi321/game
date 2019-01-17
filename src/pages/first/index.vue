@@ -47,15 +47,15 @@
               src="/static/images/ok.png"
               class="m-icon"
               mode="widthFix"
-              v-show="completed[n]&&completed[n].status===1&&!hasSh"
+              v-show="completed[n]&&completed[n].status===1&&!hasSh&&!isBracelet"
             >
-            <span class="sh-icon" v-if="completed[n]&&completed[n].status===1&&hasSh">+8</span>
+            <span class="sh-icon" v-if="isBracelet">+{{singleReward}}</span>
           </dd>
         </dl>
       </div>
       <div class="tip">
         <p>
-          <img src="/static/images/ld.png" class="m-icon" mode="widthFix">收集3个不同颜色的能量可获得积分。
+          <img src="/static/images/ld.png" class="m-icon" :class="[snow?'active':'']" mode="widthFix">收集3个不同颜色的能量可获得积分。
         </p>
         <p class="en">Integrals can be obtained by collecting three different colors of energy.</p>
       </div>
@@ -276,7 +276,7 @@ export default {
 
   components: {},
   computed: {
-    ...mapState(["completed", "doingType", "devOptions", "scores"]),
+    ...mapState(["completed", "doingType", "devOptions", "scores", "isBracelet","singleReward"]),
     animationBg() {
       if (
         this.completed.length > 0 &&
@@ -292,7 +292,7 @@ export default {
   },
   methods: {
     ...mapActions(["delayDetection"]),
-    ...mapMutations(["setScores", "addDbToCompleted"]),
+    ...mapMutations(["setScores","setBracelet", "addDbToCompleted","setSingleReward"]),
     toBoss() {
       const url = "../boss/main?pageNo=1";
       wx.navigateTo({ url });
@@ -377,10 +377,10 @@ export default {
       });
     },
     filterDevs(devs) {
-      console.info("filterDevs");
+      console.info("filterDevs",devs);
       const distanceDev = devs
         .filter(item => {
-          return item.accuracy < 1 && item.minor != this.braceletId;
+          return item.accuracy < 0.5 && item.minor != this.braceletId;
         })
         .sort((a, b) => {
           return a.accuracy - b.accuracy;
@@ -407,9 +407,12 @@ export default {
     },
     handleFindDevs(devs) {
       const _this = this;
+      if (ISENDING){
+        return ;
+      }
       ISENDING = true;
       const fDevs = _this.filterDevs(devs);
-      console.log(fDevs, "filter");
+      console.log(fDevs.type, "filter");
       if (fDevs.type) {
         http
           .post("/game/deviceColor/collect", {
@@ -428,7 +431,10 @@ export default {
                 gameId: _this.gameId,
                 time: res.data.continuTime * 1000
               });
-              ISENDING = false;
+              setTimeout(()=>{
+                ISENDING = false;
+              },8000)
+
               this.countDown(res.data.continuTime);
             },
             res => {
@@ -437,7 +443,9 @@ export default {
             }
           );
       } else {
-        ISENDING = false;
+        setTimeout(()=>{
+          ISENDING = false;
+        },8000)
       }
     },
     initUserinfo() {
@@ -589,7 +597,7 @@ export default {
         }else if (res.data = 100) {
           _this.earthquakejpg = false;
           wx.reLaunch({
-            url: "../one/Index"
+            url: "../one/index"
           })
         }
       });
@@ -623,7 +631,7 @@ export default {
     z-index: 1000;
     border:2px solid #000;
     position: absolute;
-    width: 200px;
+    width: 150px;
     text-align: center;
     background: #ff4b4b;
     color: #fff;
@@ -994,7 +1002,7 @@ export default {
         text-align: left;
       }
       .first-child {
-        margin-right: 20px;
+        //margin-right: 20px;
       }
       .last-child {
         text-align: center;

@@ -10,6 +10,8 @@ const store = new Vuex.Store({
     completed: [],//已完成颜色
     doingType: null,//手机中的颜色类型
     scores: 0,
+    isBracelet:false,
+    singleReward:0,
     devOptions: null
   },
   mutations: {
@@ -20,6 +22,12 @@ const store = new Vuex.Store({
     },
     setScores: (state, num) => {
       state.scores = num;
+    },
+    setSingleReward: (state, num) => {
+      state.singleReward = num;
+    },
+    setBracelet: (state, bool) => {
+      state.isBracelet = bool;
     },
     addDevToCompleted(state, { typeId, type }) {
       state.completed.push({
@@ -47,6 +55,7 @@ const store = new Vuex.Store({
   },
   actions: {
     delayDetection({ commit, state }, { typeId, type, braceletId, openId, gameId, time }) {//延迟检测
+      console.info("进入都再次确认地方");
       commit('addDevToCompleted', { typeId, type, time })
       setTimeout(() => {
         wx.getBeacons({
@@ -58,19 +67,20 @@ const store = new Vuex.Store({
             } else {
               const bracelet = res.beacons
                 .filter(item => {
-                  return item.minor = braceletId;
+                  return item.minor == braceletId;
                 })
                 .sort((a, b) => {
                   return a.accuracy - b.accuracy;
                 });
               if (bracelet.length > 0) {
                 length = 0;
+                commit('setBracelet',true)
               }
             }
 
             const distanceDev = res.beacons
               .filter(item => {
-                return item.accuracy < 1;
+                return item.accuracy < 0.5;
               })
               .sort((a, b) => {
                 return a.accuracy - b.accuracy;
@@ -91,7 +101,7 @@ const store = new Vuex.Store({
                 .then(
                   res => {
                     commit('setScores', res.data.scores)
-
+                    commit('setSingleReward',res.data.singleReward)
                   },
                   res => {
                     Notify("网络异常7!");
