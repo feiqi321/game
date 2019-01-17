@@ -242,7 +242,6 @@ import { throttle } from "../../utils/index";
 export default {
   data() {
     return {
-
       userInfo: null,
       ftHide: false,
       chooseType: 0,

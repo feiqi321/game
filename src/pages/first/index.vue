@@ -1,63 +1,97 @@
 <template>
   <div class="main">
     <div class="xhbj" v-if="snowjpg"></div>
-    <span class="common-msg" v-if="warning" @click="warning=false">{{warningText}}</span>
-    <van-notify id="van-notify"/>
+    <span class="common-msg" v-if="warning" @click="warning = false">{{
+      warningText
+    }}</span>
+    <van-notify id="van-notify" />
     <div class="first">
-      <div class="top-tool" :class="[earthquakejpg? 'dzan':'']" >
+      <div class="top-tool" :class="[earthquakejpg ? 'dzan' : '']">
         <div class="user-info">
           <dl>
-            <dt :style="{backgroundImage:'url('+userInfo.avatarUrl+')'}"></dt>
-            <dd class="name">{{userInfo.nickName}}</dd>
-            <dd class="score">{{scores}}</dd>
+            <dt
+              :style="{ backgroundImage: 'url(' + userInfo.avatarUrl + ')' }"
+            ></dt>
+            <dd class="name">{{ userInfo.nickName }}</dd>
+            <dd class="score">{{ scores }}</dd>
           </dl>
         </div>
         <div class="rigth-nav">
-          <span class="i-gs" @click="toBoss" v-if="gsStatus===3"></span>
-          <span :class="{'i-sb':true, active:braceletId}" @click="bindDevDigSts=true"></span>
-          <span :class="{'i-sj':true, active:hasSh}" @click="showList">
+          <span class="i-gs" @click="toBoss" v-if="gsStatus === 3"></span>
+          <span
+            :class="{ 'i-sb': true, active: braceletId }"
+            @click="bindDevDigSts = true"
+          ></span>
+          <span :class="{ 'i-sj': true, active: hasSh }" @click="showList">
             <em></em>
           </span>
         </div>
       </div>
-      <div class="qpanmi" :style="{backgroundImage:'url('+ animationBg +')'}">
+      <div
+        class="qpanmi"
+        :style="{ backgroundImage: 'url(' + animationBg + ')' }"
+      >
         <!-- <img src="http://img.isxcxbackend1.cn/橙色动图.gif" class="m-icon" mode="widthFix"> -->
+        <div class="addproperty" v-if="addproperty_Handle">
+          <div style="font-size: 70px;">{{addproperty.num1}}</div>
+          <div style="margin-top: 30px">
+            <img
+              style="width: 30px;height: 30px;display: inline-block;vertical-align: middle;margin-right: 20px;"
+              src="http://img.isxcxbackend1.cn/boy组223.png"
+              alt=""
+            /><span style="font-size: 30px;vertical-align: middle;">{{addproperty.num2}}</span>
+          </div>
+        </div>
       </div>
       <div class="probar">
-        <p>
-          <span :class="['m-icon',hasSh?'active':'']"></span>
-        </p>
+        <p><span :class="['m-icon', hasSh ? 'active' : '']"></span></p>
         <p>收集中Collection</p>
-        <p :class="{bar:true,active:animationBg!==''? true : false,slow:isSlow&animationBg}">{{countDownTime}}</p>
+        <p
+          :class="{
+            bar: true,
+            active: animationBg !== '' ? true : false,
+            slow: isSlow & animationBg
+          }"
+        >
+          {{ countDownTime }}
+        </p>
       </div>
 
       <div class="nlbox">
         <dl v-for="n in 3" :key="n">
           <dt>
             <img
-              :src="colorOptions[completed[n].type-1]"
+              :src="colorOptions[completed[n].type - 1]"
               class="m-icon"
               mode="widthFix"
               v-if="completed[n]"
-            >
-            <span v-if="!completed[n]">{{n+1}}</span>
+            />
+            <span v-if="!completed[n]">{{ n + 1 }}</span>
           </dt>
           <dd>
             <img
               src="/static/images/ok.png"
               class="m-icon"
               mode="widthFix"
-              v-show="completed[n]&&completed[n].status===1&&!hasSh&&!isBracelet"
-            >
-            <span class="sh-icon" v-if="isBracelet">+{{singleReward}}</span>
+              v-show=" completed[n] &&completed[n].status === 1 && !hasSh && !isBracelet"
+            />
+            <span class="sh-icon" v-if="isBracelet">+{{ singleReward }}</span>
           </dd>
         </dl>
       </div>
       <div class="tip">
         <p>
-          <img src="/static/images/ld.png" class="m-icon" :class="[snow?'active':'']" mode="widthFix">收集3个不同颜色的能量可获得积分。
+          <img
+            src="/static/images/ld.png"
+            class="m-icon"
+            :class="[snow ? 'active' : '']"
+            mode="widthFix"
+          />收集3个不同颜色的能量可获得积分。
         </p>
-        <p class="en">Integrals can be obtained by collecting three different colors of energy.</p>
+        <p class="en">
+          Integrals can be obtained by collecting three different colors of
+          energy.
+        </p>
       </div>
       <img
         src="/static/images/btn01.png"
@@ -65,22 +99,25 @@
         lazy-load="false"
         class="ftbtn"
         @click="toThird"
-      >
+      />
       <!-- 手环绑定 -->
       <van-dialog
         use-slot
         async-close
         :show="bindDevDigSts"
         :show-confirm-button="false"
-        @close="bindDevDigSts=false"
+        @close="bindDevDigSts = false"
         close-on-click-overlay
       >
         <div class="diaborder binding">
-          <input type="text" v-model="userId" class="dia-field" placeholder="请输入手环编号">
+          <input
+            type="text"
+            v-model="userId"
+            class="dia-field"
+            placeholder="请输入手环编号"
+          />
           <p class="dialog-title">手环和绑定手机共同收集获得额外奖励</p>
-          <p>
-            <span class="btn" @click="bindBraceletId">同意</span>
-          </p>
+          <p><span class="btn" @click="bindBraceletId">同意</span></p>
         </div>
       </van-dialog>
       <!-- 下雪天 -->
@@ -90,16 +127,14 @@
         :show="snow"
         z-index="1"
         :show-confirm-button="false"
-        @close="snow=false"
+        @close="snow = false"
         close-on-click-overlay
       >
         <div class="diaborder cjdig">
           <span class="cjimg"></span>
           <h3>冬天到了</h3>
           <p class="dialog-title">您的收集速度变慢了</p>
-          <p>
-            <span class="btn" @click="snow=false">确认</span>
-          </p>
+          <p><span class="btn" @click="snow = false">确认</span></p>
         </div>
       </van-dialog>
       <!-- 地震 -->
@@ -108,16 +143,14 @@
         async-close
         :show="earthquake"
         :show-confirm-button="false"
-        @close="earthquake=false"
+        @close="earthquake = false"
         close-on-click-overlay
       >
         <div class="diaborder cjdig">
           <span class="cjimg dz-icon"></span>
           <h3>地震了</h3>
           <p class="dialog-title">绿色能量不能再收集了</p>
-          <p>
-            <span class="btn" @click="earthquake=false">确认</span>
-          </p>
+          <p><span class="btn" @click="earthquake = false">确认</span></p>
         </div>
       </van-dialog>
       <!-- 怪兽来了 -->
@@ -126,16 +159,14 @@
         async-close
         :show="gsll"
         :show-confirm-button="false"
-        @close="gsll=false"
+        @close="gsll = false"
         close-on-click-overlay
       >
         <div class="diaborder cjdig">
           <span class="cjimg gs-icon"></span>
           <h3>怪兽入侵</h3>
           <p class="dialog-title">一起攻击怪兽保护家园</p>
-          <p>
-            <span class="btn" @click="gsll=false">确认</span>
-          </p>
+          <p><span class="btn" @click="gsll = false">确认</span></p>
         </div>
       </van-dialog>
       <!-- 收集记录 -->
@@ -144,7 +175,7 @@
         async-close
         :show="listDig"
         :show-confirm-button="false"
-        @close="listDig=false"
+        @close="listDig = false"
         close-on-click-overlay
       >
         <div class="list">
@@ -152,31 +183,25 @@
             <div class="hd">任务</div>
             <div class="bd">
               <p>
-                解锁{{firstNum}}个颜色组合：
-                <small>{{myNum}}</small>
-                /{{firstNum}}
+                解锁{{ firstNum }}个颜色组合： <small>{{ myNum }}</small> /{{
+                  firstNum
+                }}
                 <span
                   class="btn"
-                  :class="[status ==0 ? 'active':'']"
+                  :class="[status == 0 ? 'active' : '']"
                   @click="reward(1)"
                 >
-                  领取奖励：
-                  <em></em>
-                  X{{firstReward}}
+                  领取奖励： <em></em> X{{ firstReward }}
                 </span>
               </p>
               <p>
-                解锁全部颜色组合：
-                <small>{{myNum}}</small>
-                /{{totalNum}}
+                解锁全部颜色组合： <small>{{ myNum }}</small> /{{ totalNum }}
                 <span
                   class="btn"
-                  :class="[totalStatus ==0 ? 'active':'']"
+                  :class="[totalStatus == 0 ? 'active' : '']"
                   @click="reward(2)"
                 >
-                  领取奖励：
-                  <em></em>
-                  X{{totalReward}}
+                  领取奖励： <em></em> X{{ totalReward }}
                 </span>
               </p>
             </div>
@@ -191,33 +216,59 @@
 
             <div class="tr" v-for="n in colorList" :key="n">
               <div class="td first-child">
-                <span class="round" :class="'c'+(n.color1-1)"></span>
-                <span class="round" :class="'c'+(n.color2-1)"></span>
-                <span class="round" :class="'c'+(n.color3-1)"></span>
+                <span class="round" :class="'c' + (n.color1 - 1)"></span>
+                <span class="round" :class="'c' + (n.color2 - 1)"></span>
+                <span class="round" :class="'c' + (n.color3 - 1)"></span>
               </div>
-              <div class="td" v-if="n.viewStatus==0">
+              <div class="td" v-if="n.viewStatus == 0">
                 <span class="new-icon"></span>
               </div>
               <div class="td">
-                <span class="animal-icon" :style="{backgroundImage:'url('+n.url+')'}"></span>
+                <span
+                  class="animal-icon"
+                  :style="{ backgroundImage: 'url(' + n.url + ')' }"
+                ></span>
               </div>
               <div class="td last-child">12</div>
             </div>
           </div>
         </div>
       </van-dialog>
-      <van-dialog use-slot async-close :show="getUserInfoDig" :show-confirm-button="false">
+      <van-dialog
+        use-slot
+        async-close
+        :show="getUserInfoDig"
+        :show-confirm-button="false"
+      >
         <div class="diaborder userinfo-btn-wrapper">
           <van-button
             type="default"
             open-type="getUserInfo"
             @getuserinfo="getUserInfo"
-            @click="getUserInfoDig=false"
-          >获取用户个人信息</van-button>
+            @click="getUserInfoDig = false"
+            >获取用户个人信息</van-button
+          >
         </div>
       </van-dialog>
     </div>
-    <div class="hgbj" v-if="gsStatus===3"></div>
+    <div class="hgbj" v-if="gsStatus === 3"></div>
+    <van-popup
+      :custom-style="'background-color:transparent;overflow: initial;'"
+      :show="dia_lv"
+    >
+      <div class="lvStyle">
+        <img
+          src="./动物背景旋转光.gif"
+          style="width: 100vw;height: 100vh;position: absolute;z-index: 1;top: 0;left: 0"
+          alt=""
+        />
+        <img
+          src="http://img.isxcxbackend1.cn/lv1-大.png"
+          style="width: 100vw;height: 100vh;position: absolute;z-index: 10;top: 0;"
+          alt=""
+        />
+      </div>
+    </van-popup>
   </div>
 </template>
 
@@ -229,8 +280,8 @@ let ISENDING = false;
 export default {
   data() {
     return {
-      warning:null,
-      warningText:'',
+      warning: null,
+      warningText: "",
       firstNum: null,
       myNum: null,
       firstReward: null,
@@ -252,9 +303,9 @@ export default {
       hasSh: false, //是否有手环
       isSlow: false, //是否冰冻
       snow: false, //下雪了
-      snowjpg: false,//下雪动画
+      snowjpg: false, //下雪动画
       earthquake: false, //地震
-      earthquakejpg:false,//地震动画
+      earthquakejpg: false, //地震动画
       gsll: false, //怪兽来了
       countDownTime: "",
       gsStatus: 0,
@@ -270,13 +321,28 @@ export default {
         "http://img.isxcxbackend1.cn/椭圆141.png",
         "http://img.isxcxbackend1.cn/椭圆140.png",
         "http://img.isxcxbackend1.cn/椭圆49.png"
-      ] //1橙2黄3蓝4 绿
+      ], //1橙2黄3蓝4 绿
+      //升级弹窗
+      dia_lv: false,
+      //
+      addproperty_Show:false,
+      addproperty: {
+        num1: "+50",
+        num2: "+5"
+      }
     };
   },
 
   components: {},
   computed: {
-    ...mapState(["completed", "doingType", "devOptions", "scores", "isBracelet","singleReward"]),
+    ...mapState([
+      "completed",
+      "doingType",
+      "devOptions",
+      "scores",
+      "isBracelet",
+      "singleReward"
+    ]),
     animationBg() {
       if (
         this.completed.length > 0 &&
@@ -292,14 +358,32 @@ export default {
   },
   methods: {
     ...mapActions(["delayDetection"]),
-    ...mapMutations(["setScores","setBracelet", "addDbToCompleted","setSingleReward"]),
+    ...mapMutations([
+      "setScores",
+      "setBracelet",
+      "addDbToCompleted",
+      "setSingleReward"
+    ]),
+    //调用升级
+    dia_lvHandle() {
+      this.dia_lv = true;
+      setTimeout(() => {
+        this.dia_lv = false;
+      }, 1500);
+    },
+    addproperty_Handle(){
+      this.addproperty_Show = true;
+      setTimeout(() => {
+        this.addproperty_Show = false;
+      }, 1500);
+    },
     toBoss() {
       const url = "../boss/main?pageNo=1";
       wx.navigateTo({ url });
     },
     bindBraceletId() {
       const _this = this;
-      if (_this.userId == null || _this.userId == ""){
+      if (_this.userId == null || _this.userId == "") {
         _this.warning = true;
         _this.warningText = "手环编号不能为空";
         return;
@@ -347,7 +431,6 @@ export default {
         success(res) {
           _this.blueStatus = true;
           _this.searchBlueTooth();
-
         },
         fail(res) {
           wx.onBluetoothAdapterStateChange(function(res) {
@@ -377,7 +460,7 @@ export default {
       });
     },
     filterDevs(devs) {
-      console.info("filterDevs",devs);
+      console.info("filterDevs", devs);
       const distanceDev = devs
         .filter(item => {
           return item.accuracy < 0.5 && item.minor != this.braceletId;
@@ -391,8 +474,8 @@ export default {
         });
 
         if (isExitDevs || !this.devOptions[distanceDev[0].minor]) {
-          console.log(this.devOptions)
-          console.log(isExitDevs,!this.devOptions[distanceDev[0].minor],'2')
+          console.log(this.devOptions);
+          console.log(isExitDevs, !this.devOptions[distanceDev[0].minor], "2");
           return false;
         } else {
           return {
@@ -401,14 +484,14 @@ export default {
           }; //distanceDev[0];
         }
       } else {
-        console.log(distanceDev.length,3)
+        console.log(distanceDev.length, 3);
         return false;
       }
     },
     handleFindDevs(devs) {
       const _this = this;
-      if (ISENDING){
-        return ;
+      if (ISENDING) {
+        return;
       }
       ISENDING = true;
       const fDevs = _this.filterDevs(devs);
@@ -431,9 +514,9 @@ export default {
                 gameId: _this.gameId,
                 time: res.data.continuTime * 1000
               });
-              setTimeout(()=>{
+              setTimeout(() => {
                 ISENDING = false;
-              },8000)
+              }, 8000);
 
               this.countDown(res.data.continuTime);
             },
@@ -443,9 +526,9 @@ export default {
             }
           );
       } else {
-        setTimeout(()=>{
+        setTimeout(() => {
           ISENDING = false;
-        },8000)
+        }, 8000);
       }
     },
     initUserinfo() {
@@ -594,11 +677,11 @@ export default {
           //怪兽事件结束
           _this.gsStatus = 1;
           _this.isSlow = false;
-        }else if (res.data = 100) {
+        } else if ((res.data = 100)) {
           _this.earthquakejpg = false;
           wx.reLaunch({
             url: "../one/index"
-          })
+          });
         }
       });
       //连接失败
@@ -610,7 +693,7 @@ export default {
     }
   },
 
-  mounted(){
+  mounted() {
     this.userInfo = wx.getStorageSync("userinfo");
     this.openId = wx.getStorageSync("openId");
     this.gameId = wx.getStorageSync("gameId");
@@ -626,49 +709,59 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .common-msg{
-    line-height: 48px;
-    z-index: 1000;
-    border:2px solid #000;
-    position: absolute;
-    width: 150px;
-    text-align: center;
-    background: #ff4b4b;
-    color: #fff;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%,-50%);
-    border-radius: 6px;
-  }
+.lvStyle {
+  background: url(http://img.isxcxbackend1.cn/动物背景旋转光.gif) center
+    no-repeat;
+  background-size: 100% 100%;
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
+.common-msg {
+  line-height: 48px;
+  z-index: 1000;
+  border: 2px solid #000;
+  position: absolute;
+  width: 150px;
+  text-align: center;
+  background: #ff4b4b;
+  color: #fff;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 6px;
+}
 .first {
   padding: 15px 30px;
   text-align: center;
   background: url(http://img.isxcxbackend1.cn/1.88888.gif) center center
-  no-repeat;
+    no-repeat;
   position: relative;
   z-index: 1;
+  height: 100vh;
+  box-sizing: border-box;
 }
 .top-tool {
   display: flex;
   justify-content: space-between;
   @keyframes an2 {
-      10% {
-        transform: translate(-5%,-5%);
-      }
-      30% {
-        transform: translate(-2%,-3%)
-      }
-      30% {
-        transform: translate(-4%,-8%)
-      }
-      30% {
-        transform: translate(5%,-7%)
-      }
-      100% {
-        transform: translate(5%,2%)
-      }
+    10% {
+      transform: translate(-5%, -5%);
+    }
+    30% {
+      transform: translate(-2%, -3%);
+    }
+    30% {
+      transform: translate(-4%, -8%);
+    }
+    30% {
+      transform: translate(5%, -7%);
+    }
+    100% {
+      transform: translate(5%, 2%);
+    }
   }
-  &.dzan{
+  &.dzan {
     animation: an2 1s infinite ease-in-out alternate;
   }
   .user-info {
@@ -686,7 +779,7 @@ export default {
     dd {
       margin-left: 70px;
       &.name {
-        text-align:left;
+        text-align: left;
         margin-top: 5px;
         font-weight: bold;
         color: #000;
@@ -792,7 +885,7 @@ export default {
     width: 24px;
     height: 24px;
     display: inline-block;
-    &.active{
+    &.active {
       background-image: url(http://img.isxcxbackend1.cn/小孩.gif);
     }
   }
@@ -840,7 +933,7 @@ export default {
       width: 50%;
       margin: 10px auto;
     }
-    .sh-icon{
+    .sh-icon {
       font-weight: normal;
       font-size: 12px;
       height: 16px;
@@ -848,7 +941,7 @@ export default {
       padding-left: 20px;
       display: inline-block;
       background: url(http://img.isxcxbackend1.cn/boy组223.png) left center
-         no-repeat;
+        no-repeat;
       background-size: auto 100%;
       vertical-align: middle;
     }
@@ -1082,17 +1175,16 @@ export default {
   background-size: cover;
   z-index: 0;
 }
-.xhbj{
+.xhbj {
   position: fixed;
   top: 0;
   left: 0;
   height: 100%;
   width: 100%;
-  background: url(http://img.isxcxbackend1.cn/%E5%AE%8C%E6%88%90%E6%89%8B%E6%9C%BA%E9%9B%AA%E8%8A%B1.gif) center center
-    no-repeat;
+  background: url(http://img.isxcxbackend1.cn/%E5%AE%8C%E6%88%90%E6%89%8B%E6%9C%BA%E9%9B%AA%E8%8A%B1.gif)
+    center center no-repeat;
   background-size: cover;
   pointer-events: none;
   z-index: 2;
 }
 </style>
-
