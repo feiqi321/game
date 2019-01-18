@@ -1,12 +1,16 @@
 <template>
   <div class="main">
     <div class="xhbj" v-if="snowjpg"></div>
+    <transition name="fade">
     <span class="common-msg" v-if="warning" @click="warning = false">{{
       warningText
     }}</span>
+    </transition>
+    <transition name="fade">
     <span class="common-msg" v-if="warning2" @click="warning2 = false">{{
       warningText2
     }}</span>
+    </transition>
     <van-notify id="van-notify" />
     <div class="first">
       <div class="top-tool">
@@ -48,7 +52,7 @@
       </div>
       <div class="probar">
         <p><span :class="['m-icon', hasSh ? 'active' : '']"></span></p>
-        <p>协助收集中Collection</p>
+        <p>{{collectMsg}}Collection</p>
         <p
           :class="{
             bar: true,
@@ -309,6 +313,7 @@ export default {
       snow: false, //下雪了
       snowjpg: false, //下雪动画
       earthquake: false, //地震
+      collectMsg:null,
       earthquakejpg: true, //地震动画
       gsll: false, //怪兽来了
       countDownTime: "",
@@ -458,7 +463,10 @@ export default {
         .filter(item => {
           if (item.minor == this.braceletId  && item.accuracy>0 && item.accuracy < 0.5){
             wx.setStorageSync("braceletIdType", true);
+            this.collectMsg = "协助收集中";
             this.hasSh = true
+          }else{
+            this.collectMsg = "协助收集中";
           }
           return item.accuracy>0 && item.accuracy < 0.5 && item.minor != this.braceletId;
         })
