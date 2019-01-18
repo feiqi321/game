@@ -690,7 +690,7 @@ export default {
       } else if (event = 100) {
         _this.earthquakejpg = false;
         wx.reLaunch({
-          url: "../one/index"
+          url: "../one/main"
         });
       }
     },

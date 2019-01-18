@@ -728,7 +728,7 @@ export default {
           _this.diaCollect.dia2 = false;
           _this.diaCollect.dia3 = false;
           wx.reLaunch({
-            url: "../one/index"
+            url: "../one/main"
           })
         }
       }),

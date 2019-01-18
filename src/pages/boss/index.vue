@@ -189,7 +189,7 @@ export default {
           _this.listDig2 = true;
         }else if (res.data = 100) {
           wx.reLaunch({
-            url: "../one/index"
+            url: "../one/main"
           })
         }
       })
