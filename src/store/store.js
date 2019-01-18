@@ -15,6 +15,9 @@ const store = new Vuex.Store({
     newnum:0,
     //升级弹窗
     dia_lv:false,
+    ISENDING:false,
+    warningText2:null,
+    warning2:false,
     addproperty_Show:false,
     addproperty: {
       num1: "0",
@@ -24,6 +27,16 @@ const store = new Vuex.Store({
     devOptions: null
   },
   mutations: {
+    setWarning: (state, str)=>  {
+      state.warning2 = true;
+      state.warningText2 = str;
+      setTimeout(() => {
+        state.warning2 = false;
+      }, 1500);
+    },
+    setLoaning: (state, bool)=>  {
+      state.ISENDING = bool;
+    },
     //调用升级
     dia_lvHandle: (state, str)=>  {
       state.bigUrl = str;
@@ -58,8 +71,8 @@ const store = new Vuex.Store({
           state.completed = [];
           state.singleReward = [];
           state.isBracelet = [];
-        }, 1500);
-      }, 1500);
+        }, 2000);
+      }, 2000);
 
     },
     setScores: (state, num) => {
@@ -108,7 +121,7 @@ const store = new Vuex.Store({
             } else {
               const bracelet = res.beacons
                 .filter(item => {
-                  return item.accuracy < 0.5 && item.minor == braceletId;
+                  return item.accuracy>0 && item.accuracy < 0.5 && item.minor == braceletId;
                 })
                 .sort((a, b) => {
                   return a.accuracy - b.accuracy;
@@ -117,16 +130,21 @@ const store = new Vuex.Store({
                 length = 0;
               }
             }
-
+            let flag=false;
             const distanceDev = res.beacons
               .filter(item => {
-                return item.accuracy < 0.5;
+                return item.accuracy>0 && item.accuracy < 0.5;
               })
               .sort((a, b) => {
                 return a.accuracy - b.accuracy;
               });
             console.info(distanceDev[0].minor + "###" + typeId);
-            if (distanceDev[0].minor == typeId) {
+            distanceDev.forEach((item,index)=>{
+                  if (item.minor == typeId){
+                    flag = true;
+                  }
+            })
+            if (flag) {
               commit('updateDevCompleted', { typeId, type, time })
               console.log(state.completed, '已完成列表');
               //如果超过3个清空提交收集数据并清空已完成列表
@@ -152,13 +170,17 @@ const store = new Vuex.Store({
                       commit('setNewNum',1);
                       commit('addproperty_Handle', {num1:groupReward,num2:totalReward,str:bigUrl});
                     }
+                    commit('setLoaning',false);
                   },
                   res => {
                     Notify("网络异常7!");
+                    commit('setLoaning',false);
                   }
                 );
             } else {
-              commit('removeDevCompleted', { typeId, type, time })
+              commit('setWarning','离开收集距离,请重新收集');
+              commit('removeDevCompleted', { typeId, type, time });
+              commit('setLoaning',false);
             }
           }
         });

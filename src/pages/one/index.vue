@@ -1,10 +1,11 @@
 <template>
-  <div class="main">
-    <div class="title">Parki LAND</div>
+  <div class="main" >
+    <button open-type="getUserInfo" lang="zh_CN" @getuserinfo="getUserInfo" style="width: 100vw;height: 100vh;opacity: 0;position: relative;z-index: 1001"></button>
+    <div class="title"></div>
     <span class="yd"></span>
     <span class="common-msg" v-if="warning" @click="warning=false">！游戏尚未开始</span>
     <div class="btn-w">
-      <button open-type="getUserInfo" lang="zh_CN" @getuserinfo="getUserInfo"></button>
+      <button ></button>
     </div>
   </div>
 </template>
@@ -65,7 +66,7 @@ export default {
                     wx.navigateTo({ url });
                     setTimeout(()=>{
                       _this.status = 0;
-                    },3000)
+                    },1200)
 
                   },
                   res => {
@@ -206,17 +207,22 @@ export default {
     position: absolute;
     width: 100%;
     height: 50%;
-
     left: 0;
     top:0;
     z-index: 1;
 }
 .title{
+  background: url(http://img.isxcxbackend1.cn/资源1.png) center center
+  no-repeat;
   text-align: center;
-  padding-top: 60px;
+  padding-top: 250px;
   font-size: 35px;
   font-weight: bold;
-
+  position:absolute;
+  top: 0;
+  left: 0;
+  width:100%;
+  z-index: 101;
 }
 </style>
 

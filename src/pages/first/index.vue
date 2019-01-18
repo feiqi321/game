@@ -4,6 +4,9 @@
     <span class="common-msg" v-if="warning" @click="warning = false">{{
       warningText
     }}</span>
+    <span class="common-msg" v-if="warning2" @click="warning2 = false">{{
+      warningText2
+    }}</span>
     <van-notify id="van-notify" />
     <div class="first">
       <div class="top-tool">
@@ -45,7 +48,7 @@
       </div>
       <div class="probar">
         <p><span :class="['m-icon', hasSh ? 'active' : '']"></span></p>
-        <p>收集中Collection</p>
+        <p>协助收集中Collection</p>
         <p
           :class="{
             bar: true,
@@ -277,7 +280,7 @@
 import { mapMutations, mapState, mapActions } from "vuex";
 import http from "@/utils/http.js";
 import Notify from "@/../static/dist/notify/notify";
-let ISENDING = false;
+
 export default {
   data() {
     return {
@@ -306,7 +309,7 @@ export default {
       snow: false, //下雪了
       snowjpg: false, //下雪动画
       earthquake: false, //地震
-      earthquakejpg: false, //地震动画
+      earthquakejpg: true, //地震动画
       gsll: false, //怪兽来了
       countDownTime: "",
       gsStatus: 0,
@@ -335,8 +338,11 @@ export default {
       "doingType",
       "devOptions",
       "scores",
+      "ISENDING",
       "isBracelet",
       "bigUrl",
+      "warning2",
+      "warningText2",
       "addproperty_Show",
       "addproperty",
       "dia_lv",
@@ -362,6 +368,7 @@ export default {
       "setScores",
       "addDbToCompleted",
       "setNewNum",
+      "setLoaning",
       "setSingleReward"
     ]),
 
@@ -449,11 +456,11 @@ export default {
 
       const distanceDev = devs
         .filter(item => {
-          if (item.minor == this.braceletId && item.accuracy < 0.5){
+          if (item.minor == this.braceletId  && item.accuracy>0 && item.accuracy < 0.5){
             wx.setStorageSync("braceletIdType", true);
             this.hasSh = true
           }
-          return item.accuracy < 0.5 && item.minor != this.braceletId;
+          return item.accuracy>0 && item.accuracy < 0.5 && item.minor != this.braceletId;
         })
         .sort((a, b) => {
           return a.accuracy - b.accuracy;
@@ -464,16 +471,16 @@ export default {
           return item.typeId == distanceDev[0].minor;
         });
 
-
         if (isExitDevs || !this.devOptions[distanceDev[0].minor]) {
           console.log(this.devOptions);
           console.log(isExitDevs, !this.devOptions[distanceDev[0].minor], "2");
+          this.showWarnning("已收集该颜色能量")
           return false;
         } else {
           return {
             typeId: distanceDev[0].minor,
             type: this.devOptions[distanceDev[0].minor]
-          }; //distanceDev[0];
+          };
         }
       } else {
         console.log(distanceDev.length, 3);
@@ -482,10 +489,10 @@ export default {
     },
     handleFindDevs(devs) {
       const _this = this;
-      if (ISENDING) {
+      if (_this.ISENDING) {
         return;
       }
-      ISENDING = true;
+      _this.setLoaning(true);
       const fDevs = _this.filterDevs(devs);
       console.log(fDevs.type, "filter");
       if (fDevs.type) {
@@ -506,18 +513,16 @@ export default {
                 gameId: _this.gameId,
                 time: res.data.continuTime * 1000
               });
-              setTimeout(() => {
-                ISENDING = false;
-              }, 8000);
+
 
               this.countDown(res.data.continuTime);
             },
             res => {
-              ISENDING = false;
+              _this.setLoaning(false);
             }
           );
       } else {
-          ISENDING = false;
+        _this.setLoaning(false);
       }
     },
     initUserinfo() {
@@ -635,19 +640,19 @@ export default {
     },
     showEvent(event){
       var _this = this;
-      if (res.data == 1) {
+      if (event == 1) {
         //下雪了
         _this.snow = true;
         _this.snowjpg = true;
         _this.gsStatus = 1;
         _this.isSlow = true;
         Notify("下雪了!");
-      } else if (res.data == 10) {
+      } else if (event == 10) {
         //雪停了
         _this.snowjpg = false;
         _this.gsStatus = 1;
         _this.isSlow = false;
-      } else if (res.data == 2) {
+      } else if (event == 2) {
         //地震了
         _this.snowjpg = false;
         _this.earthquake = true;
@@ -655,26 +660,26 @@ export default {
         _this.snow = false;
         _this.gsStatus = 1;
         _this.isSlow = false;
-      } else if (res.data == 20) {
+      } else if (event == 20) {
         _this.snowjpg = false;
         _this.earthquakejpg = false;
         //地震停了
         _this.gsStatus = 1;
         _this.isSlow = false;
-      } else if (res.data == 3) {
+      } else if (event == 3) {
         _this.snowjpg = false;
         _this.earthquakejpg = false;
         //怪兽来袭
         _this.gsll = true;
         _this.gsStatus = 3;
         _this.isSlow = false;
-      } else if (res.data == 30) {
+      } else if (event == 30) {
         _this.snowjpg = false;
         _this.earthquakejpg = false;
         //怪兽事件结束
         _this.gsStatus = 1;
         _this.isSlow = false;
-      } else if ((res.data = 100)) {
+      } else if (event = 100) {
         _this.earthquakejpg = false;
         wx.reLaunch({
           url: "../one/index"
@@ -685,51 +690,7 @@ export default {
       var _this = this;
       this.socketTask = getApp().globalData.socketTask;
       this.socketTask.onMessage(function(res) {
-        if (res.data == 1) {
-          //下雪了
-          _this.snow = true;
-          _this.snowjpg = true;
-          _this.gsStatus = 1;
-          _this.isSlow = true;
-          Notify("下雪了!");
-        } else if (res.data == 10) {
-          //雪停了
-          _this.snowjpg = false;
-          _this.gsStatus = 1;
-          _this.isSlow = false;
-        } else if (res.data == 2) {
-          //地震了
-          _this.snowjpg = false;
-          _this.earthquake = true;
-          _this.earthquakejpg = true;
-          _this.snow = false;
-          _this.gsStatus = 1;
-          _this.isSlow = false;
-        } else if (res.data == 20) {
-          _this.snowjpg = false;
-          _this.earthquakejpg = false;
-          //地震停了
-          _this.gsStatus = 1;
-          _this.isSlow = false;
-        } else if (res.data == 3) {
-          _this.snowjpg = false;
-          _this.earthquakejpg = false;
-          //怪兽来袭
-          _this.gsll = true;
-          _this.gsStatus = 3;
-          _this.isSlow = false;
-        } else if (res.data == 30) {
-          _this.snowjpg = false;
-          _this.earthquakejpg = false;
-          //怪兽事件结束
-          _this.gsStatus = 1;
-          _this.isSlow = false;
-        } else if ((res.data = 100)) {
-          _this.earthquakejpg = false;
-          wx.reLaunch({
-            url: "../one/index"
-          });
-        }
+         _this.showEvent(res.data)
       });
       //连接失败
       this.socketTask.onError(function() {
@@ -962,8 +923,7 @@ export default {
       width: 55px;
       height: 50px;
       padding-bottom: 5px;
-      background: url(http://img.isxcxbackend1.cn/组92@2x.png) center center
-        #fafafa no-repeat;
+      background: url(http://img.isxcxbackend1.cn/组92@2x.png) center center no-repeat;
       background-size: contain;
       display: flex;
       justify-content: center;
@@ -1127,7 +1087,7 @@ export default {
   }
   .list-w {
     padding: 10px;
-    height: 200px;
+    height: 300px;
     overflow-y: auto;
     .tr {
       display: flex;

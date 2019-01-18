@@ -25,6 +25,7 @@ export default {
   font-style: normal;
 }
 
+<<<<<<< Updated upstream
 .fade_in{
   transition: opacity 0.2s linear;
   opacity:1;
@@ -34,6 +35,11 @@ export default {
   opacity:0;
 }
 
+=======
+image{
+  height: 0;
+}
+>>>>>>> Stashed changes
 page {
   height: 100%;
   font-family: textfont !important;
