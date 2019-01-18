@@ -25,7 +25,13 @@ export default {
   font-style: normal;
 }
 
-<<<<<<< Updated upstream
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .2s;
+}
+.fade-enter, .fade-leave-to  {
+  opacity: 0;
+}
+>>>>>>> add
 .fade_in{
   transition: opacity 0.2s linear;
   opacity:1;
