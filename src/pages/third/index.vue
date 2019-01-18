@@ -3,6 +3,7 @@
     <span class="common-msg" v-if="warning" @click="warning = false"
       >{{ warningText }}</span>
     <div class="monster" v-if="monster"></div>
+    <div class="dzanbj" v-if="dzan"></div>
     <van-popup
       :custom-style="'background-color:transparent;overflow: initial;'"
       :show="diaCollect.dia2"
@@ -112,7 +113,7 @@
         />
       </div>
     </div>
-    <div class="top-tool" :class="{'dzan':dzan}">
+    <div class="top-tool" >
       <div class="user-info">
         <dl v-if="userInfo">
           <dt
@@ -390,6 +391,13 @@ export default {
         }
       });
     },
+    showWarnning(text){
+      this.warning = true;
+      this.warningText = text;
+      setTimeout(() => {
+        this.warning = false;
+      }, 1200);
+    },
     toBoss() {
       const url = "../boss/main?pageNo=2";
       wx.navigateTo({ url });
@@ -519,8 +527,7 @@ export default {
         if (code == 200) {
           this.myMoney = data;
         } else {
-          this.warningText = msg;
-          this.warning = true;
+          this.showWarnning(msg);
         }
         this.buyDig.dig = false;
       });
@@ -1243,7 +1250,14 @@ view[hidden] {
   opacity: 0.6;
   position: absolute;
 }
-
+.dzanbj{
+  height: 100vh;
+  width: 100vw;
+  background: url(http://img.isxcxbackend1.cn/地震建造手机.gif) center no-repeat;
+  background-size: 100%;
+  opacity: 0.6;
+  position: absolute;
+}
 .common-msg {
   line-height: 48px;
   z-index: 1000;

@@ -6,7 +6,7 @@
     }}</span>
     <van-notify id="van-notify" />
     <div class="first">
-      <div class="top-tool" :class="[earthquakejpg ? 'dzan' : '']">
+      <div class="top-tool">
         <div class="user-info">
           <dl>
             <dt
@@ -22,7 +22,7 @@
             :class="{ 'i-sb': true, active: braceletId }"
             @click="bindDevDigSts = true"
           ></span>
-          <span :class="{ 'i-sj': true, active: hasSh }" @click="showList">
+          <span :class="{ 'i-sj': true, active: (newnum>0) }" @click="showList">
             <em></em>
           </span>
         </div>
@@ -32,7 +32,7 @@
         :style="{ backgroundImage: 'url(' + animationBg + ')' }"
       >
         <!-- <img src="http://img.isxcxbackend1.cn/橙色动图.gif" class="m-icon" mode="widthFix"> -->
-        <div class="addproperty" v-if="addproperty_Handle">
+        <div class="addproperty" v-if="addproperty_Show">
           <div style="font-size: 70px;">{{addproperty.num1}}</div>
           <div style="margin-top: 30px">
             <img
@@ -73,9 +73,9 @@
               src="/static/images/ok.png"
               class="m-icon"
               mode="widthFix"
-              v-show=" completed[n] &&completed[n].status === 1 && !hasSh && !isBracelet"
+              v-show=" completed[n] &&completed[n].status === 1 && !hasSh && !isBracelet[n]"
             />
-            <span class="sh-icon" v-if="isBracelet">+{{ singleReward }}</span>
+            <span class="sh-icon" v-if="isBracelet[n]">+{{ singleReward[n] }}</span>
           </dd>
         </dl>
       </div>
@@ -252,18 +252,19 @@
       </van-dialog>
     </div>
     <div class="hgbj" v-if="gsStatus === 3"></div>
+    <div class="earthquakebj" v-if="earthquakejpg"></div>
     <van-popup
       :custom-style="'background-color:transparent;overflow: initial;'"
       :show="dia_lv"
     >
       <div class="lvStyle">
         <img
-          src="./动物背景旋转光.gif"
+          src="http://img.isxcxbackend1.cn/%E5%8A%A8%E7%89%A9%E8%83%8C%E6%99%AF%E6%97%8B%E8%BD%AC%E5%85%89.gif"
           style="width: 100vw;height: 100vh;position: absolute;z-index: 1;top: 0;left: 0"
           alt=""
         />
         <img
-          src="http://img.isxcxbackend1.cn/lv1-大.png"
+          :src="bigUrl"
           style="width: 100vw;height: 100vh;position: absolute;z-index: 10;top: 0;"
           alt=""
         />
@@ -321,15 +322,9 @@ export default {
         "http://img.isxcxbackend1.cn/椭圆141.png",
         "http://img.isxcxbackend1.cn/椭圆140.png",
         "http://img.isxcxbackend1.cn/椭圆49.png"
-      ], //1橙2黄3蓝4 绿
-      //升级弹窗
-      dia_lv: false,
-      //
-      addproperty_Show:false,
-      addproperty: {
-        num1: "+50",
-        num2: "+5"
-      }
+      ] //1橙2黄3蓝4 绿
+
+
     };
   },
 
@@ -341,6 +336,11 @@ export default {
       "devOptions",
       "scores",
       "isBracelet",
+      "bigUrl",
+      "addproperty_Show",
+      "addproperty",
+      "dia_lv",
+      "newnum",
       "singleReward"
     ]),
     animationBg() {
@@ -360,23 +360,11 @@ export default {
     ...mapActions(["delayDetection"]),
     ...mapMutations([
       "setScores",
-      "setBracelet",
       "addDbToCompleted",
+      "setNewNum",
       "setSingleReward"
     ]),
-    //调用升级
-    dia_lvHandle() {
-      this.dia_lv = true;
-      setTimeout(() => {
-        this.dia_lv = false;
-      }, 1500);
-    },
-    addproperty_Handle(){
-      this.addproperty_Show = true;
-      setTimeout(() => {
-        this.addproperty_Show = false;
-      }, 1500);
-    },
+
     toBoss() {
       const url = "../boss/main?pageNo=1";
       wx.navigateTo({ url });
@@ -384,8 +372,7 @@ export default {
     bindBraceletId() {
       const _this = this;
       if (_this.userId == null || _this.userId == "") {
-        _this.warning = true;
-        _this.warningText = "手环编号不能为空";
+        _this.showWarnning("手环编号不能为空")
         return;
       }
 
@@ -403,12 +390,10 @@ export default {
           res => {
             wx.setStorageSync("braceletId", res.data.deviceId);
             _this.braceletId = res.data.deviceId;
-            _this.warning = true;
-            _this.warningText = "手环绑定成功";
+            _this.showWarnning("手环绑定成功");
           },
           res => {
-            _this.warning = true;
-            _this.warningText = res;
+            _this.showWarnning(res)
           }
         );
     },
@@ -461,17 +446,23 @@ export default {
     },
     filterDevs(devs) {
       console.info("filterDevs", devs);
+
       const distanceDev = devs
         .filter(item => {
+          if (item.minor == this.braceletId && item.accuracy < 0.5){
+            this.hasSh = true
+          }
           return item.accuracy < 0.5 && item.minor != this.braceletId;
         })
         .sort((a, b) => {
           return a.accuracy - b.accuracy;
         });
+      console.info("distanceDev",distanceDev);
       if (distanceDev.length > 0) {
         const isExitDevs = this.completed.some(item => {
           return item.typeId == distanceDev[0].minor;
         });
+
 
         if (isExitDevs || !this.devOptions[distanceDev[0].minor]) {
           console.log(this.devOptions);
@@ -521,14 +512,11 @@ export default {
               this.countDown(res.data.continuTime);
             },
             res => {
-              _this.warning = true;
-              _this.warningText = res;
+              ISENDING = false;
             }
           );
       } else {
-        setTimeout(() => {
           ISENDING = false;
-        }, 8000);
       }
     },
     initUserinfo() {
@@ -540,7 +528,10 @@ export default {
         })
         .then(
           res => {
+            _this.braceletId = res.data.deviceId;
             _this.setScores(res.data.scores);
+            _this.setNewNum(res.data.newNum);
+            _this.showEvent(res.data.event);
           },
           res => {
             Notify("网络异常2!");
@@ -623,7 +614,13 @@ export default {
           }
         );
     },
-
+    showWarnning(text){
+        this.warning = true;
+        this.warningText = text;
+        setTimeout(() => {
+          this.warning = false;
+        }, 1200);
+    },
     countDown(time) {
       if (time <= 0) {
         this.countDownTime = "";
@@ -633,6 +630,54 @@ export default {
       setTimeout(() => {
         this.countDown(time - 1);
       }, 1000);
+    },
+    showEvent(event){
+      var _this = this;
+      if (res.data == 1) {
+        //下雪了
+        _this.snow = true;
+        _this.snowjpg = true;
+        _this.gsStatus = 1;
+        _this.isSlow = true;
+        Notify("下雪了!");
+      } else if (res.data == 10) {
+        //雪停了
+        _this.snowjpg = false;
+        _this.gsStatus = 1;
+        _this.isSlow = false;
+      } else if (res.data == 2) {
+        //地震了
+        _this.snowjpg = false;
+        _this.earthquake = true;
+        _this.earthquakejpg = true;
+        _this.snow = false;
+        _this.gsStatus = 1;
+        _this.isSlow = false;
+      } else if (res.data == 20) {
+        _this.snowjpg = false;
+        _this.earthquakejpg = false;
+        //地震停了
+        _this.gsStatus = 1;
+        _this.isSlow = false;
+      } else if (res.data == 3) {
+        _this.snowjpg = false;
+        _this.earthquakejpg = false;
+        //怪兽来袭
+        _this.gsll = true;
+        _this.gsStatus = 3;
+        _this.isSlow = false;
+      } else if (res.data == 30) {
+        _this.snowjpg = false;
+        _this.earthquakejpg = false;
+        //怪兽事件结束
+        _this.gsStatus = 1;
+        _this.isSlow = false;
+      } else if ((res.data = 100)) {
+        _this.earthquakejpg = false;
+        wx.reLaunch({
+          url: "../one/index"
+        });
+      }
     },
     listenSocket() {
       var _this = this;
@@ -879,9 +924,6 @@ export default {
 .probar {
   font-size: 12px;
   .m-icon {
-    background: url(http://img.isxcxbackend1.cn/未标题-1.gif) center center
-      no-repeat;
-    background-size: contain;
     width: 24px;
     height: 24px;
     display: inline-block;
@@ -1105,6 +1147,7 @@ export default {
         height: 30px;
         color: #ffc655;
         margin-left: 20px;
+        margin-top:-20px;
         line-height: 26px;
       }
       .nbg {
@@ -1172,6 +1215,17 @@ export default {
   width: 100%;
   background: url(http://img.isxcxbackend1.cn/红光闪动.gif) center center
     no-repeat;
+  background-size: cover;
+  z-index: 0;
+}
+.earthquakebj{
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: url(http://img.isxcxbackend1.cn/地震首页手机.gif) center center
+  no-repeat;
   background-size: cover;
   z-index: 0;
 }

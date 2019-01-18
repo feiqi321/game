@@ -10,24 +10,62 @@ const store = new Vuex.Store({
     completed: [],//已完成颜色
     doingType: null,//手机中的颜色类型
     scores: 0,
-    isBracelet:false,
+    bigUrl:null,
+    isBracelet:[],
+    newnum:0,
+    //升级弹窗
+    dia_lv:false,
+    addproperty_Show:false,
+    addproperty: {
+      num1: "0",
+      num2: "0"
+    },
     singleReward:0,
     devOptions: null
   },
   mutations: {
+    //调用升级
+    dia_lvHandle: (state, str)=>  {
+      state.bigUrl = str;
+      state.dia_lv = true;
+      setTimeout(() => {
+        state.dia_lv = false;
+      }, 1500);
+    },
+    undia_lvHandle: (state, str)=>  {
+      state.dia_lv = false;
+    },
+    setNewNum: (state, newNum)=>  {
+      state.newnum = newNum;
+    },
     changeState: (state, options) => {
       Object.keys(options).forEach((item) => {
         state[item] = options[item]
       })
     },
+    addproperty_Handle(state, { num1, num2 ,str})  {
+      state.bigUrl = str;
+      state.dia_lv = true;
+      console.info("进入到第一个",str)
+      setTimeout(() => {
+        state.dia_lv = false;
+        state.addproperty_Show = true;
+        state.addproperty.num1 = num1;
+        state.addproperty.num2 = num2;
+        console.info("进入到第二个",num1)
+        setTimeout(() => {
+          state.addproperty_Show = false;
+          state.completed = [];
+        }, 1500);
+      }, 1500);
+
+    },
     setScores: (state, num) => {
       state.scores = num;
     },
-    setSingleReward: (state, num) => {
-      state.singleReward = num;
-    },
-    setBracelet: (state, bool) => {
-      state.isBracelet = bool;
+    setSingleReward: (state, {num,orderNum,bool}) => {
+      state.singleReward[orderNum] = num;
+      state.isBracelet[orderNum] = bool;
     },
     addDevToCompleted(state, { typeId, type }) {
       state.completed.push({
@@ -55,7 +93,7 @@ const store = new Vuex.Store({
   },
   actions: {
     delayDetection({ commit, state }, { typeId, type, braceletId, openId, gameId, time }) {//延迟检测
-      console.info("进入都再次确认地方");
+      console.info("进入都再次确认地方",braceletId);
       commit('addDevToCompleted', { typeId, type, time })
       setTimeout(() => {
         wx.getBeacons({
@@ -67,14 +105,13 @@ const store = new Vuex.Store({
             } else {
               const bracelet = res.beacons
                 .filter(item => {
-                  return item.minor == braceletId;
+                  return item.accuracy < 0.5 && item.minor == braceletId;
                 })
                 .sort((a, b) => {
                   return a.accuracy - b.accuracy;
                 });
               if (bracelet.length > 0) {
                 length = 0;
-                commit('setBracelet',true)
               }
             }
 
@@ -87,9 +124,7 @@ const store = new Vuex.Store({
               });
             console.info(distanceDev[0].minor + "###" + typeId);
             if (distanceDev[0].minor == typeId) {
-              console.info("123456");
               commit('updateDevCompleted', { typeId, type, time })
-              console.info("654321");
               console.log(state.completed, '已完成列表');
               //如果超过3个清空提交收集数据并清空已完成列表
               http.post("/game/deviceColor/confirm", {
@@ -101,7 +136,19 @@ const store = new Vuex.Store({
                 .then(
                   res => {
                     commit('setScores', res.data.scores)
-                    commit('setSingleReward',res.data.singleReward)
+                    var singleReward = res.data.singleReward;
+                    var groupReward = res.data.groupReward;
+                    var totalReward = res.data.totalReward;
+                    var bigUrl = res.data.bigUrl;
+                    var orderNum = res.data.orderNum;
+                    console.info("singleReward",singleReward);
+                    if (singleReward>0){
+                      commit('setSingleReward', {num:singleReward,orderNum:orderNum,bool:true})
+                    }
+                    if (groupReward>0){
+                      commit('setNewNum',1);
+                      commit('addproperty_Handle', {num1:groupReward,num2:totalReward,str:bigUrl});
+                    }
                   },
                   res => {
                     Notify("网络异常7!");
