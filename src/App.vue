@@ -25,6 +25,14 @@ export default {
   font-style: normal;
 }
 
+.fade_in{
+  transition: opacity 2s linear;
+  opacity:1;
+}
+.fade_out{
+  transition: opacity 2s linear;
+  opacity:0;
+}
 
 page {
   height: 100%;
