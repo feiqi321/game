@@ -8,7 +8,7 @@
           <dl>
             <dt :style="{backgroundImage:'url('+userInfo.avatarUrl+')'}"></dt>
             <dd class="name">{{userInfo.nickName}}</dd>
-            <dd class="score">999</dd>
+            <dd class="score">{{ scores }}</dd>
           </dl>
         </div>
         <div class="rigth-nav">
@@ -28,8 +28,8 @@
       <div class="bar">
         <div class="attack">
           <p class="left-attack-l">战斗力 ATTACK : 3
-            <span style="padding-right: 10px;color:#FFD306">+3</span>
-            <span class="zdl-icon"></span>
+            <span style="padding-right: 10px;color:#FFD306" v-if="braceletIdType">+3</span>
+            <span class="zdl-icon" v-if="braceletIdType"></span>
           </p>
         </div>
         <div class="damage">
@@ -50,7 +50,7 @@
         close-on-click-overlay
         class="dialogbox"
       >
-        <div class="endbox">
+        <div class="endboxok">
           <p class="title">守护成功</p>
           <p class="first-part">在所有人的努力下</p>
           <p class="bettwen">怪兽被击退了 家园被守护</p>
@@ -58,11 +58,10 @@
           <p class="second-part">你对怪兽的伤害为99%</p>
           <p class="bettwen-button">你获得了XXX能量作为奖励</p>
           <div class="btn">
-            <p class="confirmShow"  @click="toPageReturn">确认</p>
+            <p class="confirmShow"  @click="toPageReturn(1)">确认</p>
           </div>
           <div class="failbj"></div>
         </div>
-        <div class="successShow"></div>
       </van-dialog>
       <div class="shz">
         <span v-for="(item,i) in fsList" :key="i">{{item}}</span>
@@ -78,7 +77,7 @@
       close-on-click-overlay
       class="dialogbox"
     >
-      <div class="endbox">
+      <div class="endboxfail">
         <p class="title">守护失败</p>
         <p class="first-part"></p>
         <p class="bettwen">您在怪兽入侵期间表现不佳</p>
@@ -86,11 +85,10 @@
         <p class="second-part"></p>
         <p class="bettwen-button">您的家园被摧毁了</p>
         <div class="btn">
-          <p class="confirmShow" @click="toPageReturn">确认</p>
+          <p class="confirmShow" @click="toPageReturn(2)">确认</p>
         </div>
         <div class="failbj"></div>
       </div>
-      <div class="successShow"></div>
     </van-dialog>
 
       <div class="shz">
@@ -112,10 +110,12 @@ export default {
       socketTask:null,
       jdtWidth: 100,
       gsStatus:0,
+      scores:0,
       pageNo:null,
       gameId: null,
       openId: null,
       braceletId: null, //用户设备id
+      braceletIdType:0,
       fsList: [],
 
       userInfo: null //用户信息
@@ -134,7 +134,13 @@ export default {
       }
     },
     addFs() {
-      var damage = Math.floor(Math.random() * 3 + 2) ;
+      var damage = 0;
+      if (this.braceletIdType){
+        damage = Math.floor(Math.random() * 6 + 4) ;
+      }else{
+        damage = Math.floor(Math.random() * 3 + 2) ;
+      }
+
       this.totalAttack = this.totalAttack+damage;
       this.socketTask.send({
         data: this.openId+','+this.gameId+","+damage
@@ -183,7 +189,7 @@ export default {
           _this.listDig2 = true;
         }else if (res.data = 100) {
           wx.reLaunch({
-            url: "../one/Index"
+            url: "../one/index"
           })
         }
       })
@@ -212,12 +218,34 @@ export default {
           }
         );
     },
-    toPageReturn(){
+    initUserinfo() {
+      const _this = this;
+      http
+        .post("/game/device/query", {
+          openId: _this.openId,
+          gameId: _this.gameId
+        })
+        .then(
+          res => {
+            _this.scores = res.data.scores;
+          },
+          res => {
+            Notify("网络异常!");
+          }
+        );
+    },
+    toPageReturn(flag){
       var url;
       if (this.pageNo==1){
         url = "../first/index";
-      }else{
+      }else if(this.pageNo==2){
         url = "../third/index";
+      }else{
+        if (flag==1){
+          this.listDig = false;
+        }else if(flag==2){
+          this.listDig2 = false;
+        }
       }
       wx.navigateTo({ url });
     },
@@ -236,6 +264,7 @@ export default {
     this.openId = wx.getStorageSync("openId");
     this.gameId = wx.getStorageSync("gameId");
     this.braceletId = wx.getStorageSync("braceletId");
+    this.braceletIdType = wx.getStorageSync("braceletIdType");
     this.getUserInfo();
     this.initTime();
     this.initBoss();
@@ -474,8 +503,8 @@ export default {
     left: 20vw;
   }
 }
-.endbox {
-  background: url(http://img.isxcxbackend1.cn/组220.png) center center no-repeat;
+.endboxfail {
+  background: url(http://img.isxcxbackend1.cn/保护成功.png) center center no-repeat;
   background-color: transparent;
   background-size: 85vw 70vh;
   border-radius: 16px;
@@ -484,28 +513,49 @@ export default {
   width: 85vw;
   height: 70vh;
   position: relative;
-  .failbj {
-    position: absolute;
-    background: url(http://img.isxcxbackend1.cn/守护失败.png) center center
-      no-repeat;
-    background-size: 60%;
-    width: 100%;
-    height: 60vh;
-    left: 20%;
-    bottom: -14%;
-    content: "";
+  .title {
+    color: #ffa042;
+    font-size: 42px;
+    padding-top: 20px;
   }
-  .sucbj {
-    position: absolute;
-    background: url(http://img.isxcxbackend1.cn/守护成功.png) center center
-      no-repeat;
-    background-size: 60%;
-    width: 100%;
-    height: 60vh;
-    left: 20%;
-    bottom: -14%;
-    content: "";
+  .first-part {
+    padding-top: 40px;
   }
+  .second-part {
+    padding-top: 25px;
+  }
+  .bettwen {
+    padding-top: 10px;
+  }
+  .bettwen-button {
+    padding-top: 25px;
+    display: inline-block;
+  }
+  .btn {
+    background: url(http://img.isxcxbackend1.cn/组221.png) center center
+    no-repeat;
+    background-size: 100px 50px;
+    width: 85vw;
+    height: 30vh;
+    position: absolute;
+    z-index: 1;
+    .confirmShow {
+      padding-top: 75px;
+      font-weight: bold;
+      font-size: 20px;
+    }
+  }
+}
+.endboxok {
+  background: url(http://img.isxcxbackend1.cn/保护成功.png) center center no-repeat;
+  background-color: transparent;
+  background-size: 85vw 70vh;
+  border-radius: 16px;
+  text-align: center;
+  //left:10vw;
+  width: 85vw;
+  height: 70vh;
+  position: relative;
   .title {
     color: #ffa042;
     font-size: 42px;
@@ -537,16 +587,6 @@ export default {
       font-weight: bold;
       font-size: 20px;
     }
-  }
-  .successShow {
-    background: url(http://img.isxcxbackend1.cn/守护成功.png) center center
-      no-repeat;
-    background-size: contain;
-    width: 100vw;
-    height: 100vh;
-    position: absolute;
-    top: 0;
-    display: inline-block;
   }
 }
 .shz {

@@ -69,12 +69,12 @@
             <span v-if="!completed[n]">{{ n + 1 }}</span>
           </dt>
           <dd>
-            <img
+            <!--<img
               src="/static/images/ok.png"
               class="m-icon"
               mode="widthFix"
               v-show=" completed[n] &&completed[n].status === 1 && !hasSh && !isBracelet[n]"
-            />
+            />-->
             <span class="sh-icon" v-if="isBracelet[n]">+{{ singleReward[n] }}</span>
           </dd>
         </dl>
@@ -229,7 +229,7 @@
                   :style="{ backgroundImage: 'url(' + n.url + ')' }"
                 ></span>
               </div>
-              <div class="td last-child">12</div>
+              <div class="td last-child">{{n.scores>0?n.scores:'?'}}</div>
             </div>
           </div>
         </div>
@@ -450,6 +450,7 @@ export default {
       const distanceDev = devs
         .filter(item => {
           if (item.minor == this.braceletId && item.accuracy < 0.5){
+            wx.setStorageSync("braceletIdType", true);
             this.hasSh = true
           }
           return item.accuracy < 0.5 && item.minor != this.braceletId;
@@ -580,6 +581,7 @@ export default {
     },
     showList() {
       this.listDig = true;
+      this.setNewNum(0)
       http
         .post("/game/task/findByTask", {
           openId: this.openId,
@@ -588,7 +590,7 @@ export default {
         .then(
           res => {
             this.firstNum = res.data.firstNum;
-            this.myNum = res.data.myNum;
+
             this.firstReward = res.data.scores;
             this.totalNum = res.data.totalNum;
             this.totalReward = res.data.totalScores;

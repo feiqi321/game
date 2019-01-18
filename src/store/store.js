@@ -20,7 +20,7 @@ const store = new Vuex.Store({
       num1: "0",
       num2: "0"
     },
-    singleReward:0,
+    singleReward:[],
     devOptions: null
   },
   mutations: {
@@ -56,6 +56,8 @@ const store = new Vuex.Store({
         setTimeout(() => {
           state.addproperty_Show = false;
           state.completed = [];
+          state.singleReward = [];
+          state.isBracelet = [];
         }, 1500);
       }, 1500);
 
@@ -64,6 +66,7 @@ const store = new Vuex.Store({
       state.scores = num;
     },
     setSingleReward: (state, {num,orderNum,bool}) => {
+
       state.singleReward[orderNum] = num;
       state.isBracelet[orderNum] = bool;
     },

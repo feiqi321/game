@@ -65,14 +65,15 @@ export default {
                     wx.navigateTo({ url });
                     setTimeout(()=>{
                       _this.status = 0;
-                    },5000)
+                    },3000)
 
                   },
                   res => {
                     _this.warning = true;
                     setTimeout(()=>{
+                      _this.warning = false;
                       _this.status = 0;
-                    },5000)
+                    },1500)
                   }
                 );
 
