@@ -25,6 +25,7 @@ export default {
   font-style: normal;
 }
 
+<<<<<<< Updated upstream
 .fade-enter-active, .fade-leave-active {
   transition: opacity .2s;
 }
@@ -41,6 +42,8 @@ export default {
   opacity:0;
 }
 
+=======
+>>>>>>> Stashed changes
 image{
   height: 0;
 }

@@ -5,12 +5,18 @@
     <span class="common-msg" v-if="warning" @click="warning = false">{{
       warningText
     }}</span>
+<<<<<<< Updated upstream
     </transition>
     <transition name="fade">
     <span class="common-msg" v-if="warning2" @click="warning2 = false">{{
       warningText2
     }}</span>
     </transition>
+=======
+    <span class="common-msg" v-if="warning2" @click="warning2 = false">{{
+      warningText2
+    }}</span>
+>>>>>>> Stashed changes
     <van-notify id="van-notify" />
     <div class="first">
       <div class="top-tool">
@@ -52,7 +58,11 @@
       </div>
       <div class="probar">
         <p><span :class="['m-icon', hasSh ? 'active' : '']"></span></p>
+<<<<<<< Updated upstream
         <p>{{collectMsg}}Collection</p>
+=======
+        <p>协助收集中Collection</p>
+>>>>>>> Stashed changes
         <p
           :class="{
             bar: true,
@@ -313,7 +323,10 @@ export default {
       snow: false, //下雪了
       snowjpg: false, //下雪动画
       earthquake: false, //地震
+<<<<<<< Updated upstream
       collectMsg:null,
+=======
+>>>>>>> Stashed changes
       earthquakejpg: true, //地震动画
       gsll: false, //怪兽来了
       countDownTime: "",
