@@ -1,22 +1,12 @@
 <template>
   <div class="main">
     <div class="xhbj" v-if="snowjpg"></div>
-    <transition name="fade">
     <span class="common-msg" v-if="warning" @click="warning = false">{{
       warningText
     }}</span>
-<<<<<<< Updated upstream
-    </transition>
-    <transition name="fade">
     <span class="common-msg" v-if="warning2" @click="warning2 = false">{{
       warningText2
     }}</span>
-    </transition>
-=======
-    <span class="common-msg" v-if="warning2" @click="warning2 = false">{{
-      warningText2
-    }}</span>
->>>>>>> Stashed changes
     <van-notify id="van-notify" />
     <div class="first">
       <div class="top-tool">
@@ -58,11 +48,8 @@
       </div>
       <div class="probar">
         <p><span :class="['m-icon', hasSh ? 'active' : '']"></span></p>
-<<<<<<< Updated upstream
         <p>{{collectMsg}}Collection</p>
-=======
-        <p>协助收集中Collection</p>
->>>>>>> Stashed changes
+
         <p
           :class="{
             bar: true,
@@ -697,7 +684,7 @@ export default {
         //怪兽事件结束
         _this.gsStatus = 1;
         _this.isSlow = false;
-      } else if (event = 100) {
+      } else if (event == 100) {
         _this.earthquakejpg = false;
         wx.reLaunch({
           url: "../one/main"
@@ -725,7 +712,7 @@ export default {
     this.gameId = wx.getStorageSync("gameId");
     this.braceletId = wx.getStorageSync("braceletId");
 
-    // this.getUserInfo();
+    this.getUserInfo();
     this.openBlueTooth();
     this.initUserinfo();
     this.initColor();
