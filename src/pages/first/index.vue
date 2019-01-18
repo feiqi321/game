@@ -323,10 +323,7 @@ export default {
       snow: false, //下雪了
       snowjpg: false, //下雪动画
       earthquake: false, //地震
-<<<<<<< Updated upstream
       collectMsg:null,
-=======
->>>>>>> Stashed changes
       earthquakejpg: true, //地震动画
       gsll: false, //怪兽来了
       countDownTime: "",
