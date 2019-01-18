@@ -26,11 +26,11 @@ export default {
 }
 
 .fade_in{
-  transition: opacity 2s linear;
+  transition: opacity 0.2s linear;
   opacity:1;
 }
 .fade_out{
-  transition: opacity 2s linear;
+  transition: opacity 0.2s linear;
   opacity:0;
 }
 
