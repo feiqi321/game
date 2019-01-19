@@ -1147,8 +1147,9 @@ export default {
         height: 30px;
         color: #ffc655;
         margin-left: 20px;
-        margin-top:10px;
+        margin-top:-10px;
         line-height: 26px;
+        vertical-align: middle;
       }
       .nbg {
         background: none;
