@@ -13,6 +13,8 @@ const store = new Vuex.Store({
     bigUrl:null,
     isBracelet:[],
     newnum:0,
+    hasSh:false,
+    flyjpg:false,
     //升级弹窗
     dia_lv:false,
     ISENDING:false,
@@ -27,6 +29,12 @@ const store = new Vuex.Store({
     devOptions: null
   },
   mutations: {
+    setFly: (state, bool)=>  {
+      state.flyjpg = bool;
+    },
+    setSh:  (state, bool)=>  {
+      state.hasSh = bool;
+    },
     setWarning: (state, str)=>  {
       state.warning2 = true;
       state.warningText2 = str;
@@ -58,22 +66,26 @@ const store = new Vuex.Store({
     },
     addproperty_Handle(state, { num1, num2 ,str})  {
       state.bigUrl = str;
-      state.dia_lv = true;
-      console.info("进入到第一个",str)
+      state.flyjpg = true;
       setTimeout(() => {
-        state.dia_lv = false;
-        state.addproperty_Show = true;
-        state.addproperty.num1 = num1;
-        state.addproperty.num2 = num2;
-        console.info("进入到第二个",num1)
+        state.flyjpg = false;
+        state.dia_lv = true;
+        console.info("进入到第一个",str)
         setTimeout(() => {
-          state.addproperty_Show = false;
-          state.completed = [];
-          state.singleReward = [];
-          state.isBracelet = [];
+          state.dia_lv = false;
+          state.addproperty_Show = true;
+          state.addproperty.num1 = num1;
+          state.addproperty.num2 = num2;
+          console.info("进入到第二个",num1)
+          setTimeout(() => {
+            state.addproperty_Show = false;
+            state.completed = [];
+            state.singleReward = [];
+            state.isBracelet = [];
+            state.ISENDING = false;
+          }, 2000);
         }, 2000);
       }, 2000);
-
     },
     setScores: (state, num) => {
       state.scores = num;
@@ -121,29 +133,36 @@ const store = new Vuex.Store({
             } else {
               const bracelet = res.beacons
                 .filter(item => {
-                  return item.accuracy>0 && item.accuracy < 0.5 && item.minor == braceletId;
+                  return item.accuracy > 0 && item.accuracy < 0.5 && item.minor == braceletId;
                 })
                 .sort((a, b) => {
                   return a.accuracy - b.accuracy;
                 });
               if (bracelet.length > 0) {
+                commit('setSh',true);
                 length = 0;
+              }else{
+                commit('setSh',false);
               }
+
+
             }
-            let flag=false;
+            let flag = false;
             const distanceDev = res.beacons
               .filter(item => {
-                return item.accuracy>0 && item.accuracy < 0.5;
+                return item.accuracy > 0 && item.accuracy < 0.5;
               })
               .sort((a, b) => {
                 return a.accuracy - b.accuracy;
               });
-            console.info(distanceDev[0].minor + "###" + typeId);
-            distanceDev.forEach((item,index)=>{
-                  if (item.minor == typeId){
-                    flag = true;
-                  }
-            })
+            console.info(distanceDev + "###" + typeId);
+            if (distanceDev.length > 0) {
+              distanceDev.forEach((item, index) => {
+                if (item.minor == typeId) {
+                  flag = true;
+                }
+              })
+            }
             if (flag) {
               commit('updateDevCompleted', { typeId, type, time })
               console.log(state.completed, '已完成列表');
@@ -169,8 +188,10 @@ const store = new Vuex.Store({
                     if (groupReward>0){
                       commit('setNewNum',1);
                       commit('addproperty_Handle', {num1:groupReward,num2:totalReward,str:bigUrl});
+                    }else{
+                      commit('setLoaning',false);
                     }
-                    commit('setLoaning',false);
+
                   },
                   res => {
                     Notify("网络异常7!");

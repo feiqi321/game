@@ -128,7 +128,7 @@
         <div class="rigth-nav" v-if="monster">
           <span class="i-sb active rigth-monster"></span>
         </div>
-        <div class="rigth-nav" @click="nativeTo('../first/main')">
+        <div class="rigth-nav" @click="toback">
           <span class="i-sb active rigth-gotoSec"></span>
         </div>
         <div class="rigth-nav" @click="nativeTo('../index/main')"><span class="i-sb active"></span></div>
@@ -568,6 +568,11 @@ export default {
         url:path
       })
     },
+    toback(){
+      wx.navigateBack({
+        delta: 1  // 返回上一级页面。
+      })
+    },
     //触摸移动
     // tMove(e) {
     //
@@ -858,7 +863,8 @@ export default {
           color: #ffc63c;
           font-weight: bold;
           text-align: center;
-          margin-top: 5px;
+          margin-top: 3px;
+          font-size:18px;
         }
       }
     }

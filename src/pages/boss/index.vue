@@ -334,7 +334,8 @@ export default {
         color: #ffc63c;
         font-weight: bold;
         text-align: center;
-        margin-top: 5px;
+        margin-top: 3px;
+        font-size:18px;
       }
     }
   }

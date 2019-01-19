@@ -4,9 +4,19 @@
     <span class="common-msg" v-if="warning" @click="warning = false">{{
       warningText
     }}</span>
+<<<<<<< Updated upstream
     <span class="common-msg" v-if="warning2" @click="warning2 = false">{{
       warningText2
     }}</span>
+=======
+    </transition>
+    <transition name="fade">
+    <span class="common-msg" v-if="warning2" @click="warning2 = false">{{
+      warningText2
+    }}</span>
+    </transition>
+
+>>>>>>> Stashed changes
     <van-notify id="van-notify" />
     <div class="first">
       <div class="top-tool">
@@ -36,20 +46,26 @@
       >
         <!-- <img src="http://img.isxcxbackend1.cn/橙色动图.gif" class="m-icon" mode="widthFix"> -->
         <div class="addproperty" v-if="addproperty_Show">
-          <div style="font-size: 70px;">{{addproperty.num1}}</div>
-          <div style="margin-top: 30px">
+          <div style="font-size: 70px;"> + {{addproperty.num1}}</div>
+          <div style="margin-top: 30px" v-if="addproperty.num2>0">
             <img
               style="width: 30px;height: 30px;display: inline-block;vertical-align: middle;margin-right: 20px;"
               src="http://img.isxcxbackend1.cn/boy组223.png"
               alt=""
-            /><span style="font-size: 30px;vertical-align: middle;">{{addproperty.num2}}</span>
+            /><span style="font-size: 30px;vertical-align: middle;"> + {{addproperty.num2}}</span>
           </div>
         </div>
       </div>
       <div class="probar">
+<<<<<<< Updated upstream
         <p><span :class="['m-icon', hasSh ? 'active' : '']"></span></p>
         <p>{{collectMsg}}Collection</p>
 
+=======
+        <p><span class ="m-icon" :class="{'active':hasSh}"></span></p>
+        <p v-if="!hasSh">收集中Collection</p>
+        <p v-if="hasSh">协助收集中Collection</p>
+>>>>>>> Stashed changes
         <p
           :class="{
             bar: true,
@@ -79,7 +95,9 @@
               mode="widthFix"
               v-show=" completed[n] &&completed[n].status === 1 && !hasSh && !isBracelet[n]"
             />-->
-            <span class="sh-icon" v-if="isBracelet[n]">+{{ singleReward[n] }}</span>
+            <span class="sh-icon" v-if="isBracelet[n]">
+              +{{ singleReward[n] }}
+            </span>
           </dd>
         </dl>
       </div>
@@ -118,6 +136,7 @@
             type="text"
             v-model="userId"
             class="dia-field"
+            maxlength="3"
             placeholder="请输入手环编号"
           />
           <p class="dialog-title">手环和绑定手机共同收集获得额外奖励</p>
@@ -257,6 +276,7 @@
     </div>
     <div class="hgbj" v-if="gsStatus === 3"></div>
     <div class="earthquakebj" v-if="earthquakejpg"></div>
+    <div class="fly" v-if="flyjpg"></div>
     <van-popup
       :custom-style="'background-color:transparent;overflow: initial;'"
       :show="dia_lv"
@@ -287,11 +307,11 @@ export default {
     return {
       warning: null,
       warningText: "",
-      firstNum: null,
-      myNum: null,
-      firstReward: null,
-      totalNum: null,
-      totalReward: null,
+      firstNum: 0,
+      myNum: 0,
+      firstReward: 0,
+      totalNum: 0,
+      totalReward: 0,
       status: null,
       totalStatus: null,
       totalTask: {},
@@ -305,13 +325,13 @@ export default {
       listDig: false, //列表弹窗
       getUserInfoDig: false, //用户授权
       blueStatus: false, //蓝牙是否开启
-      hasSh: false, //是否有手环
+      //hasSh: false, //是否有手环
       isSlow: false, //是否冰冻
       snow: false, //下雪了
       snowjpg: false, //下雪动画
       earthquake: false, //地震
-      collectMsg:null,
-      earthquakejpg: true, //地震动画
+      collectMsg:'',
+      earthquakejpg: false, //地震动画
       gsll: false, //怪兽来了
       countDownTime: "",
       gsStatus: 0,
@@ -344,7 +364,9 @@ export default {
       "isBracelet",
       "bigUrl",
       "warning2",
+      "flyjpg",
       "warningText2",
+      "hasSh",
       "addproperty_Show",
       "addproperty",
       "dia_lv",
@@ -448,6 +470,10 @@ export default {
         uuids: ["B5B182C7-EAB1-4988-AA99-B5C1517008D9"],
         success: function(res) {
           wx.onBeaconUpdate(res => {
+            if (_this.ISENDING) {
+              return;
+            }
+            _this.setLoaning(true);
             _this.handleFindDevs(res.beacons);
           });
         }
@@ -455,37 +481,36 @@ export default {
     },
     filterDevs(devs) {
       console.info("filterDevs", devs);
-
+      const _this =this
       const distanceDev = devs
         .filter(item => {
           if (item.minor == this.braceletId  && item.accuracy>0 && item.accuracy < 0.5){
             wx.setStorageSync("braceletIdType", true);
-            this.collectMsg = "协助收集中";
-            this.hasSh = true
           }else{
-            this.collectMsg = "协助收集中";
+            wx.setStorageSync("braceletIdType", false);
           }
-          return item.accuracy>0 && item.accuracy < 0.5 && item.minor != this.braceletId;
+          return item.accuracy>0 && item.accuracy < 0.5 && item.minor != _this.braceletId;
         })
         .sort((a, b) => {
           return a.accuracy - b.accuracy;
         });
       console.info("distanceDev",distanceDev);
+
       if (distanceDev.length > 0) {
-        const isExitDevs = this.completed.some(item => {
+       /* const isExitDevs = this.completed.some(item => {
+          console.info(item.typeId,distanceDev[0].minor);
           return item.typeId == distanceDev[0].minor;
         });
 
         if (isExitDevs || !this.devOptions[distanceDev[0].minor]) {
           console.log(this.devOptions);
           console.log(isExitDevs, !this.devOptions[distanceDev[0].minor], "2");
-          this.showWarnning("已收集该颜色能量")
-          return false;
-        } else {
+          return 2;
+        } else {*/
           return {
             typeId: distanceDev[0].minor,
             type: this.devOptions[distanceDev[0].minor]
-          };
+          //};
         }
       } else {
         console.log(distanceDev.length, 3);
@@ -494,12 +519,10 @@ export default {
     },
     handleFindDevs(devs) {
       const _this = this;
-      if (_this.ISENDING) {
-        return;
-      }
-      _this.setLoaning(true);
+
       const fDevs = _this.filterDevs(devs);
-      console.log(fDevs.type, "filter");
+      console.log(fDevs, "filter");
+
       if (fDevs.type) {
         http
           .post("/game/deviceColor/collect", {
@@ -518,16 +541,25 @@ export default {
                 gameId: _this.gameId,
                 time: res.data.continuTime * 1000
               });
-
-
               this.countDown(res.data.continuTime);
             },
             res => {
-              _this.setLoaning(false);
+              setTimeout(() => {
+                _this.warning = true;
+                _this.warningText = "! 不能收集已有能量";
+                setTimeout(() => {
+                  _this.warning = false;
+                  _this.setLoaning(false);
+                }, 1000);
+              }, 5000);
+
             }
           );
       } else {
-        _this.setLoaning(false);
+        setTimeout(() => {
+          _this.setLoaning(false);
+        }, 1000);
+
       }
     },
     initUserinfo() {
@@ -540,6 +572,7 @@ export default {
         .then(
           res => {
             _this.braceletId = res.data.deviceId;
+            _this.userId = res.data.userId;
             _this.setScores(res.data.scores);
             _this.setNewNum(res.data.newNum);
             _this.showEvent(res.data.event);
@@ -569,7 +602,7 @@ export default {
     reward(type) {
       if (this.status == 0 && type == 1) {
         this.status = 1;
-      } else if (tis.totalStatus == 0 && type == 2) {
+      } else if (this.totalStatus == 0 && type == 2) {
         this.totalStatus = 1;
       }
 
@@ -600,7 +633,7 @@ export default {
         .then(
           res => {
             this.firstNum = res.data.firstNum;
-
+            this.myNum = res.data.myNum;
             this.firstReward = res.data.scores;
             this.totalNum = res.data.totalNum;
             this.totalReward = res.data.totalScores;
@@ -747,7 +780,7 @@ export default {
 .first {
   padding: 15px 30px;
   text-align: center;
-  background: url(http://img.isxcxbackend1.cn/1.88888.gif) center center
+  background: url(http://img.isxcxbackend1.cn/2.8.gif) center center
     no-repeat;
   position: relative;
   z-index: 1;
@@ -807,7 +840,8 @@ export default {
         color: #ffc63c;
         font-weight: bold;
         text-align: center;
-        margin-top: 5px;
+        margin-top: 3px;
+        font-size:16px;
       }
     }
   }
@@ -985,6 +1019,7 @@ export default {
     line-height: 20px;
     height: 20px;
     border-radius: 4px;
+    text-transform: uppercase;
     border: 3rpx solid #262724;
     padding: 10px 20px;
   }
@@ -1114,7 +1149,7 @@ export default {
         height: 30px;
         color: #ffc655;
         margin-left: 20px;
-        margin-top:-20px;
+        margin-top:10px;
         line-height: 26px;
       }
       .nbg {
@@ -1165,13 +1200,13 @@ export default {
     background-image: url(http://img.isxcxbackend1.cn/椭圆78.png);
   }
   &.c1 {
-    background-image: url(http://img.isxcxbackend1.cn/椭圆65.png);
+    background-image: url(http://img.isxcxbackend1.cn/椭圆75.png);
   }
   &.c2 {
     background-image: url(http://img.isxcxbackend1.cn/椭圆74.png);
   }
   &.c3 {
-    background-image: url(http://img.isxcxbackend1.cn/椭圆75.png);
+    background-image: url(http://img.isxcxbackend1.cn/椭圆65.png);
   }
 }
 .hgbj {
@@ -1182,6 +1217,17 @@ export default {
   width: 100%;
   background: url(http://img.isxcxbackend1.cn/红光闪动.gif) center center
     no-repeat;
+  background-size: cover;
+  z-index: 0;
+}
+.fly{
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: url(http://img.isxcxbackend1.cn/custom-–-2.gif) center center
+  no-repeat;
   background-size: cover;
   z-index: 0;
 }
