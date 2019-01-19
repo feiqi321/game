@@ -50,7 +50,7 @@
         </div>
       </div>
       <div class="probar">
-        <p><span class ="m-icon" :class="{'active':hasSh}"></span></p>
+        <p><span :class="{'active':hasSh,'m-icon':true}"></span></p>
         <p v-if="!hasSh && !thisSh">收集中Collection</p>
         <p v-if="hasSh || thisSh">协助收集中Collection</p>
         <p
@@ -906,7 +906,7 @@ export default {
   height: 160px;
   margin: 10px 30px 0;
   background: center center no-repeat;
-  background-size: contain;
+  background-size: cover;
   img {
     width: 100%;
   }
@@ -924,9 +924,11 @@ export default {
 .probar {
   font-size: 12px;
   .m-icon {
-    width: 24px;
-    height: 24px;
+    width: 28px;
+    height: 28px;
     display: inline-block;
+    background: url(http://img.isxcxbackend1.cn/小孩.gif) center center no-repeat;
+    background-size: cover;
     &.active {
       background-image: url(http://img.isxcxbackend1.cn/小孩.gif);
     }
@@ -973,6 +975,7 @@ export default {
     dd {
       width: 50%;
       margin: 10px auto;
+      height: 20px;
     }
     .sh-icon {
       font-weight: normal;
