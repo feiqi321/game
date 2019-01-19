@@ -105,6 +105,12 @@ const store = new Vuex.Store({
     addDbToCompleted(state, arr) {
       state.completed = arr;
     },
+    addShToCompleted(state, arr) {
+      state.isBracelet = arr;
+    },
+    addBraceletToCompleted(state, arr) {
+      state.singleReward = arr;
+    },
     updateDevCompleted(state, { typeId, type }) {
       state.completed.map((item) => {
         if (item.type == type) {

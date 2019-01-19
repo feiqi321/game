@@ -4,19 +4,12 @@
     <span class="common-msg" v-if="warning" @click="warning = false">{{
       warningText
     }}</span>
-<<<<<<< Updated upstream
-    <span class="common-msg" v-if="warning2" @click="warning2 = false">{{
-      warningText2
-    }}</span>
-=======
-    </transition>
-    <transition name="fade">
-    <span class="common-msg" v-if="warning2" @click="warning2 = false">{{
-      warningText2
-    }}</span>
-    </transition>
 
->>>>>>> Stashed changes
+    <span class="common-msg" v-if="warning2" @click="warning2 = false">{{
+      warningText2
+    }}</span>
+
+
     <van-notify id="van-notify" />
     <div class="first">
       <div class="top-tool">
@@ -57,15 +50,9 @@
         </div>
       </div>
       <div class="probar">
-<<<<<<< Updated upstream
-        <p><span :class="['m-icon', hasSh ? 'active' : '']"></span></p>
-        <p>{{collectMsg}}Collection</p>
-
-=======
         <p><span class ="m-icon" :class="{'active':hasSh}"></span></p>
-        <p v-if="!hasSh">收集中Collection</p>
-        <p v-if="hasSh">协助收集中Collection</p>
->>>>>>> Stashed changes
+        <p v-if="!hasSh && !thisSh">收集中Collection</p>
+        <p v-if="hasSh || thisSh">协助收集中Collection</p>
         <p
           :class="{
             bar: true,
@@ -326,6 +313,7 @@ export default {
       getUserInfoDig: false, //用户授权
       blueStatus: false, //蓝牙是否开启
       //hasSh: false, //是否有手环
+      thisSh:false,
       isSlow: false, //是否冰冻
       snow: false, //下雪了
       snowjpg: false, //下雪动画
@@ -391,7 +379,10 @@ export default {
     ...mapMutations([
       "setScores",
       "addDbToCompleted",
+      "addShToCompleted",
+      "addBraceletToCompleted",
       "setNewNum",
+      "setSh",
       "setLoaning",
       "setSingleReward"
     ]),
@@ -485,9 +476,14 @@ export default {
       const distanceDev = devs
         .filter(item => {
           if (item.minor == this.braceletId  && item.accuracy>0 && item.accuracy < 0.5){
+
             wx.setStorageSync("braceletIdType", true);
+            _this.setSh(true);
+            _this.thisSh = true;
           }else{
             wx.setStorageSync("braceletIdType", false);
+            _this.setSh(false);
+            _this.thisSh = false;
           }
           return item.accuracy>0 && item.accuracy < 0.5 && item.minor != _this.braceletId;
         })
@@ -591,7 +587,9 @@ export default {
         })
         .then(
           res => {
-            _this.addDbToCompleted(res.data);
+            _this.addDbToCompleted(res.data.collectList);
+            _this.addShToCompleted(res.data.shList);
+            _this.addBraceletToCompleted(res.data.singleList);
           },
           res => {
             Notify("网络异常3!");
