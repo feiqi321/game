@@ -128,7 +128,7 @@
         <div class="rigth-nav" v-if="monster">
           <span class="i-sb active rigth-monster"></span>
         </div>
-        <div class="rigth-nav" @click="toback">
+        <div class="rigth-nav" @click="nativeTo('../first/main')">
           <span class="i-sb active rigth-gotoSec"></span>
         </div>
         <div class="rigth-nav" @click="nativeTo('../index/main')"><span class="i-sb active"></span></div>
@@ -564,15 +564,11 @@ export default {
       // this.triggerFt();
     },
     nativeTo(path){
-      wx.navigateTo({
+      wx.redirectTo({
         url:path
       })
     },
-    toback(){
-      wx.navigateBack({
-        delta: 1  // 返回上一级页面。
-      })
-    },
+
     //触摸移动
     // tMove(e) {
     //

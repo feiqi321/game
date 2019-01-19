@@ -4,20 +4,9 @@
     <span class="common-msg" v-if="warning" @click="warning = false">{{
       warningText
     }}</span>
-<<<<<<< Updated upstream
-
     <span class="common-msg" v-if="warning2" @click="warning2 = false">{{
       warningText2
     }}</span>
-
-=======
-    </transition>
-    <transition name="fade">
-    <span class="common-msg" v-if="warning2" @click="warning2 = false">{{
-      warningText2
-    }}</span>
-    </transition>
->>>>>>> Stashed changes
 
     <van-notify id="van-notify" />
     <div class="first">
@@ -59,15 +48,8 @@
         </div>
       </div>
       <div class="probar">
-<<<<<<< Updated upstream
-        <p><span :class="{'active':hasSh,'m-icon':true}"></span></p>
-        <p v-if="!hasSh && !thisSh">收集中Collection</p>
-        <p v-if="hasSh || thisSh">协助收集中Collection</p>
-=======
-        <p><span class ="m-icon" :class="{'active':hasSh}"></span></p>
-        <p v-if="!hasSh">收集中Collection</p>
-        <p v-if="hasSh">协助收集中Collection</p>
->>>>>>> Stashed changes
+        <p v-if="thisSh"><span :class="{'active':true,'m-icon':true}"></span></p>
+        <p v-if="thisSh2">{{receiveMsg}}Collection</p>
         <p
           :class="{
             bar: true,
@@ -278,7 +260,6 @@
     </div>
     <div class="hgbj" v-if="gsStatus === 3"></div>
     <div class="earthquakebj" v-if="earthquakejpg"></div>
-    <div class="fly" v-if="flyjpg"></div>
     <van-popup
       :custom-style="'background-color:transparent;overflow: initial;'"
       :show="dia_lv"
@@ -328,10 +309,9 @@ export default {
       getUserInfoDig: false, //用户授权
       blueStatus: false, //蓝牙是否开启
       //hasSh: false, //是否有手环
-<<<<<<< Updated upstream
       thisSh:false,
-=======
->>>>>>> Stashed changes
+      thisSh2:false,
+      receiveMsg:'',
       isSlow: false, //是否冰冻
       snow: false, //下雪了
       snowjpg: false, //下雪动画
@@ -370,7 +350,6 @@ export default {
       "isBracelet",
       "bigUrl",
       "warning2",
-      "flyjpg",
       "warningText2",
       "hasSh",
       "addproperty_Show",
@@ -400,7 +379,6 @@ export default {
       "addShToCompleted",
       "addBraceletToCompleted",
       "setNewNum",
-      "setSh",
       "setLoaning",
       "setSingleReward"
     ]),
@@ -440,7 +418,7 @@ export default {
     toThird() {
       const url = "../third/main";
       // switchTab navigateTo
-      wx.navigateTo({ url });
+      wx.redirectTo({ url });
     },
     getUserInfo() {
       const _this = this;
@@ -491,22 +469,16 @@ export default {
     filterDevs(devs) {
       console.info("filterDevs", devs);
       const _this =this
+      _this.thisSh = false;
+      _this.thisSh2 = false;
       const distanceDev = devs
         .filter(item => {
           if (item.minor == this.braceletId  && item.accuracy>0 && item.accuracy < 0.5){
 
             wx.setStorageSync("braceletIdType", true);
-<<<<<<< Updated upstream
-            _this.setSh(true);
             _this.thisSh = true;
           }else{
             wx.setStorageSync("braceletIdType", false);
-            _this.setSh(false);
-            _this.thisSh = false;
-=======
-          }else{
-            wx.setStorageSync("braceletIdType", false);
->>>>>>> Stashed changes
           }
           return item.accuracy>0 && item.accuracy < 0.5 && item.minor != _this.braceletId;
         })
@@ -514,6 +486,12 @@ export default {
           return a.accuracy - b.accuracy;
         });
       console.info("distanceDev",distanceDev);
+      if (_this.thisSh){
+        _this.receiveMsg = "协助收集中";
+      }else{
+        _this.receiveMsg = "收集中";
+      }
+      _this.thisSh2 = true;
 
       if (distanceDev.length > 0) {
        /* const isExitDevs = this.completed.some(item => {
@@ -861,7 +839,7 @@ export default {
         color: #ffc63c;
         font-weight: bold;
         text-align: center;
-        margin-top: 3px;
+        margin-top: 7px;
         font-size:16px;
       }
     }
@@ -1173,11 +1151,7 @@ export default {
         height: 30px;
         color: #ffc655;
         margin-left: 20px;
-<<<<<<< Updated upstream
         margin-top:-10px;
-=======
-        margin-top:10px;
->>>>>>> Stashed changes
         line-height: 26px;
         vertical-align: middle;
       }
@@ -1249,17 +1223,7 @@ export default {
   background-size: cover;
   z-index: 0;
 }
-.fly{
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  background: url(http://img.isxcxbackend1.cn/custom-–-2.gif) center center
-  no-repeat;
-  background-size: cover;
-  z-index: 0;
-}
+
 .earthquakebj{
   position: fixed;
   top: 0;

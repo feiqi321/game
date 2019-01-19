@@ -13,8 +13,6 @@ const store = new Vuex.Store({
     bigUrl:null,
     isBracelet:[],
     newnum:0,
-    hasSh:false,
-    flyjpg:false,
     //升级弹窗
     dia_lv:false,
     ISENDING:false,
@@ -29,12 +27,6 @@ const store = new Vuex.Store({
     devOptions: null
   },
   mutations: {
-    setFly: (state, bool)=>  {
-      state.flyjpg = bool;
-    },
-    setSh:  (state, bool)=>  {
-      state.hasSh = bool;
-    },
     setWarning: (state, str)=>  {
       state.warning2 = true;
       state.warningText2 = str;
@@ -66,9 +58,7 @@ const store = new Vuex.Store({
     },
     addproperty_Handle(state, { num1, num2 ,str})  {
       state.bigUrl = str;
-      state.flyjpg = true;
       setTimeout(() => {
-        state.flyjpg = false;
         state.dia_lv = true;
         console.info("进入到第一个",str)
         setTimeout(() => {
@@ -85,7 +75,7 @@ const store = new Vuex.Store({
             state.ISENDING = false;
           }, 2000);
         }, 2000);
-      }, 2000);
+      }, 1000);
     },
     setScores: (state, num) => {
       state.scores = num;
@@ -145,10 +135,7 @@ const store = new Vuex.Store({
                   return a.accuracy - b.accuracy;
                 });
               if (bracelet.length > 0) {
-                commit('setSh',true);
                 length = 0;
-              }else{
-                commit('setSh',false);
               }
 
 

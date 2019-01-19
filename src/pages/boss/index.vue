@@ -247,7 +247,7 @@ export default {
           this.listDig2 = false;
         }
       }
-      wx.navigateTo({ url });
+      wx.redirectTo({ url });
     },
     /**
      * 生命周期函数--监听页面加载
