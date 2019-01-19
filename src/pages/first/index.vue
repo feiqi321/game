@@ -68,9 +68,9 @@
               :src="colorOptions[completed[n].type - 1]"
               class="m-icon"
               mode="widthFix"
-              v-if="completed[n]"
+              v-if="completed[n]&&completed[n].status === 1"
             />
-            <span v-if="!completed[n]">{{ n + 1 }}</span>
+            <span v-if="!completed[n]||completed[n].status != 1">{{ n + 1 }}</span>
           </dt>
           <dd>
             <!--<img
@@ -1134,7 +1134,7 @@ export default {
     .tr {
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      // align-items: center;
       margin-bottom: 10px;
       font-weight: bold;
       td {
@@ -1151,7 +1151,6 @@ export default {
         height: 30px;
         color: #ffc655;
         margin-left: 20px;
-        margin-top:-10px;
         line-height: 26px;
         vertical-align: middle;
       }

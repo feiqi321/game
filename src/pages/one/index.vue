@@ -1,11 +1,16 @@
 <template>
-  <div class="main" >
-    <button open-type="getUserInfo" lang="zh_CN" @getuserinfo="getUserInfo" style="width: 100vw;height: 100vh;opacity: 0;position: relative;z-index: 1001"></button>
+  <div class="main">
+    <button
+      open-type="getUserInfo"
+      lang="zh_CN"
+      @getuserinfo="getUserInfo"
+      style="width: 100vw;height: 100vh;opacity: 0;position: relative;z-index: 1001"
+    ></button>
     <div class="title"></div>
     <span class="yd"></span>
     <span class="common-msg" v-if="warning" @click="warning=false">！游戏尚未开始</span>
     <div class="btn-w">
-      <button ></button>
+      <button></button>
     </div>
   </div>
 </template>
@@ -18,10 +23,10 @@ export default {
   data() {
     return {
       openId: null,
-      warning:false,
+      warning: false,
       gameId: null,
-      code:null,
-      status:0,
+      code: null,
+      status: 0,
       userInfo: null //用户信息
     };
   },
@@ -30,10 +35,16 @@ export default {
 
   methods: {
     ...mapMutations(["changeState"]),
+    testMusic() {
+      const backgroundAudioManager = wx.getBackgroundAudioManager();
 
-    getUserInfo(res){
+      backgroundAudioManager.title = "此时此刻";
+      backgroundAudioManager.src =
+        "http://img.isxcxbackend1.cn/04%E9%87%91%E5%B8%81%E5%A2%9E%E5%8A%A0.mp3";
+    },
+    getUserInfo(res) {
       const _this = this;
-      if (_this.status==1){
+      if (_this.status == 1) {
         return;
       }
       _this.status = 1;
@@ -46,8 +57,8 @@ export default {
               wx.setStorageSync("userinfo", res.userInfo);
               http
                 .post("/game/manager/access", {
-                  nickName:res.userInfo.nickName,
-                  imgUrl:res.userInfo.avatarUrl,
+                  nickName: res.userInfo.nickName,
+                  imgUrl: res.userInfo.avatarUrl,
                   wxCode: _this.code
                 })
                 .then(
@@ -64,30 +75,28 @@ export default {
                     const url = "../index/main";
                     // switchTab navigateTo
                     wx.navigateTo({ url });
-                    setTimeout(()=>{
+                    setTimeout(() => {
                       _this.status = 0;
-                    },1200)
-
+                    }, 1200);
                   },
                   res => {
                     _this.warning = true;
-                    setTimeout(()=>{
+                    setTimeout(() => {
                       _this.warning = false;
                       _this.status = 0;
-                    },1500)
+                    }, 1500);
                   }
                 );
-
             }
           });
         },
-        fail: () => {_this.status = 0;},
+        fail: () => {
+          _this.status = 0;
+        },
         complete: () => {
           wx.hideLoading();
         }
       });
-
-
     }
   },
 
@@ -95,30 +104,30 @@ export default {
     this.userInfo = wx.getStorageSync("userinfo");
     this.openId = wx.getStorageSync("openId");
     this.gameId = wx.getStorageSync("gameId");
-
+    this.testMusic();
   }
 };
 </script>
 
 <style lang="scss" scoped>
-  .common-msg{
-    line-height: 48px;
-    z-index: 1000;
-    border:2px solid #000;
-    position: absolute;
-    width: 200px;
-    text-align: center;
-    background: #ff4b4b;
-    color: #fff;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%,-50%);
-    border-radius: 6px;
-  }
+.common-msg {
+  line-height: 48px;
+  z-index: 1000;
+  border: 2px solid #000;
+  position: absolute;
+  width: 200px;
+  text-align: center;
+  background: #ff4b4b;
+  color: #fff;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 6px;
+}
 .main {
   height: 100%;
-  background: url(http://img.isxcxbackend1.cn/图层2.png) center
-    center #636e5d no-repeat;
+  background: url(http://img.isxcxbackend1.cn/图层2.png) center center #636e5d
+    no-repeat;
   background-size: 100% 100%;
   overflow: hidden;
 }
@@ -197,31 +206,32 @@ export default {
     background: url(http://img.isxcxbackend1.cn/start-gif.gif) center center
       no-repeat;
     background-size: cover;
-    &::after{ border: none; } 
+    &::after {
+      border: none;
+    }
   }
 }
-.yd{
+.yd {
   background: url(http://img.isxcxbackend1.cn/%E4%BA%91@3x.png) center top
-      no-repeat;
-    background-size: 100% auto;
-    position: absolute;
-    width: 100%;
-    height: 50%;
-    left: 0;
-    top:0;
-    z-index: 1;
+    no-repeat;
+  background-size: 100% auto;
+  position: absolute;
+  width: 100%;
+  height: 50%;
+  left: 0;
+  top: 0;
+  z-index: 1;
 }
-.title{
-  background: url(http://img.isxcxbackend1.cn/资源1.png) center center
-  no-repeat;
+.title {
+  background: url(http://img.isxcxbackend1.cn/资源1.png) center center no-repeat;
   text-align: center;
   padding-top: 250px;
   font-size: 35px;
   font-weight: bold;
-  position:absolute;
+  position: absolute;
   top: 0;
   left: 0;
-  width:100%;
+  width: 100%;
   z-index: 101;
 }
 </style>
