@@ -35,13 +35,25 @@ export default {
 
   methods: {
     ...mapMutations(["changeState"]),
-    testMusic() {
-     /* const backgroundAudioManager = wx.getBackgroundAudioManager();
+    /*testMusic() {
+      const back = wx.getBackgroundAudioManager();
+      player();
+      function player(){
+        back.title = "此时此刻";
+        back.src = "http://img.isxcxbackend1.cn/06收集.mp3";
+        back.onEnded(() => {
+          console.info("再次播放");
+          player();
+        })
+      }
 
-      backgroundAudioManager.title = "此时此刻";
-      backgroundAudioManager.src =
-        "http://img.isxcxbackend1.cn/04%E9%87%91%E5%B8%81%E5%A2%9E%E5%8A%A0.mp3";*/
-    },
+      setTimeout(() => {
+        const backgroundAudioManager  = wx.getBackgroundAudioManager();
+        backgroundAudioManager.title = "此时此刻";
+        backgroundAudioManager.src =
+          "http://img.isxcxbackend1.cn/04%E9%87%91%E5%B8%81%E5%A2%9E%E5%8A%A0.mp3";
+      }, 8000);
+    },*/
     getUserInfo(res) {
       const _this = this;
       if (_this.status == 1) {
@@ -104,7 +116,7 @@ export default {
     this.userInfo = wx.getStorageSync("userinfo");
     this.openId = wx.getStorageSync("openId");
     this.gameId = wx.getStorageSync("gameId");
-    this.testMusic();
+    //this.testMusic();
   }
 };
 </script>

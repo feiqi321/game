@@ -15,6 +15,7 @@ const store = new Vuex.Store({
     newnum:0,
     //升级弹窗
     dia_lv:false,
+    //back:null,
     ISENDING:false,
     warningText2:null,
     warning2:false,
@@ -95,18 +96,7 @@ const store = new Vuex.Store({
         status: 0
       })
     },
-    playMusic(state,num){
-      const back = wx.getBackgroundAudioManager();
-      player();
-      function player(){
-        back.title = "此时此刻";
-        back.src = "http://img.isxcxbackend1.cn/06收集.mp3";
-        back.onEnded(() => {
-          console.info("再次播放");
-          player();
-        })
-      }
-    },
+
     addDbToCompleted(state, arr) {
       state.completed = arr;
     },
@@ -134,12 +124,19 @@ const store = new Vuex.Store({
     delayDetection({ commit, state }, { typeId, type, braceletId, openId, gameId, time }) {//延迟检测
       console.info("进入都再次确认地方",braceletId);
       commit('addDevToCompleted', { typeId, type, time });
-      commit('playMusic',time);
+      const back = wx.getBackgroundAudioManager();
+      player();
+      function player(){
+        back.title = "06收集";
+        back.src = "http://img.isxcxbackend1.cn/06收集.mp3";
+        back.onEnded(() => {
+          player();
+        })
+      }
       setTimeout(() => {
         wx.getBeacons({
           success(res) {
             console.info(res, "action")
-            wx.stopBackgroundAudio();
             let length = 1;
             if (braceletId == null || braceletId == "") {
               length = 1;
