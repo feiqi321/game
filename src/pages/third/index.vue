@@ -1,5 +1,6 @@
 <template>
-  <div class="main" id="thirdPage">
+  <div class="main" id="thirdPage" >
+    <div id="_whitemask" @click="areaWhiteHandle" v-show="areaWhite"></div>
     <span class="common-msg" v-if="warning" @click="warning = false"
       >{{ warningText }}</span>
     <div class="monster" v-if="monster"></div>
@@ -283,7 +284,8 @@ export default {
       warning: false,
       warningText: "",
       //抖动开关
-      dzan:false
+      dzan:false,
+      areaWhite:false
     };
   },
   watch: {
@@ -361,6 +363,10 @@ export default {
     }
   },
   methods: {
+    areaWhiteHandle(e){
+      this.hideDeleteBtn();
+      this.showJzq = false;
+    },
     initUserinfo() {
       const _this = this;
       httpReq({
@@ -459,6 +465,7 @@ export default {
       this.currentActive = currentActive;
       let currentImg = this.getCurrentImg(currentActive);
       if (currentImg) {
+        this.areaWhite = true;
         let style = {
           display: "block",
           left: currentImg.left + this.real90.width,
@@ -475,6 +482,7 @@ export default {
     //隐藏删除按钮
     hideDeleteBtn() {
       this.deleteBtnStyle.display = "none";
+      this.areaWhite = false;
     },
     //删除一个
     deleteOne() {
@@ -537,6 +545,7 @@ export default {
     //触摸开始
     tStart(e) {
       console.log(e);
+      this.hideDeleteBtn();
       this.showJzq = true;
       this.currentBottom = e;
       let url = e.currentTarget.dataset.obj.url3;
@@ -765,7 +774,7 @@ export default {
     position: absolute;
     width: auto;
     height: auto;
-    z-index: 5;
+    z-index: 2;
     width: 90px;
     height: 90px;
   }
@@ -827,6 +836,8 @@ export default {
     display: flex;
     justify-content: space-between;
     padding: 15px 20px;
+    position: relative;
+    z-index: 5;
     .user-info {
       dt {
         width: 60px;
@@ -892,7 +903,7 @@ export default {
     background: #fff;
     border: 2.5px solid #333;
     border-radius: 8px;
-    z-index: 1;
+    z-index: 5;
     box-shadow: 0 3px 0 #979797;
     bottom: 53px;
     position: absolute;
@@ -955,7 +966,7 @@ export default {
     border-radius: 8px;
     line-height: 25px;
     height: 25px;
-    z-index: 1;
+    z-index: 5;
     box-shadow: 0 3px 0 #979797;
     display: flex;
     bottom: 10px;
@@ -1282,5 +1293,12 @@ view[hidden] {
   transform: translate(-50%, -50%);
   border-radius: 6px;
 }
-
+#_whitemask{
+  position: absolute;
+  z-index: 3;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
 </style>
