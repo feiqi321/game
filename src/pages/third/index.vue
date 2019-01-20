@@ -35,7 +35,7 @@
       <div class="commonDia">
         <div>
           <img
-            src="http://img.isxcxbackend1.cn/组232@2x.png"
+            src="http://img.isxcxbackend1.cn/组233.png"
             style="width: 145px;height: 133px;"
             alt=""
           />
@@ -107,7 +107,7 @@
         <div class="rigth-nav" v-if="monster">
           <span class="i-sb active rigth-monster"></span>
         </div>
-        <div class="rigth-nav" @click="nativeBack()">
+        <div class="rigth-nav" @click="nativeBack('1')">
           <span class="i-sb active rigth-gotoSec"></span>
         </div>
         <div class="rigth-nav" @click="nativeTo('../index/main')"><span class="i-sb active"></span></div>
@@ -544,7 +544,7 @@ export default {
       this.currentDrop.src = url;
       // this.triggerFt();
     },
-    nativeBack(){
+    nativeBack(path){
       wx.navigateBack({
         delta: 1
       })
@@ -587,6 +587,9 @@ export default {
         }).then(({ code, data }) => {
           if (code == 200) {
             this.getCurrentList();
+            const backgroundAudioManager = wx.getBackgroundAudioManager();
+            backgroundAudioManager.title="07收集完成";
+            backgroundAudioManager.src ="http://img.isxcxbackend1.cn/07收集完成.mp3";
           }
         });
         this.picInfo.push(this.mixinObj(index, { obj, name: obj.url3, index }));
@@ -711,7 +714,7 @@ export default {
         _this.diaCollect.dia2 = false;
         _this.diaCollect.dia3 = false;
         _this.dzan = true;
-      } else if (event = 100) {
+      } else if (event == 100) {
         _this.dzan = true;
         _this.diaCollect.dia1 = false;
         _this.diaCollect.dia2 = false;

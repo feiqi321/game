@@ -140,7 +140,9 @@ export default {
       }else{
         damage = Math.floor(Math.random() * 3 + 2) ;
       }
-
+      const backgroundAudioManager = wx.getBackgroundAudioManager();
+      backgroundAudioManager.title="05恐龙打击时";
+      backgroundAudioManager.src ="http://img.isxcxbackend1.cn/05恐龙打击时.mp3";
       this.totalAttack = this.totalAttack+damage;
       this.socketTask.send({
         data: this.openId+','+this.gameId+","+damage

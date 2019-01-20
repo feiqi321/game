@@ -66,7 +66,6 @@ const store = new Vuex.Store({
           state.addproperty_Show = true;
           state.addproperty.num1 = num1;
           const backgroundAudioManager = wx.getBackgroundAudioManager();
-          console.info("singleReward",singleReward);
           backgroundAudioManager.title="02动物出现";
           backgroundAudioManager.src ="http://img.isxcxbackend1.cn/02动物出现.mp3";
           state.addproperty.num2 = num2;
@@ -194,19 +193,24 @@ const store = new Vuex.Store({
                     var orderNum = res.data.orderNum;
 
                     const backgroundAudioManager = wx.getBackgroundAudioManager();
-                    console.info("singleReward",singleReward);
+
                     backgroundAudioManager.title="07收集完成";
                     backgroundAudioManager.src ="http://img.isxcxbackend1.cn/07收集完成.mp3";
                     if (singleReward>0){
                       commit('setSingleReward', {num:singleReward,orderNum:orderNum,bool:true})
-                      backgroundAudioManager.title = "04金币增加";
-                      backgroundAudioManager.src ="http://img.isxcxbackend1.cn/04金币增加.mp3";
+                      const backgroundAudioManager2 = wx.getBackgroundAudioManager();
+                      backgroundAudioManager2.title = "04金币增加";
+                      backgroundAudioManager2.src ="http://img.isxcxbackend1.cn/04金币增加.mp3";
                     }
                     if (groupReward>0){
                       commit('setNewNum',1);
                       commit('addproperty_Handle', {num1:groupReward,num2:totalReward,str:bigUrl});
-                      backgroundAudioManager.title = "04金币增加";
-                      backgroundAudioManager.src ="http://img.isxcxbackend1.cn/04金币增加.mp3";
+                      const backgroundAudioManager3 = wx.getBackgroundAudioManager();
+                      backgroundAudioManager3.title = "04金币增加";
+                      backgroundAudioManager3.src ="http://img.isxcxbackend1.cn/04金币增加.mp3";
+                      const backgroundAudioManager4 = wx.getBackgroundAudioManager();
+                      backgroundAudioManager4.title = "08新消息提醒.mp3";
+                      backgroundAudioManager4.src ="http://img.isxcxbackend1.cn/08新消息提醒.mp3";
                     }else{
                       commit('setLoaning',false);
                     }
