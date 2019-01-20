@@ -65,6 +65,10 @@ const store = new Vuex.Store({
           state.dia_lv = false;
           state.addproperty_Show = true;
           state.addproperty.num1 = num1;
+          const backgroundAudioManager = wx.getBackgroundAudioManager();
+          console.info("singleReward",singleReward);
+          backgroundAudioManager.title="02动物出现";
+          backgroundAudioManager.src ="http://img.isxcxbackend1.cn/02动物出现.mp3";
           state.addproperty.num2 = num2;
           console.info("进入到第二个",num1)
           setTimeout(() => {
@@ -92,6 +96,18 @@ const store = new Vuex.Store({
         status: 0
       })
     },
+    playMusic(state,num){
+      const back = wx.getBackgroundAudioManager();
+      player();
+      function player(){
+        back.title = "此时此刻";
+        back.src = "http://img.isxcxbackend1.cn/06收集.mp3";
+        back.onEnded(() => {
+          console.info("再次播放");
+          player();
+        })
+      }
+    },
     addDbToCompleted(state, arr) {
       state.completed = arr;
     },
@@ -118,11 +134,13 @@ const store = new Vuex.Store({
   actions: {
     delayDetection({ commit, state }, { typeId, type, braceletId, openId, gameId, time }) {//延迟检测
       console.info("进入都再次确认地方",braceletId);
-      commit('addDevToCompleted', { typeId, type, time })
+      commit('addDevToCompleted', { typeId, type, time });
+      commit('playMusic',time);
       setTimeout(() => {
         wx.getBeacons({
           success(res) {
             console.info(res, "action")
+            wx.stopBackgroundAudio();
             let length = 1;
             if (braceletId == null || braceletId == "") {
               length = 1;
@@ -174,13 +192,21 @@ const store = new Vuex.Store({
                     var totalReward = res.data.totalReward;
                     var bigUrl = res.data.bigUrl;
                     var orderNum = res.data.orderNum;
+
+                    const backgroundAudioManager = wx.getBackgroundAudioManager();
                     console.info("singleReward",singleReward);
+                    backgroundAudioManager.title="07收集完成";
+                    backgroundAudioManager.src ="http://img.isxcxbackend1.cn/07收集完成.mp3";
                     if (singleReward>0){
                       commit('setSingleReward', {num:singleReward,orderNum:orderNum,bool:true})
+                      backgroundAudioManager.title = "04金币增加";
+                      backgroundAudioManager.src ="http://img.isxcxbackend1.cn/04金币增加.mp3";
                     }
                     if (groupReward>0){
                       commit('setNewNum',1);
                       commit('addproperty_Handle', {num1:groupReward,num2:totalReward,str:bigUrl});
+                      backgroundAudioManager.title = "04金币增加";
+                      backgroundAudioManager.src ="http://img.isxcxbackend1.cn/04金币增加.mp3";
                     }else{
                       commit('setLoaning',false);
                     }

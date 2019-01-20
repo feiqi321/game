@@ -246,7 +246,6 @@ export default {
         }else if(flag==2){
           this.listDig2 = false;
         }else{
-
         }
       }
       wx.redirectTo({ url });
@@ -336,8 +335,8 @@ export default {
         color: #ffc63c;
         font-weight: bold;
         text-align: center;
-        margin-top: 3px;
-        font-size:18px;
+        margin-top: 7px;
+        font-size:16px;
       }
     }
   }

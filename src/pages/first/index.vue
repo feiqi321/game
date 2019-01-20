@@ -54,7 +54,7 @@
           :class="{
             bar: true,
             active: animationBg !== '' ? true : false,
-            slow: isSlow & animationBg
+            slow: isSlow & (animationBg !== '' ? true : false)
           }"
         >
           {{ countDownTime }}
@@ -192,7 +192,7 @@
                   :class="[status == 0 ? 'active' : '']"
                   @click="reward(1)"
                 >
-                  {{firstText}}： <em></em> X{{ firstReward }}
+                  {{firstText}} <em v-if="firstPng"></em> {{ firstReward }}
                 </span>
               </p>
               <p>
@@ -202,7 +202,7 @@
                   :class="[totalStatus == 0 ? 'active' : '']"
                   @click="reward(2)"
                 >
-                  {{totalText}}： <em></em> X{{ totalReward }}
+                  {{totalText}} <em v-if="totalPng"></em> {{ totalReward }}
                 </span>
               </p>
             </div>
@@ -288,6 +288,8 @@ export default {
       firstText:'',
       totalText:'',
       myNum: 0,
+      firstPng:false,
+      totalPng:false,
       firstReward: 0,
       totalNum: 0,
       totalReward: 0,
@@ -412,7 +414,7 @@ export default {
     toThird() {
       const url = "../third/main";
       // switchTab navigateTo
-      wx.redirectTo({ url });
+      wx.navigateTo({ url });
     },
     getUserInfo() {
       const _this = this;
@@ -595,8 +597,14 @@ export default {
     reward(type) {
       if (this.status == 0 && type == 1) {
         this.status = 1;
+        this.firstText = "已领取";
+        this.firstReward = "";
+        this.firstPng = false;
       } else if (this.totalStatus == 0 && type == 2) {
         this.totalStatus = 1;
+        this.totalText = "已领取";
+        this.totalPng = false;
+        this.totalReward="";
       }
 
       const _this = this;
@@ -627,24 +635,36 @@ export default {
           res => {
             this.firstNum = res.data.firstNum;
             this.myNum = res.data.myNum;
-            this.firstReward = res.data.scores;
             this.totalNum = res.data.totalNum;
             this.totalReward = res.data.totalScores;
             this.status = res.data.status;
             this.totalStatus = res.data.totalStatus;
+
             if (res.data.status ==1){
               this.firstText = "已领取";
+              this.firstReward = "";
+              this.firstPng = false;
             }else if (res.data.status ==0){
-              this.firstText = "领取奖励";
+              this.firstText = "领取奖励:";
+              this.firstPng = true;
+              this.firstReward = "x"+res.data.scores;
             }else if (res.data.status ==3){
               this.firstText = "未完成";
+              this.firstPng = false;
+              this.firstReward = "";
             }
             if (res.data.totalStatus ==1){
               this.totalText = "已领取";
+              this.totalPng = false;
+              this.totalReward="";
             }else if (res.data.totalStatus ==0){
-              this.totalText = "领取奖励";
+              this.totalText = "领取奖励: ";
+              this.totalPng = true;
+              this.totalReward = "x"+res.data.totalScores;
             }else if (res.data.totalStatus ==3){
               this.totalText = "未完成";
+              this.totalReward="";
+              this.totalPng = false;
             }
           },
           res => {
@@ -745,7 +765,7 @@ export default {
     }
   },
 
-  mounted() {
+  onShow() {
     this.userInfo = wx.getStorageSync("userinfo");
     this.openId = wx.getStorageSync("openId");
     this.gameId = wx.getStorageSync("gameId");

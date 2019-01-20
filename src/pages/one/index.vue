@@ -36,11 +36,11 @@ export default {
   methods: {
     ...mapMutations(["changeState"]),
     testMusic() {
-      const backgroundAudioManager = wx.getBackgroundAudioManager();
+     /* const backgroundAudioManager = wx.getBackgroundAudioManager();
 
       backgroundAudioManager.title = "此时此刻";
       backgroundAudioManager.src =
-        "http://img.isxcxbackend1.cn/04%E9%87%91%E5%B8%81%E5%A2%9E%E5%8A%A0.mp3";
+        "http://img.isxcxbackend1.cn/04%E9%87%91%E5%B8%81%E5%A2%9E%E5%8A%A0.mp3";*/
     },
     getUserInfo(res) {
       const _this = this;

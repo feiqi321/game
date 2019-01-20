@@ -4,28 +4,7 @@
       >{{ warningText }}</span>
     <div class="monster" v-if="monster"></div>
     <div class="dzanbj" v-if="dzan"></div>
-    <van-popup
-      :custom-style="'background-color:transparent;overflow: initial;'"
-      :show="diaCollect.dia2"
-      @close="diaCollectClose('dia2')"
-    >
-      <div class="commonDia">
-        <div>
-          <img
-            src="http://img.isxcxbackend1.cn/组232@2x.png"
-            style="width: 145px;height: 133px;"
-            alt=""
-          />
-        </div>
-
-        <div class="commonTxt">
-          <h3>冬天到了!</h3>
-          <p>您的收集速度变慢了</p>
-        </div>
-
-        <div class="commonBtn" @click="diaCollectClose('dia2')">确认</div>
-      </div>
-    </van-popup>
+    <div class="snow" v-if="snowjpg"></div>
     <van-popup
       :custom-style="'background-color:transparent;overflow: initial;'"
       :show="diaCollect.dia1"
@@ -128,7 +107,7 @@
         <div class="rigth-nav" v-if="monster">
           <span class="i-sb active rigth-monster"></span>
         </div>
-        <div class="rigth-nav" @click="nativeTo('../first/main')">
+        <div class="rigth-nav" @click="nativeBack()">
           <span class="i-sb active rigth-gotoSec"></span>
         </div>
         <div class="rigth-nav" @click="nativeTo('../index/main')"><span class="i-sb active"></span></div>
@@ -265,6 +244,7 @@ export default {
       currentActive: -1,
       //已建造的数组
       picInfo: [],
+      snowjpg:false,
       //当前抓取的
       currentDrop: {
         src: "",
@@ -388,6 +368,7 @@ export default {
       }).then(({ data }) => {
         if (data != null) {
           _this.myMoney = data.scores;
+          _this.showEvent(data.event);
         }
       });
     },
@@ -563,8 +544,13 @@ export default {
       this.currentDrop.src = url;
       // this.triggerFt();
     },
+    nativeBack(){
+      wx.navigateBack({
+        delta: 1
+      })
+    },
     nativeTo(path){
-      wx.redirectTo({
+      wx.navigateTo({
         url:path
       })
     },
@@ -692,46 +678,54 @@ export default {
       num = num < 1 ? 1 : num;
       this.buyDig.buyNum = num;
     },
+    showEvent(event){
+      const _this = this;
+      if (event == 1) {
+        //下雪了
+        _this.diaCollect.dia1 = true;
+        _this.snowjpg = true;
+      } else if (event == 10) {
+        //雪停了
+        _this.diaCollect.dia1 = false;
+        _this.snowjpg = false;
+      } else if (event == 2) {
+        //地震了
+        _this.snowjpg = false;
+        _this.dzan = true;
+        _this.diaCollect.dia1 = false;
+        _this.diaCollect.dia2 = true;
+      } else if (event == 20) {
+        //地震停了
+        _this.snowjpg = false;
+        _this.dzan = false;
+        _this.diaCollect.dia1 = false;
+        _this.diaCollect.dia2 = false;
+      } else if (event == 3) {
+        //怪兽来袭
+        _this.diaCollect.dia1 = false;
+        _this.diaCollect.dia2 = false;
+        _this.diaCollect.dia3 = true;
+      } else if (event == 30) {
+        //怪兽事件结束
+        _this.diaCollect.dia1 = false;
+        _this.diaCollect.dia2 = false;
+        _this.diaCollect.dia3 = false;
+        _this.dzan = true;
+      } else if (event = 100) {
+        _this.dzan = true;
+        _this.diaCollect.dia1 = false;
+        _this.diaCollect.dia2 = false;
+        _this.diaCollect.dia3 = false;
+        wx.reLaunch({
+          url: "../one/main"
+        })
+      }
+    },
     listenSocket() {
       var _this = this;
       this.socketTask = getApp().globalData.socketTask;
       this.socketTask.onMessage(function(res) {
-        if (res.data == 1) {
-          //下雪了
-          _this.diaCollect.dia1 = true;
-        } else if (res.data == 10) {
-          //雪停了
-          _this.diaCollect.dia1 = false;
-        } else if (res.data == 2) {
-          //地震了
-          _this.dzan = true;
-          _this.diaCollect.dia1 = false;
-          _this.diaCollect.dia2 = true;
-        } else if (res.data == 20) {
-          //地震停了
-          _this.dzan = false;
-          _this.diaCollect.dia1 = false;
-          _this.diaCollect.dia2 = false;
-        } else if (res.data == 3) {
-          //怪兽来袭
-          _this.diaCollect.dia1 = false;
-          _this.diaCollect.dia2 = false;
-          _this.diaCollect.dia3 = true;
-        } else if (res.data == 30) {
-          //怪兽事件结束
-          _this.diaCollect.dia1 = false;
-          _this.diaCollect.dia2 = false;
-          _this.diaCollect.dia3 = false;
-          _this.dzan = true;
-        } else if (res.data = 100) {
-          _this.dzan = true;
-          _this.diaCollect.dia1 = false;
-          _this.diaCollect.dia2 = false;
-          _this.diaCollect.dia3 = false;
-          wx.reLaunch({
-            url: "../one/main"
-          })
-        }
+          _this.showEvent(res.data);
       }),
         //连接失败
         this.socketTask.onError(function() {
@@ -859,14 +853,15 @@ export default {
           color: #ffc63c;
           font-weight: bold;
           text-align: center;
-          margin-top: 3px;
-          font-size:18px;
+          margin-top: 7px;
+          font-size:16px;
         }
       }
     }
 
     .rigth-nav {
       margin-top: 25px;
+
       .i-gs {
         background: url(http://img.isxcxbackend1.cn/boss组203.png) center center
           no-repeat;
@@ -1237,6 +1232,8 @@ view[hidden] {
     }
     .rigth-gotoSec{
       background: url(http://img.isxcxbackend1.cn/组218@3x.png) center no-repeat;
+      position:relative;
+      z-index:1;
       background-size: 100%;
     }
   }
@@ -1256,6 +1253,14 @@ view[hidden] {
   height: 100vh;
   width: 100vw;
   background: url(http://img.isxcxbackend1.cn/地震建造手机.gif) center no-repeat;
+  background-size: 100%;
+  opacity: 0.6;
+  position: absolute;
+}
+.snow{
+  height: 100vh;
+  width: 100vw;
+  background: url(http://img.isxcxbackend1.cn/%E5%AE%8C%E6%88%90%E6%89%8B%E6%9C%BA%E9%9B%AA%E8%8A%B1.gif) center no-repeat;
   background-size: 100%;
   opacity: 0.6;
   position: absolute;
