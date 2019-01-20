@@ -73,12 +73,6 @@
             <span v-if="!completed[n]||completed[n].status != 1">{{ n + 1 }}</span>
           </dt>
           <dd>
-            <!--<img
-              src="/static/images/ok.png"
-              class="m-icon"
-              mode="widthFix"
-              v-show=" completed[n] &&completed[n].status === 1 && !hasSh && !isBracelet[n]"
-            />-->
             <span class="sh-icon" v-if="isBracelet[n]">
               +{{ singleReward[n] }}
             </span>
@@ -198,7 +192,7 @@
                   :class="[status == 0 ? 'active' : '']"
                   @click="reward(1)"
                 >
-                  领取奖励： <em></em> X{{ firstReward }}
+                  {{firstText}}： <em></em> X{{ firstReward }}
                 </span>
               </p>
               <p>
@@ -208,7 +202,7 @@
                   :class="[totalStatus == 0 ? 'active' : '']"
                   @click="reward(2)"
                 >
-                  领取奖励： <em></em> X{{ totalReward }}
+                  {{totalText}}： <em></em> X{{ totalReward }}
                 </span>
               </p>
             </div>
@@ -291,6 +285,8 @@ export default {
       warning: null,
       warningText: "",
       firstNum: 0,
+      firstText:'',
+      totalText:'',
       myNum: 0,
       firstReward: 0,
       totalNum: 0,
@@ -308,7 +304,6 @@ export default {
       listDig: false, //列表弹窗
       getUserInfoDig: false, //用户授权
       blueStatus: false, //蓝牙是否开启
-      //hasSh: false, //是否有手环
       thisSh:false,
       thisSh2:false,
       receiveMsg:'',
@@ -351,7 +346,6 @@ export default {
       "bigUrl",
       "warning2",
       "warningText2",
-      "hasSh",
       "addproperty_Show",
       "addproperty",
       "dia_lv",
@@ -638,6 +632,20 @@ export default {
             this.totalReward = res.data.totalScores;
             this.status = res.data.status;
             this.totalStatus = res.data.totalStatus;
+            if (res.data.status ==1){
+              this.firstText = "已领取";
+            }else if (res.data.status ==0){
+              this.firstText = "领取奖励";
+            }else if (res.data.status ==3){
+              this.firstText = "未完成";
+            }
+            if (res.data.totalStatus ==1){
+              this.totalText = "已领取";
+            }else if (res.data.totalStatus ==0){
+              this.totalText = "领取奖励";
+            }else if (res.data.totalStatus ==3){
+              this.totalText = "未完成";
+            }
           },
           res => {
             Notify("网络异常5!");
@@ -683,7 +691,6 @@ export default {
         _this.snowjpg = true;
         _this.gsStatus = 1;
         _this.isSlow = true;
-        Notify("下雪了!");
       } else if (event == 10) {
         //雪停了
         _this.snowjpg = false;
@@ -779,7 +786,7 @@ export default {
 .first {
   padding: 15px 30px;
   text-align: center;
-  background: url(http://img.isxcxbackend1.cn/2.8.gif) center center
+  background: url(http://img.isxcxbackend1.cn/3.8.gif) center center
     no-repeat;
   position: relative;
   z-index: 1;

@@ -11,7 +11,7 @@
             <dd class="score">{{ scores }}</dd>
           </dl>
         </div>
-        <div class="rigth-nav">
+        <div class="rigth-nav" @click="toPageReturn(3)">
           <span class="i-sb active"></span>
       </div>
     </div>
@@ -245,6 +245,8 @@ export default {
           this.listDig = false;
         }else if(flag==2){
           this.listDig2 = false;
+        }else{
+
         }
       }
       wx.redirectTo({ url });
