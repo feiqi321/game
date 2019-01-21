@@ -1,54 +1,53 @@
 <template>
   <div class="main">
     <div class="xhbj" v-if="snowjpg"></div>
-    <span class="common-msg" v-if="warning" @click="warning = false">{{
+    <span class="common-msg" v-if="warning" @click="warning = false">
+      {{
       warningText
-    }}</span>
-    <span class="common-msg" v-if="warning2" @click="warning2 = false">{{
+      }}
+    </span>
+    <span class="common-msg" v-if="warning2" @click="warning2 = false">
+      {{
       warningText2
-    }}</span>
+      }}
+    </span>
 
-    <van-notify id="van-notify" />
+    <van-notify id="van-notify"/>
     <div class="first">
       <div class="top-tool">
         <div class="user-info">
           <dl>
-            <dt
-              :style="{ backgroundImage: 'url(' + userInfo.avatarUrl + ')' }"
-            ></dt>
+            <dt :style="{ backgroundImage: 'url(' + userInfo.avatarUrl + ')' }"></dt>
             <dd class="name">{{ userInfo.nickName }}</dd>
             <dd class="score">{{ scores }}</dd>
           </dl>
         </div>
         <div class="rigth-nav">
           <span class="i-gs" @click="toBoss" v-if="gsStatus === 3"></span>
-          <span
-            :class="{ 'i-sb': true, active: braceletId }"
-            @click="bindDevDigSts = true"
-          ></span>
+          <span :class="{ 'i-sb': true, active: braceletId }" @click="bindDevDigSts = true"></span>
           <span :class="{ 'i-sj': true, active: (newnum>0) }" @click="showList">
             <em></em>
           </span>
         </div>
       </div>
-      <div
-        class="qpanmi"
-        :style="{ backgroundImage: 'url(' + animationBg + ')' }"
-      >
+      <div class="qpanmi" :style="{ backgroundImage: 'url(' + animationBg + ')' }">
         <!-- <img src="http://img.isxcxbackend1.cn/橙色动图.gif" class="m-icon" mode="widthFix"> -->
         <div class="addproperty" v-if="addproperty_Show">
-          <div style="font-size: 70px;"> + {{addproperty.num1}}</div>
+          <div style="font-size: 70px;">+ {{addproperty.num1}}</div>
           <div style="margin-top: 30px" v-if="addproperty.num2>0">
             <img
               style="width: 30px;height: 30px;display: inline-block;vertical-align: middle;margin-right: 20px;"
               src="http://img.isxcxbackend1.cn/boy组223.png"
-              alt=""
-            /><span style="font-size: 30px;vertical-align: middle;"> + {{addproperty.num2}}</span>
+              alt
+            >
+            <span style="font-size: 30px;vertical-align: middle;">+ {{addproperty.num2}}</span>
           </div>
         </div>
       </div>
       <div class="probar">
-        <p v-if="thisSh"><span :class="{'active':true,'m-icon':true}"></span></p>
+        <p v-if="thisSh">
+          <span :class="{'active':true,'m-icon':true}"></span>
+        </p>
         <p v-if="thisSh2">{{receiveMsg}}Collection</p>
         <p
           :class="{
@@ -56,9 +55,7 @@
             active: animationBg !== '' ? true : false,
             slow: isSlow & (animationBg !== '' ? true : false)
           }"
-        >
-          {{ countDownTime }}
-        </p>
+        >{{ countDownTime }}</p>
       </div>
 
       <div class="nlbox">
@@ -69,13 +66,11 @@
               class="m-icon"
               mode="widthFix"
               v-if="completed[n]&&completed[n].status === 1"
-            />
+            >
             <span v-if="!completed[n]||completed[n].status != 1">{{ n + 1 }}</span>
           </dt>
           <dd>
-            <span class="sh-icon" v-if="isBracelet[n]">
-              +{{ singleReward[n] }}
-            </span>
+            <span class="sh-icon" v-if="isBracelet[n]">+{{ singleReward[n] }}</span>
           </dd>
         </dl>
       </div>
@@ -86,7 +81,7 @@
             class="m-icon"
             :class="[snow ? 'active' : '']"
             mode="widthFix"
-          />收集3个不同颜色的能量可获得积分。
+          >收集3个不同颜色的能量可获得积分。
         </p>
         <p class="en">
           Integrals can be obtained by collecting three different colors of
@@ -99,7 +94,7 @@
         lazy-load="false"
         class="ftbtn"
         @click="toThird"
-      />
+      >
       <!-- 手环绑定 -->
       <van-dialog
         use-slot
@@ -110,15 +105,14 @@
         close-on-click-overlay
       >
         <div class="diaborder binding">
-          <input
-            type="text"
-            v-model="userId"
-            class="dia-field"
-            maxlength="3"
-            placeholder="请输入手环编号"
-          />
-          <p class="dialog-title">手环和绑定手机共同收集获得额外奖励</p>
-          <p><span class="btn" @click="bindBraceletId">同意</span></p>
+          <input type="text" v-model="userId" class="dia-field" maxlength="3" placeholder="请输入手环编号">
+          <p class="dialog-title">手环和绑定手机共同收集获得额外奖励
+            <br><span>Collection of bracelets and bound mobile phones for additional rewards</span>
+          </p>
+          <p class="red">已綁定设备A230</p>
+          <p>
+            <span class="btn" @click="bindBraceletId">同意</span>
+          </p>
         </div>
       </van-dialog>
       <!-- 下雪天 -->
@@ -135,7 +129,9 @@
           <span class="cjimg"></span>
           <h3>冬天到了</h3>
           <p class="dialog-title">您的收集速度变慢了</p>
-          <p><span class="btn" @click="snow = false">确认</span></p>
+          <p>
+            <span class="btn" @click="snow = false">确认</span>
+          </p>
         </div>
       </van-dialog>
       <!-- 地震 -->
@@ -151,7 +147,9 @@
           <span class="cjimg dz-icon"></span>
           <h3>地震了</h3>
           <p class="dialog-title">绿色能量不能再收集了</p>
-          <p><span class="btn" @click="earthquake = false">确认</span></p>
+          <p>
+            <span class="btn" @click="earthquake = false">确认</span>
+          </p>
         </div>
       </van-dialog>
       <!-- 怪兽来了 -->
@@ -167,7 +165,9 @@
           <span class="cjimg gs-icon"></span>
           <h3>怪兽入侵</h3>
           <p class="dialog-title">一起攻击怪兽保护家园</p>
-          <p><span class="btn" @click="gsll = false">确认</span></p>
+          <p>
+            <span class="btn" @click="gsll = false">确认</span>
+          </p>
         </div>
       </van-dialog>
       <!-- 收集记录 -->
@@ -184,25 +184,33 @@
             <div class="hd">任务</div>
             <div class="bd">
               <p>
-                解锁{{ firstNum }}个颜色组合： <small>{{ myNum }}</small> /{{
-                  firstNum
+                解锁{{ firstNum }}个颜色组合：
+                <small>{{ myNum }}</small>
+                /{{
+                firstNum
                 }}
                 <span
                   class="btn"
                   :class="[status == 0 ? 'active' : '']"
                   @click="reward(1)"
                 >
-                  {{firstText}} <em v-if="firstPng"></em> {{ firstReward }}
+                  {{firstText}}
+                  <em v-if="firstPng"></em>
+                  {{ firstReward }}
                 </span>
               </p>
               <p>
-                解锁全部颜色组合： <small>{{ myNum }}</small> /{{ totalNum }}
+                解锁全部颜色组合：
+                <small>{{ myNum }}</small>
+                /{{ totalNum }}
                 <span
                   class="btn"
                   :class="[totalStatus == 0 ? 'active' : '']"
                   @click="reward(2)"
                 >
-                  {{totalText}} <em v-if="totalPng"></em> {{ totalReward }}
+                  {{totalText}}
+                  <em v-if="totalPng"></em>
+                  {{ totalReward }}
                 </span>
               </p>
             </div>
@@ -225,50 +233,38 @@
                 <span class="new-icon"></span>
               </div>
               <div class="td">
-                <span
-                  class="animal-icon"
-                  :style="{ backgroundImage: 'url(' + n.url + ')' }"
-                ></span>
+                <span class="animal-icon" :style="{ backgroundImage: 'url(' + n.url + ')' }"></span>
               </div>
               <div class="td last-child">{{n.scores>0?n.scores:'?'}}</div>
             </div>
           </div>
         </div>
       </van-dialog>
-      <van-dialog
-        use-slot
-        async-close
-        :show="getUserInfoDig"
-        :show-confirm-button="false"
-      >
+      <van-dialog use-slot async-close :show="getUserInfoDig" :show-confirm-button="false">
         <div class="diaborder userinfo-btn-wrapper">
           <van-button
             type="default"
             open-type="getUserInfo"
             @getuserinfo="getUserInfo"
             @click="getUserInfoDig = false"
-            >获取用户个人信息</van-button
-          >
+          >获取用户个人信息</van-button>
         </div>
       </van-dialog>
     </div>
     <div class="hgbj" v-if="gsStatus === 3"></div>
     <div class="earthquakebj" v-if="earthquakejpg"></div>
-    <van-popup
-      :custom-style="'background-color:transparent;overflow: initial;'"
-      :show="dia_lv"
-    >
+    <van-popup :custom-style="'background-color:transparent;overflow: initial;'" :show="dia_lv">
       <div class="lvStyle">
         <img
           src="http://img.isxcxbackend1.cn/%E5%8A%A8%E7%89%A9%E8%83%8C%E6%99%AF%E6%97%8B%E8%BD%AC%E5%85%89.gif"
           style="width: 100vw;height: 100vh;position: absolute;z-index: 1;top: 0;left: 0"
-          alt=""
-        />
+          alt
+        >
         <img
           :src="bigUrl"
           style="width: 100vw;height: 100vh;position: absolute;z-index: 10;top: 0;"
-          alt=""
-        />
+          alt
+        >
       </div>
     </van-popup>
   </div>
@@ -285,11 +281,11 @@ export default {
       warning: null,
       warningText: "",
       firstNum: 0,
-      firstText:'',
-      totalText:'',
+      firstText: "",
+      totalText: "",
       myNum: 0,
-      firstPng:false,
-      totalPng:false,
+      firstPng: false,
+      totalPng: false,
       firstReward: 0,
       totalNum: 0,
       totalReward: 0,
@@ -306,14 +302,14 @@ export default {
       listDig: false, //列表弹窗
       getUserInfoDig: false, //用户授权
       blueStatus: false, //蓝牙是否开启
-      thisSh:false,
-      thisSh2:false,
-      receiveMsg:'',
+      thisSh: false,
+      thisSh2: false,
+      receiveMsg: "",
       isSlow: false, //是否冰冻
       snow: false, //下雪了
       snowjpg: false, //下雪动画
       earthquake: false, //地震
-      collectMsg:'',
+      collectMsg: "",
       earthquakejpg: false, //地震动画
       gsll: false, //怪兽来了
       countDownTime: "",
@@ -331,8 +327,6 @@ export default {
         "http://img.isxcxbackend1.cn/椭圆140.png",
         "http://img.isxcxbackend1.cn/椭圆49.png"
       ] //1橙2黄3蓝4 绿
-
-
     };
   },
 
@@ -386,7 +380,7 @@ export default {
     bindBraceletId() {
       const _this = this;
       if (_this.userId == null || _this.userId == "") {
-        _this.showWarnning("手环编号不能为空")
+        _this.showWarnning("手环编号不能为空");
         return;
       }
 
@@ -407,7 +401,7 @@ export default {
             _this.showWarnning("手环绑定成功");
           },
           res => {
-            _this.showWarnning(res)
+            _this.showWarnning(res);
           }
         );
     },
@@ -464,33 +458,40 @@ export default {
     },
     filterDevs(devs) {
       console.info("filterDevs", devs);
-      const _this =this
+      const _this = this;
       _this.thisSh = false;
       _this.thisSh2 = false;
       const distanceDev = devs
         .filter(item => {
-          if (item.minor == this.braceletId  && item.accuracy>0 && item.accuracy < 0.5){
-
+          if (
+            item.minor == this.braceletId &&
+            item.accuracy > 0 &&
+            item.accuracy < 0.5
+          ) {
             wx.setStorageSync("braceletIdType", true);
             _this.thisSh = true;
-          }else{
+          } else {
             wx.setStorageSync("braceletIdType", false);
           }
-          return item.accuracy>0 && item.accuracy < 0.5 && item.minor != _this.braceletId;
+          return (
+            item.accuracy > 0 &&
+            item.accuracy < 0.5 &&
+            item.minor != _this.braceletId
+          );
         })
         .sort((a, b) => {
           return a.accuracy - b.accuracy;
         });
-      console.info("distanceDev",distanceDev);
-      if (_this.thisSh){
+      console.info("distanceDev", distanceDev);
+      if (_this.thisSh) {
         _this.receiveMsg = "协助收集中";
-      }else{
+      } else {
         _this.receiveMsg = "收集中";
       }
       _this.thisSh2 = true;
 
       if (distanceDev.length > 0) {
-       /* const isExitDevs = this.completed.some(item => {
+        /* const isExitDevs = this.completed.some(item => {
           console.info(item.typeId,distanceDev[0].minor);
           return item.typeId == distanceDev[0].minor;
         });
@@ -500,11 +501,11 @@ export default {
           console.log(isExitDevs, !this.devOptions[distanceDev[0].minor], "2");
           return 2;
         } else {*/
-          return {
-            typeId: distanceDev[0].minor,
-            type: this.devOptions[distanceDev[0].minor]
+        return {
+          typeId: distanceDev[0].minor,
+          type: this.devOptions[distanceDev[0].minor]
           //};
-        }
+        };
       } else {
         console.log(distanceDev.length, 3);
         return false;
@@ -545,14 +546,12 @@ export default {
                   _this.setLoaning(false);
                 }, 1000);
               }, 5000);
-
             }
           );
       } else {
         setTimeout(() => {
           _this.setLoaning(false);
         }, 1000);
-
       }
     },
     initUserinfo() {
@@ -604,7 +603,7 @@ export default {
         this.totalStatus = 1;
         this.totalText = "已领取";
         this.totalPng = false;
-        this.totalReward="";
+        this.totalReward = "";
       }
 
       const _this = this;
@@ -625,7 +624,7 @@ export default {
     },
     showList() {
       this.listDig = true;
-      this.setNewNum(0)
+      this.setNewNum(0);
       http
         .post("/game/task/findByTask", {
           openId: this.openId,
@@ -640,30 +639,30 @@ export default {
             this.status = res.data.status;
             this.totalStatus = res.data.totalStatus;
 
-            if (res.data.status ==1){
+            if (res.data.status == 1) {
               this.firstText = "已领取";
               this.firstReward = "";
               this.firstPng = false;
-            }else if (res.data.status ==0){
+            } else if (res.data.status == 0) {
               this.firstText = "领取奖励:";
               this.firstPng = true;
-              this.firstReward = "x"+res.data.scores;
-            }else if (res.data.status ==3){
+              this.firstReward = "x" + res.data.scores;
+            } else if (res.data.status == 3) {
               this.firstText = "未完成";
               this.firstPng = false;
               this.firstReward = "";
             }
-            if (res.data.totalStatus ==1){
+            if (res.data.totalStatus == 1) {
               this.totalText = "已领取";
               this.totalPng = false;
-              this.totalReward="";
-            }else if (res.data.totalStatus ==0){
+              this.totalReward = "";
+            } else if (res.data.totalStatus == 0) {
               this.totalText = "领取奖励: ";
               this.totalPng = true;
-              this.totalReward = "x"+res.data.totalScores;
-            }else if (res.data.totalStatus ==3){
+              this.totalReward = "x" + res.data.totalScores;
+            } else if (res.data.totalStatus == 3) {
               this.totalText = "未完成";
-              this.totalReward="";
+              this.totalReward = "";
               this.totalPng = false;
             }
           },
@@ -686,12 +685,12 @@ export default {
           }
         );
     },
-    showWarnning(text){
-        this.warning = true;
-        this.warningText = text;
-        setTimeout(() => {
-          this.warning = false;
-        }, 1200);
+    showWarnning(text) {
+      this.warning = true;
+      this.warningText = text;
+      setTimeout(() => {
+        this.warning = false;
+      }, 1200);
     },
     countDown(time) {
       if (time <= 0) {
@@ -703,7 +702,7 @@ export default {
         this.countDown(time - 1);
       }, 1000);
     },
-    showEvent(event){
+    showEvent(event) {
       var _this = this;
       if (event == 1) {
         //下雪了
@@ -744,9 +743,11 @@ export default {
         _this.gsStatus = 1;
         _this.isSlow = false;
         _this.gsll = false;
-      }else if (event == 97){//boss死掉了
+      } else if (event == 97) {
+        //boss死掉了
         _this.gsll = false;
-      }else if (event == 99){//boss到时间未死掉
+      } else if (event == 99) {
+        //boss到时间未死掉
         _this.gsll = false;
       } else if (event == 100) {
         _this.gsll = false;
@@ -760,7 +761,7 @@ export default {
       var _this = this;
       this.socketTask = getApp().globalData.socketTask;
       this.socketTask.onMessage(function(res) {
-         _this.showEvent(res.data)
+        _this.showEvent(res.data);
       });
       //连接失败
       this.socketTask.onError(function() {
@@ -1046,10 +1047,29 @@ export default {
 }
 .dialog-title {
   margin: 20px auto 30px;
+  span{
+    font-size: 12px;
+    color: #666;
+  }
 }
 .binding {
   border-radius: 14px !important;
   padding: 40px 20px 10px;
+  .red{
+    color: #f00;
+    font-size: 18px;
+    text-align: center;
+    margin-bottom: 20px;
+  
+  }
+  .dialog-title{
+    margin-bottom: 0;
+    text-align: left;
+     background: url(http://img.isxcxbackend1.cn/%E8%B7%AF%E5%BE%84294.png) left top #fafafa
+      no-repeat;
+    background-size: auto 40%;
+    padding-left: 30px;
+  }
   .dia-field {
     line-height: 20px;
     height: 20px;
