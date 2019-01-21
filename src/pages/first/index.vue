@@ -1,20 +1,6 @@
 <template>
   <div class="main">
     <div class="xhbj" v-if="snowjpg"></div>
-<<<<<<< Updated upstream
-    <span class="common-msg" v-if="warning" @click="warning = false">
-      {{
-      warningText
-      }}
-    </span>
-    <span class="common-msg" v-if="warning2" @click="warning2 = false">
-      {{
-      warningText2
-      }}
-    </span>
-
-    <van-notify id="van-notify"/>
-=======
     <van-transition :show="warning"  custom-style="position:absolute;z-index:10001;height:100%;top:0;width:100%;animation-delay: 1s;" name="fade" duration="200" >
     <span class="common-msg" @click="warning = false">{{
       warningText
@@ -26,12 +12,11 @@
     }}</span>
     </van-transition>
     <van-notify id="van-notify" />
->>>>>>> Stashed changes
     <div class="first">
       <div class="top-tool">
         <div class="user-info">
+          <div :style="{ backgroundImage: 'url(' + userInfo.avatarUrl + ')' }"></div>
           <dl>
-            <dt :style="{ backgroundImage: 'url(' + userInfo.avatarUrl + ')' }"></dt>
             <dd class="name">{{ userInfo.nickName }}</dd>
             <dd class="score">{{ scores }}</dd>
           </dl>
@@ -259,9 +244,7 @@
           </div>
         </div>
       </van-dialog>
-<<<<<<< Updated upstream
-      <van-dialog use-slot async-close :show="getUserInfoDig" :show-confirm-button="false">
-=======
+
       <van-dialog
         use-slot
         async-close
@@ -269,7 +252,6 @@
         :show-confirm-button="false"
         transition="fade"
       >
->>>>>>> Stashed changes
         <div class="diaborder userinfo-btn-wrapper">
           <van-button
             type="default"
@@ -569,16 +551,6 @@ export default {
               _this.countDown(res.data.continuTime);
             },
             res => {
-<<<<<<< Updated upstream
-              setTimeout(() => {
-                _this.warning = true;
-                _this.warningText = "! 不能收集已有能量";
-                setTimeout(() => {
-                  _this.warning = false;
-                  _this.setLoaning(false);
-                }, 1000);
-              }, 5000);
-=======
 
               _this.times = _this.times+1;
               console.info("重复次数",_this.times);
@@ -599,7 +571,6 @@ export default {
                 _this.setLoaning(false);
               }
 
->>>>>>> Stashed changes
             }
           );
       } else {
@@ -907,7 +878,8 @@ export default {
     animation: an2 1s infinite ease-in-out alternate;
   }
   .user-info {
-    dt {
+    display: flex;
+    &>div{
       width: 60px;
       height: 60px;
       float: left;
@@ -919,7 +891,7 @@ export default {
       text-align: left;
     }
     dd {
-      margin-left: 70px;
+      margin-left: 15px;
       &.name {
         text-align: left;
         margin-top: 5px;

@@ -1,9 +1,15 @@
 <template>
-  <div class="main" id="thirdPage" >
+  <div class="main" id="thirdPage">
     <div id="_whitemask" @click="areaWhiteHandle" v-show="areaWhite"></div>
-    <van-transition :show="warning"  custom-style="position:absolute;z-index:10001;height:100%;top:0;width:100%;animation-delay: 1s;" name="fade" duration="200" >
-    <span class="common-msg" v-if="warning"  @click="warning = false"
-      >{{ warningText }}</span>
+    <van-transition
+      :show="warning"
+      custom-style="position:absolute;z-index:10001;height:100%;top:0;width:100%;animation-delay: 1s;"
+      name="fade"
+      duration="200"
+    >
+      <span class="common-msg" v-if="warning" @click="warning = false">{{
+        warningText
+      }}</span>
     </van-transition>
     <div class="monster" v-if="gsll"></div>
     <div class="dzanbj" v-if="dzan"></div>
@@ -98,12 +104,12 @@
         />
       </div>
     </div>
-    <div class="top-tool" >
+    <div class="top-tool">
       <div class="user-info">
-        <dl v-if="userInfo">
-          <dt
-            :style="{ backgroundImage: 'url(' + userInfo.avatarUrl + ')' }"
-          ></dt>
+        <div
+          :style="{ backgroundImage: 'url(' + userInfo.avatarUrl + ')' }"
+        ></div>
+        <dl>
           <dd class="name">{{ userInfo.nickName }}</dd>
           <dd class="score">{{ myMoney }}</dd>
         </dl>
@@ -116,7 +122,9 @@
         <div class="rigth-nav" @click="nativeBack('1')">
           <span class="i-sb active rigth-gotoSec"></span>
         </div>
-        <div class="rigth-nav" @click="nativeTo('../index/main')"><span class="i-sb active"></span></div>
+        <div class="rigth-nav" @click="nativeTo('../index/main')">
+          <span class="i-sb active"></span>
+        </div>
       </div>
     </div>
     <div id="real90"></div>
@@ -233,7 +241,7 @@ export default {
       ftHide: false,
       chooseType: 0,
       gsStatus: 0,
-      gsll:false,
+      gsll: false,
       baseUrl: "http://img.isxcxbackend1.cn/",
       //底部可购买的数组
       pic: [[], [], []],
@@ -252,7 +260,7 @@ export default {
       currentActive: -1,
       //已建造的数组
       picInfo: [],
-      snowjpg:false,
+      snowjpg: false,
       //当前抓取的
       currentDrop: {
         src: "",
@@ -291,8 +299,8 @@ export default {
       warning: false,
       warningText: "",
       //抖动开关
-      dzan:false,
-      areaWhite:false
+      dzan: false,
+      areaWhite: false
     };
   },
   watch: {
@@ -370,7 +378,7 @@ export default {
     }
   },
   methods: {
-    areaWhiteHandle(e){
+    areaWhiteHandle(e) {
       this.hideDeleteBtn();
       this.showJzq = false;
     },
@@ -385,21 +393,21 @@ export default {
         }
       });
     },
-    showWarnning(text){
+    showWarnning(text) {
       this.warning = true;
       this.warningText = text;
       setTimeout(() => {
         this.warning = false;
       }, 1200);
     },
-    gameOver(text){
+    gameOver(text) {
       this.warning = true;
       this.warningText = text;
       setTimeout(() => {
         this.warning = false;
         wx.reLaunch({
           url: "../one/main"
-        })
+        });
       }, 1200);
     },
     toBoss() {
@@ -553,9 +561,7 @@ export default {
       this.ckTxt = !this.ckTxt;
       this.getCurrentList();
     },
-    load(e) {
-
-    },
+    load(e) {},
     switchJzq() {
       this.showJzq = !this.showJzq;
     },
@@ -570,15 +576,15 @@ export default {
       this.currentDrop.src = url;
       // this.triggerFt();
     },
-    nativeBack(path){
+    nativeBack(path) {
       wx.navigateBack({
         delta: 1
-      })
+      });
     },
-    nativeTo(path){
+    nativeTo(path) {
       wx.navigateTo({
-        url:path
-      })
+        url: path
+      });
     },
 
     //触摸移动
@@ -614,8 +620,9 @@ export default {
           if (code == 200) {
             this.getCurrentList();
             const backgroundAudioManager = wx.getBackgroundAudioManager();
-            backgroundAudioManager.title="07收集完成";
-            backgroundAudioManager.src ="http://img.isxcxbackend1.cn/07收集完成.mp3";
+            backgroundAudioManager.title = "07收集完成";
+            backgroundAudioManager.src =
+              "http://img.isxcxbackend1.cn/07收集完成.mp3";
           }
         });
         this.picInfo.push(this.mixinObj(index, { obj, name: obj.url3, index }));
@@ -707,7 +714,7 @@ export default {
       num = num < 1 ? 1 : num;
       this.buyDig.buyNum = num;
     },
-    showEvent(event){
+    showEvent(event) {
       const _this = this;
       if (event == 1) {
         //下雪了
@@ -742,10 +749,12 @@ export default {
         _this.diaCollect.dia2 = false;
         _this.diaCollect.dia3 = false;
         _this.dzan = true;
-      }else if (event.indexOf("99")>=0){//boss死掉了
+      } else if (event.indexOf("99") >= 0) {
+        //boss死掉了
         _this.gsll = false;
         _this.gsll = false;
-      }else if (event.indexOf("97")>=0){//boss到时间未死掉
+      } else if (event.indexOf("97") >= 0) {
+        //boss到时间未死掉
         _this.gsll = false;
         _this.gsll = false;
       } else if (event == 100) {
@@ -755,14 +764,13 @@ export default {
         _this.diaCollect.dia2 = false;
         _this.diaCollect.dia3 = false;
         _this.gameOver("游戏结束");
-
       }
     },
     listenSocket() {
       var _this = this;
       this.socketTask = getApp().globalData.socketTask;
       this.socketTask.onMessage(function(res) {
-          _this.showEvent(res.data);
+        _this.showEvent(res.data);
       }),
         //连接失败
         this.socketTask.onError(function() {
@@ -805,22 +813,22 @@ export default {
   }
   @keyframes an2 {
     10% {
-      transform: translate(-5%,-5%);
+      transform: translate(-5%, -5%);
     }
     30% {
-      transform: translate(-2%,-3%)
+      transform: translate(-2%, -3%);
     }
     30% {
-      transform: translate(-4%,-8%)
+      transform: translate(-4%, -8%);
     }
     30% {
-      transform: translate(5%,-7%)
+      transform: translate(5%, -7%);
     }
     100% {
-      transform: translate(5%,2%)
+      transform: translate(5%, 2%);
     }
   }
-  .dzan{
+  .dzan {
     animation: an2 1s infinite ease-in-out alternate;
   }
   #dropGroup {
@@ -864,7 +872,8 @@ export default {
     position: relative;
     z-index: 5;
     .user-info {
-      dt {
+      display: flex;
+      & > div {
         width: 60px;
         height: 60px;
         float: left;
@@ -876,7 +885,7 @@ export default {
         text-align: left;
       }
       dd {
-        margin-left: 70px;
+        margin-left: 15px;
         &.name {
           margin-top: 5px;
           font-weight: bold;
@@ -893,7 +902,7 @@ export default {
           font-weight: bold;
           text-align: center;
           margin-top: 7px;
-          font-size:16px;
+          font-size: 16px;
         }
       }
     }
@@ -1269,10 +1278,10 @@ view[hidden] {
         no-repeat;
       background-size: 100%;
     }
-    .rigth-gotoSec{
+    .rigth-gotoSec {
       background: url(http://img.isxcxbackend1.cn/组218@3x.png) center no-repeat;
-      position:relative;
-      z-index:1;
+      position: relative;
+      z-index: 1;
       background-size: 100%;
     }
   }
@@ -1288,7 +1297,7 @@ view[hidden] {
   opacity: 0.6;
   position: absolute;
 }
-.dzanbj{
+.dzanbj {
   height: 100vh;
   width: 100vw;
   background: url(http://img.isxcxbackend1.cn/地震建造手机.gif) center no-repeat;
@@ -1296,10 +1305,11 @@ view[hidden] {
   opacity: 0.6;
   position: absolute;
 }
-.snow{
+.snow {
   height: 100vh;
   width: 100vw;
-  background: url(http://img.isxcxbackend1.cn/%E5%AE%8C%E6%88%90%E6%89%8B%E6%9C%BA%E9%9B%AA%E8%8A%B1.gif) center no-repeat;
+  background: url(http://img.isxcxbackend1.cn/%E5%AE%8C%E6%88%90%E6%89%8B%E6%9C%BA%E9%9B%AA%E8%8A%B1.gif)
+    center no-repeat;
   background-size: 100%;
   opacity: 0.6;
   position: absolute;
@@ -1318,7 +1328,7 @@ view[hidden] {
   transform: translate(-50%, -50%);
   border-radius: 6px;
 }
-#_whitemask{
+#_whitemask {
   position: absolute;
   z-index: 3;
   top: 0;
