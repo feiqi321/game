@@ -59,8 +59,8 @@
         </div>
       </div>
       <div class="probar">
-        <p v-if="thisSh">
-          <span :class="{'active':true,'m-icon':true}"></span>
+        <p style="min-height:20px;">
+          <span :class="{'active':true,'m-icon':true}"  v-if="thisSh"></span>
         </p>
         <p v-if="thisSh2">{{receiveMsg}}Collection</p>
         <p
