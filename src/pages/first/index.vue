@@ -743,7 +743,13 @@ export default {
         //怪兽事件结束
         _this.gsStatus = 1;
         _this.isSlow = false;
+        _this.gsll = false;
+      }else if (event == 97){//boss死掉了
+        _this.gsll = false;
+      }else if (event == 99){//boss到时间未死掉
+        _this.gsll = false;
       } else if (event == 100) {
+        _this.gsll = false;
         _this.earthquakejpg = false;
         wx.reLaunch({
           url: "../one/main"

@@ -3,7 +3,7 @@
     <div id="_whitemask" @click="areaWhiteHandle" v-show="areaWhite"></div>
     <span class="common-msg" v-if="warning" @click="warning = false"
       >{{ warningText }}</span>
-    <div class="monster" v-if="monster"></div>
+    <div class="monster" v-if="gsll"></div>
     <div class="dzanbj" v-if="dzan"></div>
     <div class="snow" v-if="snowjpg"></div>
     <van-popup
@@ -105,7 +105,7 @@
       </div>
 
       <div class="top-status">
-        <div class="rigth-nav" v-if="monster">
+        <div class="rigth-nav" v-if="true" @click="toBoss">
           <span class="i-sb active rigth-monster"></span>
         </div>
         <div class="rigth-nav" @click="nativeBack('1')">
@@ -227,6 +227,7 @@ export default {
       ftHide: false,
       chooseType: 0,
       gsStatus: 0,
+      gsll:false,
       baseUrl: "http://img.isxcxbackend1.cn/",
       //底部可购买的数组
       pic: [[], [], []],
@@ -714,16 +715,25 @@ export default {
         _this.diaCollect.dia2 = false;
       } else if (event == 3) {
         //怪兽来袭
+        _this.gsll = true;
         _this.diaCollect.dia1 = false;
         _this.diaCollect.dia2 = false;
         _this.diaCollect.dia3 = true;
       } else if (event == 30) {
         //怪兽事件结束
+        _this.gsll = false;
         _this.diaCollect.dia1 = false;
         _this.diaCollect.dia2 = false;
         _this.diaCollect.dia3 = false;
         _this.dzan = true;
+      }else if (event.indexOf("99")>=0){//boss死掉了
+        _this.gsll = false;
+        _this.gsll = false;
+      }else if (event.indexOf("97")>=0){//boss到时间未死掉
+        _this.gsll = false;
+        _this.gsll = false;
       } else if (event == 100) {
+        _this.gsll = false;
         _this.dzan = true;
         _this.diaCollect.dia1 = false;
         _this.diaCollect.dia2 = false;

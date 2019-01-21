@@ -11,7 +11,7 @@
             <dd class="score">{{ scores }}</dd>
           </dl>
         </div>
-        <div class="rigth-nav" @click="toPageReturn(3)">
+        <div class="rigth-nav"  @click="toPageReturn(3)">
           <span class="i-sb active"></span>
       </div>
     </div>
@@ -238,11 +238,13 @@ export default {
     },
     toPageReturn(flag){
       var url;
+      console.info("flag",flag);
       if (this.pageNo==1){
-        url = "../first/index";
+        url = "../first/main";
       }else if(this.pageNo==2){
-        url = "../third/index";
+        url = "../third/main";
       }else{
+        console.info("333",url);
         if (flag==1){
           this.listDig = false;
         }else if(flag==2){
@@ -250,19 +252,18 @@ export default {
         }else{
         }
       }
+      console.info("url",url);
       wx.redirectTo({ url });
-    },
-    /**
-     * 生命周期函数--监听页面加载
-     */
-    onLoad: function (options) {
-      this.setData({
-        "pageNo": options.pageNo
-      })
     }
 
-  },
 
+  },
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function (options) {
+    this.pageNo = options.pageNo;
+  },
   created() {
     this.openId = wx.getStorageSync("openId");
     this.gameId = wx.getStorageSync("gameId");
@@ -271,7 +272,7 @@ export default {
     this.getUserInfo();
     this.initTime();
     this.initBoss();
-
+    this.initUserinfo();
   },
   mounted(){
     this.listenSocket();
