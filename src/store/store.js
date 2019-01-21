@@ -66,7 +66,7 @@ const store = new Vuex.Store({
           state.dia_lv = false;
           state.addproperty_Show = true;
           state.addproperty.num1 = num1;
-          const backgroundAudioManager = wx.getBackgroundAudioManager();
+          const backgroundAudioManager = wx.createInnerAudioContext();
           backgroundAudioManager.title="02动物出现";
           backgroundAudioManager.src ="http://img.isxcxbackend1.cn/02动物出现.mp3";
           state.addproperty.num2 = num2;
@@ -124,16 +124,18 @@ const store = new Vuex.Store({
     delayDetection({ commit, state }, { typeId, type, braceletId, openId, gameId, time }) {//延迟检测
       console.info("进入都再次确认地方",braceletId);
       commit('addDevToCompleted', { typeId, type, time });
-      const back = wx.getBackgroundAudioManager();
+      const back = wx.createInnerAudioContext();
       player();
       function player(){
         back.title = "06收集";
+        back.autoplay = true;
         back.src = "http://img.isxcxbackend1.cn/06收集.mp3";
         back.onEnded(() => {
           player();
         })
       }
       setTimeout(() => {
+        back.stop();
         wx.getBeacons({
           success(res) {
             console.info(res, "action")
@@ -189,23 +191,23 @@ const store = new Vuex.Store({
                     var bigUrl = res.data.bigUrl;
                     var orderNum = res.data.orderNum;
 
-                    const backgroundAudioManager = wx.getBackgroundAudioManager();
+                    const backgroundAudioManager = wx.createInnerAudioContext();
 
                     backgroundAudioManager.title="07收集完成";
                     backgroundAudioManager.src ="http://img.isxcxbackend1.cn/07收集完成.mp3";
                     if (singleReward>0){
                       commit('setSingleReward', {num:singleReward,orderNum:orderNum,bool:true})
-                      const backgroundAudioManager2 = wx.getBackgroundAudioManager();
+                      const backgroundAudioManager2 = wx.createInnerAudioContext();
                       backgroundAudioManager2.title = "04金币增加";
                       backgroundAudioManager2.src ="http://img.isxcxbackend1.cn/04金币增加.mp3";
                     }
                     if (groupReward>0){
                       commit('setNewNum',1);
                       commit('addproperty_Handle', {num1:groupReward,num2:totalReward,str:bigUrl});
-                      const backgroundAudioManager3 = wx.getBackgroundAudioManager();
+                      const backgroundAudioManager3 = wx.createInnerAudioContext();
                       backgroundAudioManager3.title = "04金币增加";
                       backgroundAudioManager3.src ="http://img.isxcxbackend1.cn/04金币增加.mp3";
-                      const backgroundAudioManager4 = wx.getBackgroundAudioManager();
+                      const backgroundAudioManager4 = wx.createInnerAudioContext();
                       backgroundAudioManager4.title = "08新消息提醒.mp3";
                       backgroundAudioManager4.src ="http://img.isxcxbackend1.cn/08新消息提醒.mp3";
                     }else{

@@ -49,6 +49,7 @@
         @close="listDig=false"
         close-on-click-overlay
         class="dialogbox"
+        transition="fade"
       >
         <div class="endboxok">
           <p class="title">守护成功</p>
@@ -76,6 +77,7 @@
       @close="listDig2=false"
       close-on-click-overlay
       class="dialogbox"
+      transition="fade"
     >
       <div class="endboxfail">
         <p class="title">守护失败</p>
@@ -117,7 +119,7 @@ export default {
       braceletId: null, //用户设备id
       braceletIdType:0,
       fsList: [],
-
+      attackStatus:0,
       userInfo: null //用户信息
     };
   },
@@ -135,22 +137,24 @@ export default {
     },
     addFs() {
       var damage = 0;
-      if (this.braceletIdType){
-        damage = Math.floor(Math.random() * 6 + 4) ;
-      }else{
-        damage = Math.floor(Math.random() * 3 + 2) ;
+      if (this.attackStatus==0){
+        if (this.braceletIdType){
+          damage = Math.floor(Math.random() * 6 + 4) ;
+        }else{
+          damage = Math.floor(Math.random() * 3 + 2) ;
+        }
+        const backgroundAudioManager = wx.getBackgroundAudioManager();
+        backgroundAudioManager.title="05恐龙打击时";
+        backgroundAudioManager.src ="http://img.isxcxbackend1.cn/05恐龙打击时.mp3";
+        this.totalAttack = this.totalAttack+damage;
+        this.socketTask.send({
+          data: this.openId+','+this.gameId+","+damage
+        })
+        this.fsList.push(-damage);
+        setTimeout(() => {
+          this.fsList.shift();
+        }, 2000);
       }
-      const backgroundAudioManager = wx.getBackgroundAudioManager();
-      backgroundAudioManager.title="05恐龙打击时";
-      backgroundAudioManager.src ="http://img.isxcxbackend1.cn/05恐龙打击时.mp3";
-      this.totalAttack = this.totalAttack+damage;
-      this.socketTask.send({
-        data: this.openId+','+this.gameId+","+damage
-      })
-      this.fsList.push(-damage);
-      setTimeout(() => {
-        this.fsList.shift();
-      }, 2000);
     },
     initTime(){
       var sed = 0;
@@ -185,10 +189,12 @@ export default {
         if (res.data.indexOf("98")>=0){//boss攻击中
           _this.jdtWidth = res.data.split("@")[1];
         }else if (res.data.indexOf("99")>=0){//boss死掉了
+          _this.attackStatus =1;
           _this.listDig = true;
           _this.jdtWidth = 0;
         }else if (res.data.indexOf("97")>=0){//boss到时间未死掉
           _this.listDig2 = true;
+          _this.attackStatus =1;
         }else if (res.data = 100) {
           wx.reLaunch({
             url: "../one/main"

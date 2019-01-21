@@ -1,6 +1,7 @@
 <template>
   <div class="main">
     <div class="xhbj" v-if="snowjpg"></div>
+<<<<<<< Updated upstream
     <span class="common-msg" v-if="warning" @click="warning = false">
       {{
       warningText
@@ -13,6 +14,19 @@
     </span>
 
     <van-notify id="van-notify"/>
+=======
+    <van-transition :show="warning"  custom-style="position:absolute;z-index:10001;height:100%;top:0;width:100%;animation-delay: 1s;" name="fade" duration="200" >
+    <span class="common-msg" @click="warning = false">{{
+      warningText
+    }}</span>
+    </van-transition>
+    <van-transition :show="warning2"  custom-style="position:absolute;z-index:10001;height:100%;top:0;width:100%;animation-delay: 1s;" name="fade" duration="200" >
+    <span class="common-msg" @click="warning2 = false">{{
+      warningText2
+    }}</span>
+    </van-transition>
+    <van-notify id="van-notify" />
+>>>>>>> Stashed changes
     <div class="first">
       <div class="top-tool">
         <div class="user-info">
@@ -103,6 +117,7 @@
         :show-confirm-button="false"
         @close="bindDevDigSts = false"
         close-on-click-overlay
+        transition="fade"
       >
         <div class="diaborder binding">
           <input type="text" v-model="userId" class="dia-field" maxlength="3" placeholder="请输入手环编号">
@@ -124,6 +139,7 @@
         :show-confirm-button="false"
         @close="snow = false"
         close-on-click-overlay
+        transition="fade"
       >
         <div class="diaborder cjdig">
           <span class="cjimg"></span>
@@ -142,6 +158,7 @@
         :show-confirm-button="false"
         @close="earthquake = false"
         close-on-click-overlay
+        transition="fade"
       >
         <div class="diaborder cjdig">
           <span class="cjimg dz-icon"></span>
@@ -160,6 +177,7 @@
         :show-confirm-button="false"
         @close="gsll = false"
         close-on-click-overlay
+        transition="fade"
       >
         <div class="diaborder cjdig">
           <span class="cjimg gs-icon"></span>
@@ -178,6 +196,7 @@
         :show-confirm-button="false"
         @close="listDig = false"
         close-on-click-overlay
+        transition="fade"
       >
         <div class="list">
           <div class="top">
@@ -240,7 +259,17 @@
           </div>
         </div>
       </van-dialog>
+<<<<<<< Updated upstream
       <van-dialog use-slot async-close :show="getUserInfoDig" :show-confirm-button="false">
+=======
+      <van-dialog
+        use-slot
+        async-close
+        :show="getUserInfoDig"
+        :show-confirm-button="false"
+        transition="fade"
+      >
+>>>>>>> Stashed changes
         <div class="diaborder userinfo-btn-wrapper">
           <van-button
             type="default"
@@ -315,6 +344,8 @@ export default {
       countDownTime: "",
       gsStatus: 0,
       socketTask: null,
+      sameTypeId:'',
+      times:0,//重复收集次数
       animationOptions: [
         "http://img.isxcxbackend1.cn/橙色动图.gif",
         "http://img.isxcxbackend1.cn/黄动图.gif",
@@ -535,9 +566,10 @@ export default {
                 gameId: _this.gameId,
                 time: res.data.continuTime * 1000
               });
-              this.countDown(res.data.continuTime);
+              _this.countDown(res.data.continuTime);
             },
             res => {
+<<<<<<< Updated upstream
               setTimeout(() => {
                 _this.warning = true;
                 _this.warningText = "! 不能收集已有能量";
@@ -546,6 +578,28 @@ export default {
                   _this.setLoaning(false);
                 }, 1000);
               }, 5000);
+=======
+
+              _this.times = _this.times+1;
+              console.info("重复次数",_this.times);
+              if (_this.times>=2 && _this.sameTypeId == fDevs.typeId){
+                  _this.warning = true;
+                  _this.warningText = "! 不能收集已有能量";
+                  _this.times = 0;
+                  setTimeout(() => {
+                    _this.warning = false;
+                    _this.setLoaning(false);
+                  }, 1000);
+              }if (_this.times>=1 && _this.sameTypeId != fDevs.typeId){
+                _this.sameTypeId = fDevs.typeId;
+                _this.setLoaning(false);
+                _this.times = 0;
+              }else{
+                _this.sameTypeId = fDevs.typeId;
+                _this.setLoaning(false);
+              }
+
+>>>>>>> Stashed changes
             }
           );
       } else {
@@ -692,6 +746,16 @@ export default {
         this.warning = false;
       }, 1200);
     },
+    gameOver(text){
+      this.warning = true;
+      this.warningText = text;
+      setTimeout(() => {
+        this.warning = false;
+        wx.reLaunch({
+          url: "../one/main"
+        });
+      }, 1200);
+    },
     countDown(time) {
       if (time <= 0) {
         this.countDownTime = "";
@@ -752,9 +816,8 @@ export default {
       } else if (event == 100) {
         _this.gsll = false;
         _this.earthquakejpg = false;
-        wx.reLaunch({
-          url: "../one/main"
-        });
+        _this.gameOver("游戏结束");
+
       }
     },
     listenSocket() {
@@ -1299,4 +1362,8 @@ export default {
   pointer-events: none;
   z-index: 2;
 }
+  .alert{
+    position: relative;
+    z-index: 10001;
+  }
 </style>

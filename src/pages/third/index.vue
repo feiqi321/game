@@ -1,8 +1,10 @@
 <template>
   <div class="main" id="thirdPage" >
     <div id="_whitemask" @click="areaWhiteHandle" v-show="areaWhite"></div>
-    <span class="common-msg" v-if="warning" @click="warning = false"
+    <van-transition :show="warning"  custom-style="position:absolute;z-index:10001;height:100%;top:0;width:100%;animation-delay: 1s;" name="fade" duration="200" >
+    <span class="common-msg" v-if="warning"  @click="warning = false"
       >{{ warningText }}</span>
+    </van-transition>
     <div class="monster" v-if="gsll"></div>
     <div class="dzanbj" v-if="dzan"></div>
     <div class="snow" v-if="snowjpg"></div>
@@ -10,6 +12,7 @@
       :custom-style="'background-color:transparent;overflow: initial;'"
       :show="diaCollect.dia1"
       @close="diaCollectClose('dia1')"
+      transition="fade"
     >
       <div class="commonDia">
         <div>
@@ -32,6 +35,7 @@
       :custom-style="'background-color:transparent;overflow: initial;'"
       :show="diaCollect.dia2"
       @close="diaCollectClose('dia2')"
+      transition="fade"
     >
       <div class="commonDia">
         <div>
@@ -54,6 +58,7 @@
       :custom-style="'background-color:transparent;overflow: initial;'"
       :show="diaCollect.dia3"
       @close="diaCollectClose('dia3')"
+      transition="fade"
     >
       <div class="commonDia">
         <div>
@@ -105,7 +110,7 @@
       </div>
 
       <div class="top-status">
-        <div class="rigth-nav" v-if="true" @click="toBoss">
+        <div class="rigth-nav" v-if="gsll" @click="toBoss">
           <span class="i-sb active rigth-monster"></span>
         </div>
         <div class="rigth-nav" @click="nativeBack('1')">
@@ -196,6 +201,7 @@
       :show-confirm-button="false"
       @close="buyDig.dig = false"
       close-on-click-overlay
+      transition="fade"
     >
       <div class="buydig">
         <dl class="buy-info">
@@ -384,6 +390,16 @@ export default {
       this.warningText = text;
       setTimeout(() => {
         this.warning = false;
+      }, 1200);
+    },
+    gameOver(text){
+      this.warning = true;
+      this.warningText = text;
+      setTimeout(() => {
+        this.warning = false;
+        wx.reLaunch({
+          url: "../one/main"
+        })
       }, 1200);
     },
     toBoss() {
@@ -738,9 +754,8 @@ export default {
         _this.diaCollect.dia1 = false;
         _this.diaCollect.dia2 = false;
         _this.diaCollect.dia3 = false;
-        wx.reLaunch({
-          url: "../one/main"
-        })
+        _this.gameOver("游戏结束");
+
       }
     },
     listenSocket() {

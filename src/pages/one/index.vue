@@ -8,7 +8,9 @@
     ></button>
     <div class="title"></div>
     <span class="yd"></span>
+    <van-transition :show="warning"  custom-style="position:absolute;z-index:10001;height:100%;top:0;width:100%;animation-delay: 1s;" name="fade" duration="200" >
     <span class="common-msg" v-if="warning" @click="warning=false">！游戏尚未开始</span>
+    </van-transition>
     <div class="btn-w">
       <button></button>
     </div>
@@ -35,25 +37,7 @@ export default {
 
   methods: {
     ...mapMutations(["changeState"]),
-    /*testMusic() {
-      const back = wx.getBackgroundAudioManager();
-      player();
-      function player(){
-        back.title = "此时此刻";
-        back.src = "http://img.isxcxbackend1.cn/06收集.mp3";
-        back.onEnded(() => {
-          console.info("再次播放");
-          player();
-        })
-      }
 
-      setTimeout(() => {
-        const backgroundAudioManager  = wx.getBackgroundAudioManager();
-        backgroundAudioManager.title = "此时此刻";
-        backgroundAudioManager.src =
-          "http://img.isxcxbackend1.cn/04%E9%87%91%E5%B8%81%E5%A2%9E%E5%8A%A0.mp3";
-      }, 8000);
-    },*/
     getUserInfo(res) {
       const _this = this;
       if (_this.status == 1) {
