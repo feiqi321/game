@@ -77,6 +77,7 @@ const store = new Vuex.Store({
             state.singleReward = [];
             state.isBracelet = [];
             state.ISENDING = false;
+            console.info("第六个点",new Date());
           }, 2000);
         }, 2000);
       }, 1000);
@@ -135,6 +136,7 @@ const store = new Vuex.Store({
       }
       setTimeout(() => {
         back.stop();
+        console.info("进度条完成时间",new Date());
         wx.getBeacons({
           success(res) {
             console.info(res, "action")
@@ -173,7 +175,7 @@ const store = new Vuex.Store({
             }
             if (flag) {
               commit('updateDevCompleted', { typeId, type, time })
-
+              console.info("接口申请收集时间",new Date());
               //如果超过3个清空提交收集数据并清空已完成列表
               http.post("/game/deviceColor/confirm", {
                 openId: openId,
@@ -185,6 +187,7 @@ const store = new Vuex.Store({
                   res => {
                     commit('setScores', res.data.scores)
                     console.log(state.completed, '已完成列表');
+                    console.info("接口完成时间",new Date());
                     var singleReward = res.data.singleReward;
                     var groupReward = res.data.groupReward;
                     var totalReward = res.data.totalReward;
@@ -196,12 +199,14 @@ const store = new Vuex.Store({
                     backgroundAudioManager.title="07收集完成";
                     backgroundAudioManager.autoplay = true;
                     backgroundAudioManager.src ="http://img.isxcxbackend1.cn/07收集完成.mp3";
+                    console.info("07收集完成时间",new Date());
                     if (singleReward>0){
                       commit('setSingleReward', {num:singleReward,orderNum:orderNum,bool:true})
                       const backgroundAudioManager2 = wx.createInnerAudioContext();
                       backgroundAudioManager2.title = "04金币增加";
                       backgroundAudioManager2.autoplay = true;
                       backgroundAudioManager2.src ="http://img.isxcxbackend1.cn/04金币增加.mp3";
+                      console.info("手环奖励完成时间",new Date());
                     }
                     if (groupReward>0){
                       commit('setNewNum',1);
@@ -214,7 +219,9 @@ const store = new Vuex.Store({
                       backgroundAudioManager4.title = "08新消息提醒.mp3";
                       backgroundAudioManager4.autoplay = true;
                       backgroundAudioManager4.src ="http://img.isxcxbackend1.cn/08新消息提醒.mp3";
+                      console.info("组合奖励时间",new Date());
                     }else{
+                      console.info("第五个点",new Date());
                       commit('setLoaning',false);
                     }
 

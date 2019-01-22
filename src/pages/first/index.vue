@@ -329,6 +329,8 @@ export default {
       socketTask: null,
       sameTypeId:'',
       times:0,//重复收集次数
+      warningDom:null, //全局提示
+      warningDom2:null, //全局提示
       animationOptions: [
         "http://img.isxcxbackend1.cn/橙色动图.gif",
         "http://img.isxcxbackend1.cn/黄动图.gif",
@@ -466,6 +468,7 @@ export default {
             if (_this.ISENDING) {
               return;
             }
+            console.info("第一个点",new Date());
             _this.setLoaning(true);
             _this.handleFindDevs(res.beacons);
           });
@@ -476,19 +479,25 @@ export default {
       const _this = this;
       _this.thisSh = false;
       _this.thisSh2 = false;
+      console.info("第二个点",new Date());
       console.info("devs",devs);
       wx.setStorageSync("braceletIdType", false);
       const distanceDev = devs
         .filter(item => {
           if (
-            item.minor == this.braceletId &&
+            item.minor == _this.braceletId &&
             item.accuracy > 0 &&
             item.accuracy < 0.6
           ) {
-            console.info("有手環");
             wx.setStorageSync("braceletIdType", true);
             _this.thisSh = true;
           }
+         /* const isExitDevs = this.completed.some(item => {
+            return item.typeId == item.minor;
+          });*/
+         if (_this.completed.includes(item.minor)){
+           return false;
+         }
           return (
             item.accuracy > 0 &&
             item.accuracy < 0.6 &&
@@ -531,7 +540,7 @@ export default {
       const _this = this;
 
       const fDevs = _this.filterDevs(devs);
-      //console.log(fDevs, "filter");
+      console.log(fDevs, "filter");
 
       if (fDevs.type) {
         http
@@ -543,7 +552,14 @@ export default {
           .then(
             res => {
               console.log("collect",res);
-
+              if(_this.warningDom){
+                clearTimeout(_this.warningDom);
+              }
+              if(_this.warningDom2){
+                clearTimeout(_this.warningDom2);
+              }
+              _this.warning = false;
+              console.info("第三个点",new Date());
                 _this.delayDetection({
                   typeId: fDevs.typeId,
                   type: fDevs.type,
@@ -556,24 +572,28 @@ export default {
 
             },
             res => {
-              _this.times = _this.times+1;
-              if (_this.times>=2 && _this.sameTypeId == fDevs.typeId){
-                setTimeout(() => {
-                  _this.warning = true;
-                  _this.warningText = "! 不能收集已有能量";
-                  _this.times = 0;
-                  setTimeout(() => {
-                    _this.warning = false;
-                    _this.setLoaning(false);
-                  }, 1000);
-                }, 5000);
+              _this.setLoaning(false);
+              if (_this.times>=1 && _this.sameTypeId == fDevs.typeId){
+                console.info("重复第一个点",new Date());
+                _this.times = 0;
+                _this.sameTypeId = "";
+                if (_this.warningDom || _this.warningDom2){
+                  _this.warningDom = setTimeout(() => {
+                    _this.warning = true;
+                    _this.warningText = "! 不能收集已有能量";
+                    _this.warningDom2 = setTimeout(() => {
+                      _this.warning = false;
+                    }, 1000);
+                  }, 5000);
+                }
               }else if (_this.times>=1 && _this.sameTypeId != fDevs.typeId){
                 _this.sameTypeId = fDevs.typeId;
-                _this.setLoaning(false);
-                _this.times = 0;
+                _this.times = 1;
+                console.info("重复第二个点",new Date());
               }else{
                 _this.sameTypeId = fDevs.typeId;
-                _this.setLoaning(false);
+                _this.times = _this.times+1;
+                console.info("重复第三个点",new Date());
               }
 
             }
