@@ -328,23 +328,28 @@ export default {
       background-size: contain;
       text-align: left;
     }
-    dd {
-      margin-left: 70px;
-      &.name {
+    dl {
+      margin-left: 15px;
+      height: 60px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      .name {
+        text-align: left;
+        /*margin-top: 5px;*/
         font-weight: bold;
         color: #000;
       }
-      &.score {
+      .score {
         width: 93px;
-        height: 28px;
-        line-height: 24px;
+        height: 32px;
+        line-height: 32px;
         background: url(http://img.isxcxbackend1.cn/组90@2x.png) center center
-          no-repeat;
+        no-repeat;
         background-size: contain;
         color: #ffc63c;
         font-weight: bold;
         text-align: center;
-        margin-top: 7px;
         font-size:16px;
       }
     }
@@ -633,7 +638,7 @@ export default {
   left: 0;
   height: 100%;
   width: 100%;
-  background: url(http://img.isxcxbackend1.cn/红光闪动.gif) center center
+  background: url(http://img.isxcxbackend1.cn/红光闪动2.gif) center center
     no-repeat;
   background-size: cover;
   z-index: 0;

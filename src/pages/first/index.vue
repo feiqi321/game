@@ -12,6 +12,7 @@
     }}</span>
     </van-transition>
     <van-notify id="van-notify" />
+
     <div class="first">
       <div class="top-tool">
         <div class="user-info">
@@ -44,9 +45,9 @@
         </div>
       </div>
       <div class="probar">
-        <p style="min-height:20px;">
-          <span :class="{'active':true,'m-icon':true}"  v-if="thisSh"></span>
-        </p>
+        <p style="height:30px;line-height: 30px;">
+          <span :class="{'active':thisSh,'m-icon':true}" ></span>
+      </p>
         <p v-if="thisSh2">{{receiveMsg}}Collection</p>
         <p
           :class="{
@@ -107,9 +108,9 @@
         <div class="diaborder binding">
           <input type="text" v-model="userId" class="dia-field" maxlength="3" placeholder="请输入手环编号">
           <p class="dialog-title">手环和绑定手机共同收集获得额外奖励
-            <br><span>Collection of bracelets and bound mobile phones for additional rewards</span>
+            <br><span>The Bonus collection of the wristband and the bound mobile phone will receive additional rewards</span>
           </p>
-          <p class="red">已綁定设备A230</p>
+          <p class="red">{{bingWarningText}}</p>
           <p>
             <span class="btn" @click="bindBraceletId">同意</span>
           </p>
@@ -244,7 +245,6 @@
           </div>
         </div>
       </van-dialog>
-
       <van-dialog
         use-slot
         async-close
@@ -301,6 +301,7 @@ export default {
       totalNum: 0,
       totalReward: 0,
       status: null,
+      bingWarningText:'',
       totalStatus: null,
       totalTask: {},
       colorList: [],
@@ -324,7 +325,7 @@ export default {
       earthquakejpg: false, //地震动画
       gsll: false, //怪兽来了
       countDownTime: "",
-      gsStatus: 0,
+      gsStatus: 3,
       socketTask: null,
       sameTypeId:'',
       times:0,//重复收集次数
@@ -397,7 +398,6 @@ export default {
         return;
       }
 
-      _this.bindDevDigSts = false;
       wx.showLoading({
         title: "绑定设备中..."
       });
@@ -411,7 +411,10 @@ export default {
           res => {
             wx.setStorageSync("braceletId", res.data.deviceId);
             _this.braceletId = res.data.deviceId;
-            _this.showWarnning("手环绑定成功");
+            _this.bingWarningText = "已绑定设备"+_this.userId;
+            setTimeout(() => {
+              _this.bindDevDigSts = false;
+            }, 1500);
           },
           res => {
             _this.showWarnning(res);
@@ -451,7 +454,6 @@ export default {
     searchBlueTooth() {
       //搜索设备
       const _this = this;
-      console.info("searchBlueTooth");
       if (!this.blueStatus) {
         Notify("请打开蓝牙设备!");
         return;
@@ -460,6 +462,7 @@ export default {
         uuids: ["B5B182C7-EAB1-4988-AA99-B5C1517008D9"],
         success: function(res) {
           wx.onBeaconUpdate(res => {
+
             if (_this.ISENDING) {
               return;
             }
@@ -470,10 +473,11 @@ export default {
       });
     },
     filterDevs(devs) {
-      console.info("filterDevs", devs);
       const _this = this;
       _this.thisSh = false;
       _this.thisSh2 = false;
+      console.info("devs",devs);
+      wx.setStorageSync("braceletIdType", false);
       const distanceDev = devs
         .filter(item => {
           if (
@@ -481,10 +485,9 @@ export default {
             item.accuracy > 0 &&
             item.accuracy < 0.5
           ) {
+            console.info("有手環");
             wx.setStorageSync("braceletIdType", true);
             _this.thisSh = true;
-          } else {
-            wx.setStorageSync("braceletIdType", false);
           }
           return (
             item.accuracy > 0 &&
@@ -495,7 +498,7 @@ export default {
         .sort((a, b) => {
           return a.accuracy - b.accuracy;
         });
-      console.info("distanceDev", distanceDev);
+
       if (_this.thisSh) {
         _this.receiveMsg = "协助收集中";
       } else {
@@ -520,7 +523,7 @@ export default {
           //};
         };
       } else {
-        console.log(distanceDev.length, 3);
+
         return false;
       }
     },
@@ -528,7 +531,7 @@ export default {
       const _this = this;
 
       const fDevs = _this.filterDevs(devs);
-      console.log(fDevs, "filter");
+      //console.log(fDevs, "filter");
 
       if (fDevs.type) {
         http
@@ -539,22 +542,23 @@ export default {
           })
           .then(
             res => {
-              console.log("collect");
-              _this.delayDetection({
-                typeId: fDevs.typeId,
-                type: fDevs.type,
-                braceletId: _this.braceletId,
-                openId: _this.openId,
-                gameId: _this.gameId,
-                time: res.data.continuTime * 1000
-              });
-              _this.countDown(res.data.continuTime);
+              console.log("collect",res);
+
+                _this.delayDetection({
+                  typeId: fDevs.typeId,
+                  type: fDevs.type,
+                  braceletId: _this.braceletId,
+                  openId: _this.openId,
+                  gameId: _this.gameId,
+                  time: res.data.continuTime * 1000
+                });
+                _this.countDown(res.data.continuTime);
+
             },
             res => {
-
               _this.times = _this.times+1;
-              console.info("重复次数",_this.times);
               if (_this.times>=2 && _this.sameTypeId == fDevs.typeId){
+                setTimeout(() => {
                   _this.warning = true;
                   _this.warningText = "! 不能收集已有能量";
                   _this.times = 0;
@@ -562,7 +566,8 @@ export default {
                     _this.warning = false;
                     _this.setLoaning(false);
                   }, 1000);
-              }if (_this.times>=1 && _this.sameTypeId != fDevs.typeId){
+                }, 5000);
+              }else if (_this.times>=1 && _this.sameTypeId != fDevs.typeId){
                 _this.sameTypeId = fDevs.typeId;
                 _this.setLoaning(false);
                 _this.times = 0;
@@ -590,6 +595,11 @@ export default {
           res => {
             _this.braceletId = res.data.deviceId;
             _this.userId = res.data.userId;
+            if (_this.userId==null || _this.userId ==""){
+
+            }else{
+             _this.bingWarningText = "已绑定设备"+_this.userId;
+            }
             _this.setScores(res.data.scores);
             _this.setNewNum(res.data.newNum);
             _this.showEvent(res.data.event);
@@ -847,7 +857,7 @@ export default {
 .first {
   padding: 15px 30px;
   text-align: center;
-  background: url(http://img.isxcxbackend1.cn/3.8.gif) center center
+  background: url(http://img.isxcxbackend1.cn/收集页背景0121.gif) center center
     no-repeat;
   position: relative;
   z-index: 1;
@@ -890,25 +900,28 @@ export default {
       background-size: contain;
       text-align: left;
     }
-    dd {
+    dl {
       margin-left: 15px;
-      &.name {
+      height: 60px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      .name {
         text-align: left;
-        margin-top: 5px;
+        /*margin-top: 5px;*/
         font-weight: bold;
         color: #000;
       }
-      &.score {
+      .score {
         width: 93px;
-        height: 28px;
-        line-height: 28px;
+        height: 32px;
+        line-height: 32px;
         background: url(http://img.isxcxbackend1.cn/组90@2x.png) center center
           no-repeat;
         background-size: contain;
         color: #ffc63c;
         font-weight: bold;
         text-align: center;
-        margin-top: 7px;
         font-size:16px;
       }
     }
@@ -999,7 +1012,9 @@ export default {
     display: inline-block;
     background: url(http://img.isxcxbackend1.cn/小孩.gif) center center no-repeat;
     background-size: cover;
+    visibility: hidden;
     &.active {
+      visibility: visible;
       background-image: url(http://img.isxcxbackend1.cn/小孩.gif);
     }
   }
@@ -1083,7 +1098,7 @@ export default {
 .dialog-title {
   margin: 20px auto 30px;
   span{
-    font-size: 12px;
+    font-size: 8px;
     color: #666;
   }
 }
@@ -1305,7 +1320,7 @@ export default {
   left: 0;
   height: 100%;
   width: 100%;
-  background: url(http://img.isxcxbackend1.cn/红光闪动.gif) center center
+  background: url(http://img.isxcxbackend1.cn/红光闪动2.gif) center center
     no-repeat;
   background-size: cover;
   z-index: 0;

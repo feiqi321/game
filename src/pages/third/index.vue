@@ -241,7 +241,7 @@ export default {
       ftHide: false,
       chooseType: 0,
       gsStatus: 0,
-      gsll: false,
+      gsll: true,
       baseUrl: "http://img.isxcxbackend1.cn/",
       //底部可购买的数组
       pic: [[], [], []],
@@ -884,25 +884,29 @@ export default {
         background-size: contain;
         text-align: left;
       }
-      dd {
+      dl {
         margin-left: 15px;
-        &.name {
-          margin-top: 5px;
+        height: 60px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        .name {
+          text-align: left;
+          /*margin-top: 5px;*/
           font-weight: bold;
           color: #000;
         }
-        &.score {
+        .score {
           width: 93px;
-          height: 28px;
-          line-height: 28px;
+          height: 32px;
+          line-height: 32px;
           background: url(http://img.isxcxbackend1.cn/组90@2x.png) center center
-            no-repeat;
+          no-repeat;
           background-size: contain;
           color: #ffc63c;
           font-weight: bold;
           text-align: center;
-          margin-top: 7px;
-          font-size: 16px;
+          font-size:16px;
         }
       }
     }
@@ -1273,10 +1277,22 @@ view[hidden] {
   > div {
     display: inline-block;
     margin-left: 15px;
+    @keyframes an1 {
+      from {
+        transform: scale(1);
+      }
+      to {
+        transform: scale(1.4);
+      }
+    }
     .rigth-monster {
-      background: url(http://img.isxcxbackend1.cn/boss组203.png) center
+      background: url(http://img.isxcxbackend1.cn/boss组203.png) center center
         no-repeat;
       background-size: 100%;
+      width: 24px;
+      height: 24px;
+      display: inline-block;
+      animation: an1 ease 1s infinite alternate;
     }
     .rigth-gotoSec {
       background: url(http://img.isxcxbackend1.cn/组218@3x.png) center no-repeat;
@@ -1292,7 +1308,7 @@ view[hidden] {
 .monster {
   height: 100vh;
   width: 100vw;
-  background: url(http://img.isxcxbackend1.cn/红光闪动.gif) center no-repeat;
+  background: url(http://img.isxcxbackend1.cn/红光闪动2.gif) center no-repeat;
   background-size: 100%;
   opacity: 0.6;
   position: absolute;

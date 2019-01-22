@@ -61,7 +61,7 @@ const store = new Vuex.Store({
       state.bigUrl = str;
       setTimeout(() => {
         state.dia_lv = true;
-        console.info("进入到第一个",str)
+
         setTimeout(() => {
           state.dia_lv = false;
           state.addproperty_Show = true;
@@ -70,7 +70,7 @@ const store = new Vuex.Store({
           backgroundAudioManager.title="02动物出现";
           backgroundAudioManager.src ="http://img.isxcxbackend1.cn/02动物出现.mp3";
           state.addproperty.num2 = num2;
-          console.info("进入到第二个",num1)
+
           setTimeout(() => {
             state.addproperty_Show = false;
             state.completed = [];
@@ -122,7 +122,6 @@ const store = new Vuex.Store({
   },
   actions: {
     delayDetection({ commit, state }, { typeId, type, braceletId, openId, gameId, time }) {//延迟检测
-      console.info("进入都再次确认地方",braceletId);
       commit('addDevToCompleted', { typeId, type, time });
       const back = wx.createInnerAudioContext();
       player();
@@ -174,7 +173,7 @@ const store = new Vuex.Store({
             }
             if (flag) {
               commit('updateDevCompleted', { typeId, type, time })
-              console.log(state.completed, '已完成列表');
+
               //如果超过3个清空提交收集数据并清空已完成列表
               http.post("/game/deviceColor/confirm", {
                 openId: openId,
@@ -185,6 +184,7 @@ const store = new Vuex.Store({
                 .then(
                   res => {
                     commit('setScores', res.data.scores)
+                    console.log(state.completed, '已完成列表');
                     var singleReward = res.data.singleReward;
                     var groupReward = res.data.groupReward;
                     var totalReward = res.data.totalReward;
@@ -216,8 +216,8 @@ const store = new Vuex.Store({
 
                   },
                   res => {
-                    Notify("网络异常7!");
                     commit('setLoaning',false);
+                    commit('removeDevCompleted', { typeId, type, time });
                   }
                 );
             } else {
