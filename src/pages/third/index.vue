@@ -252,7 +252,7 @@ export default {
       ftHide: false,
       chooseType: 0,
       gsStatus: 0,
-      gsll: true,
+      gsll: false,
       baseUrl: "http://img.isxcxbackend1.cn/",
       //底部可购买的数组
       pic: [[], [], []],
@@ -1319,7 +1319,7 @@ view[hidden] {
 .monster {
   height: 100vh;
   width: 100vw;
-  background: url(http://img.isxcxbackend1.cn/收集页背景0121.gif) center no-repeat;
+  background: url(http://img.isxcxbackend1.cn/红光闪动2.gif) center no-repeat;
   background-size: 100%;
   opacity: 0.6;
   position: absolute;
@@ -1327,7 +1327,7 @@ view[hidden] {
 .bjcommon{
   height: 100vh;
   width: 100vw;
-  background: url(http://img.isxcxbackend1.cn/红光闪动2.gif) center no-repeat;
+  background: url(http://img.isxcxbackend1.cn/无底背景条.gif) center no-repeat;
   background-size: 100%;
   opacity: 0.6;
   position: absolute;

@@ -194,11 +194,13 @@ const store = new Vuex.Store({
                     const backgroundAudioManager = wx.createInnerAudioContext();
 
                     backgroundAudioManager.title="07收集完成";
+                    backgroundAudioManager.autoplay = true;
                     backgroundAudioManager.src ="http://img.isxcxbackend1.cn/07收集完成.mp3";
                     if (singleReward>0){
                       commit('setSingleReward', {num:singleReward,orderNum:orderNum,bool:true})
                       const backgroundAudioManager2 = wx.createInnerAudioContext();
                       backgroundAudioManager2.title = "04金币增加";
+                      backgroundAudioManager2.autoplay = true;
                       backgroundAudioManager2.src ="http://img.isxcxbackend1.cn/04金币增加.mp3";
                     }
                     if (groupReward>0){
@@ -206,9 +208,11 @@ const store = new Vuex.Store({
                       commit('addproperty_Handle', {num1:groupReward,num2:totalReward,str:bigUrl});
                       const backgroundAudioManager3 = wx.createInnerAudioContext();
                       backgroundAudioManager3.title = "04金币增加";
+                      backgroundAudioManager3.autoplay = true;
                       backgroundAudioManager3.src ="http://img.isxcxbackend1.cn/04金币增加.mp3";
                       const backgroundAudioManager4 = wx.createInnerAudioContext();
                       backgroundAudioManager4.title = "08新消息提醒.mp3";
+                      backgroundAudioManager4.autoplay = true;
                       backgroundAudioManager4.src ="http://img.isxcxbackend1.cn/08新消息提醒.mp3";
                     }else{
                       commit('setLoaning',false);

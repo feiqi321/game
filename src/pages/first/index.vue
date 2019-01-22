@@ -262,7 +262,7 @@
         </div>
       </van-dialog>
     </div>
-    <div class="hgbj" v-if="gsStatus === 3"></div>
+    <div class="hgbj" v-if="gsStatus"></div>
     <div class="earthquakebj" v-if="earthquakejpg"></div>
     <van-popup :custom-style="'background-color:transparent;overflow: initial;'" :show="dia_lv">
       <div class="lvStyle">
@@ -325,7 +325,7 @@ export default {
       earthquakejpg: false, //地震动画
       gsll: false, //怪兽来了
       countDownTime: "",
-      gsStatus: 3,
+      gsStatus: 0,
       socketTask: null,
       sameTypeId:'',
       times:0,//重复收集次数
@@ -1323,7 +1323,9 @@ export default {
   background: url(http://img.isxcxbackend1.cn/红光闪动2.gif) center center
     no-repeat;
   background-size: cover;
-  z-index: 0;
+  z-index:1;
+  opacity:0.6;
+  pointer-events:none;
 }
 
 .earthquakebj{
