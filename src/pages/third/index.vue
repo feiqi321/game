@@ -185,7 +185,12 @@
             :style="item.style"
             v-else
           ></dt>
-          <dd v-if="ckTxt">{{ item.price }}</dd>
+          <dd v-if="ckTxt">
+            <img src="http://img.isxcxbackend1.cn/组187.png"
+                 style="margin-right: 8rpx;display: inline-block;width:14rpx;height: 20rpx;vertical-align: middle;"
+                 alt="" />
+            <span style="vertical-align: middle;display: inline-block;">{{item.price}}</span>
+          </dd>
           <dd v-else>x{{ item.num }}</dd>
         </dl>
       </div>
@@ -216,7 +221,12 @@
         <dl class="buy-info">
           <dt :style="buyDig.style"></dt>
           <dd class="title">圣诞屋</dd>
-          <dd class="price">X{{ buyDig.price }}</dd>
+          <dd class="price">
+            <img src="http://img.isxcxbackend1.cn/组187.png"
+                 style="margin-right: 8rpx;display: inline-block;width:20rpx;height: 28rpx;vertical-align: middle;"
+                 alt="" />
+            <span style="vertical-align: middle;display: inline-block;">X{{ buyDig.price }}</span>
+          </dd>
         </dl>
         <div class="num">
           <span class="before" @click="changeCount(-1)">-</span>
@@ -902,12 +912,12 @@ export default {
           height: 32px;
           line-height: 32px;
           background: url(http://img.isxcxbackend1.cn/组90@2x.png) center center
-          no-repeat;
+            no-repeat;
           background-size: contain;
           color: #ffc63c;
           font-weight: bold;
           text-align: center;
-          font-size:16px;
+          font-size: 16px;
         }
       }
     }
@@ -1290,8 +1300,8 @@ view[hidden] {
       background: url(http://img.isxcxbackend1.cn/boss组203.png) center center
         no-repeat;
       background-size: 100%;
-      width: 24px;
-      height: 24px;
+      width: 35px;
+      height: 40px;
       display: inline-block;
       animation: an1 ease 1s infinite alternate;
     }
