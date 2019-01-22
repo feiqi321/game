@@ -5,8 +5,8 @@
       <div class="bossbody" @click="addFs"></div>
       <div class="top-tool">
         <div class="user-info">
-          <dl>
-            <dt :style="{backgroundImage:'url('+userInfo.avatarUrl+')'}"></dt>
+          <div :style="{ backgroundImage: 'url(' + userInfo.avatarUrl + ')' }"></div>
+          <dl style="padding-left:11px;">
             <dd class="name">{{userInfo.nickName}}</dd>
             <dd class="score">{{ scores }}</dd>
           </dl>
@@ -317,7 +317,7 @@ export default {
   margin: 20px;
   .user-info {
     overflow: hidden;
-    dt {
+    &>div{
       width: 60px;
       height: 60px;
       float: left;
@@ -329,7 +329,7 @@ export default {
       text-align: left;
     }
     dl {
-      margin-left: 15px;
+      margin-left: 18px;
       height: 60px;
       display: flex;
       flex-direction: column;

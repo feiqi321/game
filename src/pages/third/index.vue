@@ -12,6 +12,7 @@
       }}</span>
     </van-transition>
     <div class="monster" v-if="gsll"></div>
+    <div class="bjcommon"></div>
     <div class="dzanbj" v-if="dzan"></div>
     <div class="snow" v-if="snowjpg"></div>
     <van-popup
@@ -1306,6 +1307,14 @@ view[hidden] {
   }
 }
 .monster {
+  height: 100vh;
+  width: 100vw;
+  background: url(http://img.isxcxbackend1.cn/收集页背景0121.gif) center no-repeat;
+  background-size: 100%;
+  opacity: 0.6;
+  position: absolute;
+}
+.bjcommon{
   height: 100vh;
   width: 100vw;
   background: url(http://img.isxcxbackend1.cn/红光闪动2.gif) center no-repeat;
