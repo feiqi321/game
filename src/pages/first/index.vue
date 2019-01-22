@@ -483,7 +483,7 @@ export default {
           if (
             item.minor == this.braceletId &&
             item.accuracy > 0 &&
-            item.accuracy < 0.5
+            item.accuracy < 0.6
           ) {
             console.info("有手環");
             wx.setStorageSync("braceletIdType", true);
@@ -491,7 +491,7 @@ export default {
           }
           return (
             item.accuracy > 0 &&
-            item.accuracy < 0.5 &&
+            item.accuracy < 0.6 &&
             item.minor != _this.braceletId
           );
         })
@@ -1320,7 +1320,7 @@ export default {
   left: 0;
   height: 100%;
   width: 100%;
-  background: url(http://img.isxcxbackend1.cn/红光闪动2.gif) center center
+  background: url(http://img.isxcxbackend1.cn/无底背景条.gif) center center
     no-repeat;
   background-size: cover;
   z-index:1;

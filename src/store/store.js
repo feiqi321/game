@@ -144,7 +144,7 @@ const store = new Vuex.Store({
             } else {
               const bracelet = res.beacons
                 .filter(item => {
-                  return item.accuracy > 0 && item.accuracy < 0.5 && item.minor == braceletId;
+                  return item.accuracy > 0 && item.accuracy < 0.6 && item.minor == braceletId;
                 })
                 .sort((a, b) => {
                   return a.accuracy - b.accuracy;
@@ -158,7 +158,7 @@ const store = new Vuex.Store({
             let flag = false;
             const distanceDev = res.beacons
               .filter(item => {
-                return item.accuracy > 0 && item.accuracy < 0.5;
+                return item.accuracy > 0 && item.accuracy < 0.6;
               })
               .sort((a, b) => {
                 return a.accuracy - b.accuracy;
