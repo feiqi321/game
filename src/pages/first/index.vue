@@ -1009,7 +1009,7 @@ export default {
   }
 }
 .qpanmi {
-  height: 240px;
+  height: 180px;
   margin: 10px 30px 0;
   background: center center no-repeat;
   background-size: cover;
