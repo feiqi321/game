@@ -46,8 +46,7 @@
       </div>
       <div class="probar">
         <p style="height:30px;line-height: 30px; margin-bottom:-8px;">
-          <!-- <span :class="{'active':thisSh,'m-icon':true}" ></span> -->
-          <span :class="{'active':true,'m-icon':true}" ></span>
+          <span :class="{'active':thisSh,'m-icon':true}" ></span>
       </p>
         <p v-if="thisSh2">{{receiveMsg}}Collection</p>
         <p
