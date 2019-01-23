@@ -66,7 +66,7 @@ const store = new Vuex.Store({
           state.dia_lv = false;
           state.addproperty_Show = true;
           state.addproperty.num1 = num1;
-          const backgroundAudioManager6 = wx.createInnerAudioContext();
+          const backgroundAudioManager6 = getApp().globalData.backgroundAudioManager6;
           if (wx.setInnerAudioOption) {
             wx.setInnerAudioOption({
               obeyMuteSwitch: false,
@@ -134,7 +134,7 @@ const store = new Vuex.Store({
   actions: {
     delayDetection({ commit, state }, { typeId, type, braceletId, openId, gameId, time }) {//延迟检测
       commit('addDevToCompleted', { typeId, type, time });
-      const back = wx.createInnerAudioContext();
+      const back = getApp().globalData.back;
       if (wx.setInnerAudioOption) {
         wx.setInnerAudioOption({
           obeyMuteSwitch: false,
@@ -154,6 +154,7 @@ const store = new Vuex.Store({
         })
       }
       setTimeout(() => {
+        back.stop();
         console.info("进度条完成时间",new Date());
         wx.getBeacons({
           success(res) {
@@ -212,7 +213,7 @@ const store = new Vuex.Store({
                     var bigUrl = res.data.bigUrl;
                     var orderNum = res.data.orderNum;
 
-                    const backgroundAudioManager = wx.createInnerAudioContext();
+                    const backgroundAudioManager = getApp().globalData.backgroundAudioManager;
 
                     backgroundAudioManager.title="07收集完成";
                     if (wx.setInnerAudioOption) {
@@ -234,7 +235,7 @@ const store = new Vuex.Store({
                     if (groupReward>0){
                       commit('setNewNum',1);
                       commit('addproperty_Handle', {num1:groupReward,num2:totalReward,str:bigUrl});
-                      const backgroundAudioManager3 = wx.createInnerAudioContext();
+                      const backgroundAudioManager3 = getApp().globalData.backgroundAudioManager3;
                       if (wx.setInnerAudioOption) {
                         wx.setInnerAudioOption({
                           obeyMuteSwitch: false,
@@ -247,7 +248,7 @@ const store = new Vuex.Store({
                       backgroundAudioManager3.title = "04金币增加";
                       backgroundAudioManager3.src ="http://img.isxcxbackend1.cn/04"+(encodeURIComponent('金币增加'))+".mp3";
                       backgroundAudioManager3.play();
-                      const backgroundAudioManager4 = wx.createInnerAudioContext();
+                      const backgroundAudioManager4 = getApp().globalData.backgroundAudioManager4;
                       if (wx.setInnerAudioOption) {
                         wx.setInnerAudioOption({
                           obeyMuteSwitch: false,

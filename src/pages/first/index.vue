@@ -32,9 +32,9 @@
       </div>
       <div class="qpanmi" :style="{ backgroundImage: 'url(' + animationBg + ')' }">
         <!-- <img src="http://img.isxcxbackend1.cn/橙色动图.gif" class="m-icon" mode="widthFix"> -->
-        <div class="addproperty" v-if="addproperty_Show">
-          <div style="font-size: 70px;">+ {{addproperty.num1}}</div>
-          <div style="margin-top: 30px" v-if="addproperty.num2>0">
+        <div class="addproperty" v-if="addproperty_Show" style="padding-top: 15px;">
+          <div style="font-size: 55px;">+ {{addproperty.num1}}</div>
+          <div style="margin-top: 10px" v-if="addproperty.num2>0">
             <img
               style="width: 30px;height: 30px;display: inline-block;vertical-align: middle;margin-right: 20px;"
               src="http://img.isxcxbackend1.cn/boy组223.png"
@@ -649,12 +649,15 @@ export default {
     },
 
     reward(type) {
+      let temp = 0;
       if (this.status == 0 && type == 1) {
+        temp = 1;
         this.status = 1;
         this.firstText = "已领取";
         this.firstReward = "";
         this.firstPng = false;
       } else if (this.totalStatus == 0 && type == 2) {
+        temp = 1;
         this.totalStatus = 1;
         this.totalText = "已领取";
         this.totalPng = false;
@@ -662,20 +665,22 @@ export default {
       }
 
       const _this = this;
-      http
-        .post("/game/task/reward", {
-          openId: _this.openId,
-          gameId: _this.gameId,
-          type: type
-        })
-        .then(
-          res => {
-            _this.setScores(res.data);
-          },
-          res => {
-            Notify("网络异常4!");
-          }
-        );
+      if (temp == 1)  {
+        http
+          .post("/game/task/reward", {
+            openId: _this.openId,
+            gameId: _this.gameId,
+            type: type
+          })
+          .then(
+            res => {
+              _this.setScores(res.data);
+            },
+            res => {
+              Notify("网络异常4!");
+            }
+          );
+      }                         
     },
     showList() {
       this.listDig = true;
@@ -835,7 +840,10 @@ export default {
       });
     }
   },
-
+  onHide(){
+     wx.stopBeaconDiscovery();
+     getApp().globalData.back.stop();
+  } ,
   onShow() {
     this.userInfo = wx.getStorageSync("userinfo");
     this.openId = wx.getStorageSync("openId");

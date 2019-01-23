@@ -219,7 +219,7 @@
       <div class="buydig">
         <dl class="buy-info">
           <dt :style="buyDig.style"></dt>
-          <dd class="title">圣诞屋</dd>
+          <dd class="title">{{buyDig.name}}</dd>
           <dd class="price">
             <img src="http://img.isxcxbackend1.cn/组187.png"
                  style="margin-right: 8rpx;display: inline-block;width:20rpx;height: 28rpx;vertical-align: middle;"
@@ -286,6 +286,7 @@ export default {
         style: {},
         current: {},
         buyNum: 1,
+        name:'',
         price: 0
       },
       showJzq: false,
@@ -339,7 +340,7 @@ export default {
         item.style = `background:url("${item.url1}") center no-repeat`;
       });
       this.$set(this.pic, 0, data);
-      console.log(data);
+
     });
     //获取建筑
     httpReq({
@@ -359,7 +360,7 @@ export default {
   },
   created() {
     this.userInfo = wx.getStorageSync("userinfo");
-    this.backgroundAudioManager7 = wx.createInnerAudioContext();
+    this.backgroundAudioManager7 = getApp().globalData.backgroundAudioManager7;
     //移动时
     this.tMove = throttle(e => {
       this.currentDrop.show = true;
@@ -565,6 +566,7 @@ export default {
       //显示弹窗
       this.buyDig.dig = true;
       this.buyDig.price = obj.price;
+      this.buyDig.name = obj.name;
       this.buyDig.style = obj.style;
     },
     //switch仓库
@@ -640,9 +642,9 @@ export default {
               _this.backgroundAudioManager7.obeyMuteSwitch = false;
               _this.backgroundAudioManager7.autoplay = true;
             }
-            _this.backgroundAudioManager7.title = "07收集完成2";
+            _this.backgroundAudioManager7.title = "03建造完成";
             console.log("12345678",_this.backgroundAudioManager7)
-            _this.backgroundAudioManager7.src = "http://img.isxcxbackend1.cn/07"+(encodeURIComponent('收集完成'))+".mp3";
+            _this.backgroundAudioManager7.src = "http://img.isxcxbackend1.cn/03"+(encodeURIComponent('建造完成'))+".mp3";
             console.log("123456789",_this.backgroundAudioManager7)
             _this.backgroundAudioManager7.play();
           }

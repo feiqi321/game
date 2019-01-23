@@ -6,6 +6,13 @@ export default {
         url: "wss://www.isxcxbackend1.cn/websocket"
       }))
     );
+    this.$mp.app.globalData.back = wx.createInnerAudioContext();
+    this.$mp.app.globalData.backgroundAudioManager6 = wx.createInnerAudioContext();
+    this.$mp.app.globalData.backgroundAudioManager = wx.createInnerAudioContext();
+    this.$mp.app.globalData.backgroundAudioManager3 = wx.createInnerAudioContext();
+    this.$mp.app.globalData.backgroundAudioManager4 = wx.createInnerAudioContext();
+    this.$mp.app.globalData.backgroundAudioManager7 = wx.createInnerAudioContext();
+    this.$mp.app.globalData.backgroundAudioManager8 = wx.createInnerAudioContext();
   },
   created() {
     // 调用API从本地缓存中获取数据
