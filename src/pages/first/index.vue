@@ -468,7 +468,7 @@ export default {
             if (_this.ISENDING) {
               return;
             }
-            console.info("第一个点",new Date());
+
             _this.setLoaning(true);
             _this.handleFindDevs(res.beacons);
           });
@@ -479,8 +479,8 @@ export default {
       const _this = this;
       _this.thisSh = false;
       _this.thisSh2 = false;
-      console.info("第二个点",new Date());
-      console.info("devs",devs);
+
+     // console.info("devs",devs);
       wx.setStorageSync("braceletIdType", false);
       const distanceDev = devs
         .filter(item => {

@@ -306,6 +306,7 @@ export default {
         dia3: false
       },
       monster: false,
+      backgroundAudioManager7:null,
       warning: false,
       warningText: "",
       //抖动开关
@@ -358,6 +359,7 @@ export default {
   },
   created() {
     this.userInfo = wx.getStorageSync("userinfo");
+    this.backgroundAudioManager7 = wx.createInnerAudioContext();
     //移动时
     this.tMove = throttle(e => {
       this.currentDrop.show = true;
@@ -627,12 +629,22 @@ export default {
             posi: index
           }
         }).then(({ code, data }) => {
-          if (code == 200) {
+          if (code == "200") {
             this.getCurrentList();
-            const backgroundAudioManager = wx.getBackgroundAudioManager();
-            backgroundAudioManager.title = "07收集完成";
-            backgroundAudioManager.src =
-              "http://img.isxcxbackend1.cn/07收集完成.mp3";
+            if (wx.setInnerAudioOption) {
+              wx.setInnerAudioOption({
+                obeyMuteSwitch: false,
+                autoplay: true
+              })
+            }else {
+              _this.backgroundAudioManager7.obeyMuteSwitch = false;
+              _this.backgroundAudioManager7.autoplay = true;
+            }
+            _this.backgroundAudioManager7.title = "07收集完成2";
+            console.log("12345678",_this.backgroundAudioManager7)
+            _this.backgroundAudioManager7.src = "http://img.isxcxbackend1.cn/07"+(encodeURIComponent('收集完成'))+".mp3";
+            console.log("123456789",_this.backgroundAudioManager7)
+            _this.backgroundAudioManager7.play();
           }
         });
         this.picInfo.push(this.mixinObj(index, { obj, name: obj.url3, index }));
@@ -953,7 +965,7 @@ export default {
     border-radius: 8px;
     z-index: 5;
     box-shadow: 0 3px 0 #979797;
-    bottom: 53px;
+    bottom: 71px;
     position: absolute;
     padding: 5px 0;
     width: 90%;
@@ -1018,7 +1030,7 @@ export default {
     z-index: 5;
     box-shadow: 0 3px 0 #979797;
     display: flex;
-    bottom: 10px;
+    bottom: 28px;
     position: absolute;
     width: 90%;
     left: 50%;

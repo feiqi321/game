@@ -144,8 +144,18 @@ export default {
           damage = Math.floor(Math.random() * 3 + 2) ;
         }
         const backgroundAudioManager = wx.getBackgroundAudioManager();
+        if (wx.setInnerAudioOption) {
+          wx.setInnerAudioOption({
+            obeyMuteSwitch: false,
+            autoplay: true
+          })
+        }else {
+          backgroundAudioManager.obeyMuteSwitch = false;
+          backgroundAudioManager.autoplay = true;
+        }
         backgroundAudioManager.title="05恐龙打击时";
-        backgroundAudioManager.src ="http://img.isxcxbackend1.cn/05恐龙打击时.mp3";
+        backgroundAudioManager.src ="http://img.isxcxbackend1.cn/05"+(encodeURIComponent('恐龙打击时'))+".mp3";
+        backgroundAudioManager.play();
         this.totalAttack = this.totalAttack+damage;
         this.socketTask.send({
           data: this.openId+','+this.gameId+","+damage

@@ -66,9 +66,19 @@ const store = new Vuex.Store({
           state.dia_lv = false;
           state.addproperty_Show = true;
           state.addproperty.num1 = num1;
-          const backgroundAudioManager = wx.createInnerAudioContext();
-          backgroundAudioManager.title="02动物出现";
-          backgroundAudioManager.src ="http://img.isxcxbackend1.cn/02动物出现.mp3";
+          const backgroundAudioManager6 = wx.createInnerAudioContext();
+          if (wx.setInnerAudioOption) {
+            wx.setInnerAudioOption({
+              obeyMuteSwitch: false,
+              autoplay: true
+            })
+          }else {
+            backgroundAudioManager6.obeyMuteSwitch = false;
+            backgroundAudioManager6.autoplay = true;
+          }
+          backgroundAudioManager6.title="02动物出现";
+          backgroundAudioManager6.src ="http://img.isxcxbackend1.cn/02"+(encodeURIComponent('动物出现'))+".mp3";
+          backgroundAudioManager6.play();
           state.addproperty.num2 = num2;
 
           setTimeout(() => {
@@ -125,17 +135,25 @@ const store = new Vuex.Store({
     delayDetection({ commit, state }, { typeId, type, braceletId, openId, gameId, time }) {//延迟检测
       commit('addDevToCompleted', { typeId, type, time });
       const back = wx.createInnerAudioContext();
+      if (wx.setInnerAudioOption) {
+        wx.setInnerAudioOption({
+          obeyMuteSwitch: false,
+          autoplay: true
+        })
+      }else {
+        back.obeyMuteSwitch = false;
+        back.autoplay = true;
+      }
       player();
       function player(){
         back.title = "06收集";
-        back.autoplay = true;
-        back.src = "http://img.isxcxbackend1.cn/06收集.mp3";
+        back.src = "http://img.isxcxbackend1.cn/06"+(encodeURIComponent('收集'))+".mp3";
+        back.play();
         back.onEnded(() => {
           player();
         })
       }
       setTimeout(() => {
-        back.stop();
         console.info("进度条完成时间",new Date());
         wx.getBeacons({
           success(res) {
@@ -197,28 +215,51 @@ const store = new Vuex.Store({
                     const backgroundAudioManager = wx.createInnerAudioContext();
 
                     backgroundAudioManager.title="07收集完成";
-                    backgroundAudioManager.autoplay = true;
-                    backgroundAudioManager.src ="http://img.isxcxbackend1.cn/07收集完成.mp3";
+                    if (wx.setInnerAudioOption) {
+                      wx.setInnerAudioOption({
+                        obeyMuteSwitch: false,
+                        autoplay: true
+                      })
+                    }else {
+                      backgroundAudioManager.obeyMuteSwitch = false;
+                      backgroundAudioManager.autoplay = true;
+                    }
+                    backgroundAudioManager.src ="http://img.isxcxbackend1.cn/07"+(encodeURIComponent('收集完成'))+".mp3";
+                    backgroundAudioManager.play();
                     console.info("07收集完成时间",new Date());
                     if (singleReward>0){
                       commit('setSingleReward', {num:singleReward,orderNum:orderNum,bool:true})
-                      const backgroundAudioManager2 = wx.createInnerAudioContext();
-                      backgroundAudioManager2.title = "04金币增加";
-                      backgroundAudioManager2.autoplay = true;
-                      backgroundAudioManager2.src ="http://img.isxcxbackend1.cn/04金币增加.mp3";
                       console.info("手环奖励完成时间",new Date());
                     }
                     if (groupReward>0){
                       commit('setNewNum',1);
                       commit('addproperty_Handle', {num1:groupReward,num2:totalReward,str:bigUrl});
                       const backgroundAudioManager3 = wx.createInnerAudioContext();
+                      if (wx.setInnerAudioOption) {
+                        wx.setInnerAudioOption({
+                          obeyMuteSwitch: false,
+                          autoplay: true
+                        })
+                      }else {
+                        backgroundAudioManager3.obeyMuteSwitch = false;
+                        backgroundAudioManager3.autoplay = true;
+                      }
                       backgroundAudioManager3.title = "04金币增加";
-                      backgroundAudioManager3.autoplay = true;
-                      backgroundAudioManager3.src ="http://img.isxcxbackend1.cn/04金币增加.mp3";
+                      backgroundAudioManager3.src ="http://img.isxcxbackend1.cn/04"+(encodeURIComponent('金币增加'))+".mp3";
+                      backgroundAudioManager3.play();
                       const backgroundAudioManager4 = wx.createInnerAudioContext();
+                      if (wx.setInnerAudioOption) {
+                        wx.setInnerAudioOption({
+                          obeyMuteSwitch: false,
+                          autoplay: true
+                        })
+                      }else {
+                        backgroundAudioManager4.obeyMuteSwitch = false;
+                        backgroundAudioManager4.autoplay = true;
+                      }
                       backgroundAudioManager4.title = "08新消息提醒.mp3";
-                      backgroundAudioManager4.autoplay = true;
-                      backgroundAudioManager4.src ="http://img.isxcxbackend1.cn/08新消息提醒.mp3";
+                      backgroundAudioManager4.src ="http://img.isxcxbackend1.cn/08"+(encodeURIComponent('新消息提醒'))+".mp3";
+                      backgroundAudioManager4.play();
                       console.info("组合奖励时间",new Date());
                     }else{
                       console.info("第五个点",new Date());
