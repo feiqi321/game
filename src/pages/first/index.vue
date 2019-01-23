@@ -1013,7 +1013,7 @@ export default {
   margin: 10px 30px 0;
   background: center center no-repeat;
   background-size: cover;
-  transform: scale(1.5);
+  transform: scale(1.6) translate(0,5%);
   img {
     width: 100%;
   }
