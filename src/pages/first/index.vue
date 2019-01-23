@@ -45,8 +45,9 @@
         </div>
       </div>
       <div class="probar">
-        <p style="height:30px;line-height: 30px;">
-          <span :class="{'active':thisSh,'m-icon':true}" ></span>
+        <p style="height:30px;line-height: 30px; margin-bottom:-8px;">
+          <!-- <span :class="{'active':thisSh,'m-icon':true}" ></span> -->
+          <span :class="{'active':true,'m-icon':true}" ></span>
       </p>
         <p v-if="thisSh2">{{receiveMsg}}Collection</p>
         <p
@@ -1030,11 +1031,11 @@ export default {
 .probar {
   font-size: 12px;
   .m-icon {
-    width: 28px;
-    height: 28px;
+    width: 30px;
+    height: 30px;
     display: inline-block;
     background: url(http://img.isxcxbackend1.cn/小孩.gif) center center no-repeat;
-    background-size: cover;
+    background-size: 120% auto;
     visibility: hidden;
     &.active {
       visibility: visible;

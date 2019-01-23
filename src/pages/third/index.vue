@@ -949,7 +949,7 @@ export default {
   }
   .ft-box {
     background: #fff;
-    border: 2.5px solid #333;
+    border: 2px solid #333;
     border-radius: 8px;
     z-index: 5;
     box-shadow: 0 3px 0 #979797;
@@ -959,6 +959,7 @@ export default {
     width: 90%;
     left: 50%;
     transform: translate(-50%, 0);
+    box-sizing: border-box;
     transition: all ease 0.3s;
     .ft-wrap {
       min-height: 68px;
@@ -999,10 +1000,10 @@ export default {
       position: absolute;
       width: 100%;
       height: 12px;
-      left: -2.5px;
+      left: -2px;
       bottom: -5.5px;
       z-index: -1000;
-      border: 2.5px solid #333;
+      border: 2px solid #333;
       border-bottom-right-radius: 8px;
       border-bottom-left-radius: 8px;
       border-top: 0;
@@ -1010,7 +1011,7 @@ export default {
   }
   .ft-nav {
     background: #fff;
-    border: 2.5px solid #333;
+    border: 2px solid #333;
     border-radius: 8px;
     line-height: 25px;
     height: 25px;
@@ -1029,10 +1030,10 @@ export default {
       position: absolute;
       width: 100%;
       height: 12px;
-      left: -2.5px;
+      left: -2px;
       bottom: -5.5px;
       z-index: -1000;
-      border: 2.5px solid #333;
+      border: 2px solid #333;
       border-bottom-right-radius: 8px;
       border-bottom-left-radius: 8px;
       border-top: 0;
