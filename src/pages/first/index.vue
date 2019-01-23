@@ -935,7 +935,10 @@ export default {
       .score {
         width: 93px;
         height: 32px;
-        line-height: 32px;
+        padding-bottom:16rpx;
+        padding-left: 8px;
+        box-sizing:border-box;
+        line-height:60rpx;
         background: url(http://img.isxcxbackend1.cn/组90@2x.png) center center
           no-repeat;
         background-size: contain;
@@ -970,8 +973,8 @@ export default {
       background: url(http://img.isxcxbackend1.cn/组89.png) center center
         no-repeat;
       background-size: contain;
-      width: 17px;
-      height: 24px;
+      width: 22px;
+      height: 28px;
       display: inline-block;
       margin-right: 10px;
       &.active {
@@ -982,8 +985,8 @@ export default {
       background: url(http://img.isxcxbackend1.cn/组10.png) center center
         no-repeat;
       background-size: contain;
-      width: 24px;
-      height: 24px;
+      width: 28px;
+      height: 28px;
       display: inline-block;
       position: relative;
       &.active {
@@ -1006,7 +1009,7 @@ export default {
   }
 }
 .qpanmi {
-  height: 160px;
+  height: 240px;
   margin: 10px 30px 0;
   background: center center no-repeat;
   background-size: cover;
@@ -1107,7 +1110,7 @@ export default {
     margin-right: 5px;
   }
   .en {
-    font-size: 12px;
+    font-size: 6px;
     text-indent: 19px;
   }
 }
@@ -1118,7 +1121,7 @@ export default {
 .dialog-title {
   margin: 20px auto 30px;
   span{
-    font-size: 8px;
+    font-size: 4px;
     color: #666;
   }
 }

@@ -10,7 +10,7 @@
     </div>
     <span class="dw-tb"></span>
     <div class="btn-w">
-      <span @click="toUrl" class="btn">迷宫</span>
+      <span @click="toUrl" class="btn" style="font-size:22px;">迷宫</span>
     </div>
   </div>
 </template>
