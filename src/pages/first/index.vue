@@ -1152,7 +1152,7 @@ export default {
 }
 .binding {
   border-radius: 14px !important;
-  padding: 40px 20px 10px;
+  padding: 50px 20px 30px;
   background: url(http://img.isxcxbackend1.cn/%E7%BB%84208.png) center center
     #ffffff no-repeat;
   background-size: 100% 99.9%;
