@@ -88,7 +88,7 @@
           </dd>
         </dl>
       </div>
-      <div class="tip">
+      <div class="tip" style="padding-left: 10px;">
         <p>
           <img
             src="/static/images/ld.png"
@@ -1170,9 +1170,9 @@ export default {
 }
 .binding {
   border-radius: 14px !important;
-  padding: 50px 20px 30px;
-  background: url(http://img.isxcxbackend1.cn/%E7%BB%84208.png) center center
-    #ffffff no-repeat;
+  padding: 100px 20px 30px;
+  background: transparent url(http://img.isxcxbackend1.cn/%E7%BB%84208.png) center center
+   no-repeat;
   background-size: 100% 99.9%;
   .red {
     color: #f00;
@@ -1205,7 +1205,7 @@ export default {
     background: url(http://img.isxcxbackend1.cn/组217.png) center center #fafafa
       no-repeat;
     background-size: contain;
-    margin: 50px auto 20px;
+    margin: 80px auto 20px;
   }
 }
 .cjdig {
