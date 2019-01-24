@@ -199,7 +199,7 @@ export default {
     height: 67px;
     line-height: 62px;
     opacity: 1;
-    background: url(http://img.isxcxbackend1.cn/start-gif.gif) center center
+    background: url(http://img.isxcxbackend1.cn/start-gif2.gif) center center
       no-repeat;
     background-size: cover;
     &::after {

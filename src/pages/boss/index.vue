@@ -44,7 +44,7 @@
       <van-dialog
         use-slot
         async-close
-        :show="listDig"
+        :show="true"
         :show-confirm-button="false"
         @close="listDig=false"
         close-on-click-overlay
@@ -58,7 +58,7 @@
 
           <p class="second-part">你对怪兽的伤害为99%</p>
           <p class="bettwen-button">你获得了XXX能量作为奖励</p>
-          <div class="btn">
+          <div class="btn" style="position: absolute;top: 72%;width: 100px;height: 50px;left: 50%;margin-left: -50px;">
             <p class="confirmShow"  @click="toPageReturn(1)">确认</p>
           </div>
           <div class="failbj"></div>
@@ -72,7 +72,7 @@
     <van-dialog
       use-slot
       async-close
-      :show="listDig2"
+      :show="false"
       :show-confirm-button="false"
       @close="listDig2=false"
       close-on-click-overlay
@@ -80,13 +80,13 @@
       transition="fade"
     >
       <div class="endboxfail">
-        <p class="title">守护失败</p>
+        <p class="title" style="color:red;">守护失败</p>
         <p class="first-part"></p>
         <p class="bettwen">您在怪兽入侵期间表现不佳</p>
 
         <p class="second-part"></p>
         <p class="bettwen-button">您的家园被摧毁了</p>
-        <div class="btn">
+        <div class="btn" style="position: absolute;top: 72%;width: 100px;height: 50px;left: 50%;margin-left: -50px;">
           <p class="confirmShow" @click="toPageReturn(2)">确认</p>
         </div>
         <div class="failbj"></div>
@@ -300,7 +300,7 @@ export default {
 .main {
   height: 100%;
   background: url(http://img.isxcxbackend1.cn/手机恐龙背景.png) center center
-    #636e5d no-repeat;
+    #ffffff no-repeat;
   background-size: cover;
   overflow: hidden;
   position: relative;
@@ -308,6 +308,9 @@ export default {
 .boss {
   position: relative;
   z-index: 1;
+  background: url(http://img.isxcxbackend1.cn/云.png) center center no-repeat;
+  background-size: cover;
+  overflow: hidden;
   height: 100%;
   .bossbody{
     position: absolute;
@@ -530,7 +533,7 @@ export default {
   }
 }
 .endboxfail {
-  background: url(http://img.isxcxbackend1.cn/保护成功.png) center center no-repeat;
+  background: url(http://img.isxcxbackend1.cn/保护失败.png) center center no-repeat;
   background-color: transparent;
   background-size: 85vw 70vh;
   border-radius: 16px;
@@ -542,10 +545,10 @@ export default {
   .title {
     color: #ffa042;
     font-size: 42px;
-    padding-top: 20px;
+    padding-top: 40px;
   }
   .first-part {
-    padding-top: 40px;
+    padding-top: 60px;
   }
   .second-part {
     padding-top: 25px;
@@ -561,12 +564,10 @@ export default {
     background: url(http://img.isxcxbackend1.cn/组221.png) center center
     no-repeat;
     background-size: 100px 50px;
-    width: 85vw;
-    height: 30vh;
     position: absolute;
     z-index: 1;
     .confirmShow {
-      padding-top: 75px;
+      line-height: 50px;
       font-weight: bold;
       font-size: 20px;
     }
@@ -585,7 +586,7 @@ export default {
   .title {
     color: #ffa042;
     font-size: 42px;
-    padding-top: 20px;
+    padding-top: 40px;
   }
   .first-part {
     padding-top: 40px;
@@ -604,12 +605,10 @@ export default {
     background: url(http://img.isxcxbackend1.cn/组221.png) center center
       no-repeat;
     background-size: 100px 50px;
-    width: 85vw;
-    height: 30vh;
     position: absolute;
     z-index: 1;
     .confirmShow {
-      padding-top: 75px;
+      line-height: 50px;
       font-weight: bold;
       font-size: 20px;
     }
