@@ -1,17 +1,31 @@
 <template>
   <div class="main" style="width: 100vw;height: 100vh;overflow: hidden">
     <div class="xhbj" v-if="snowjpg"></div>
-    <van-transition :show="warning"  custom-style="position:absolute;z-index:10001;height:100%;top:0;width:100%;animation-delay: 1s;" name="fade" duration="200" >
-    <span class="common-msg" @click="warning = false">{{
-      warningText
-    }}</span>
+    <van-transition
+      :show="warning"
+      custom-style="position:absolute;z-index:10001;height:100%;top:0;width:100%;animation-delay: 1s;"
+      name="fade"
+      duration="200"
+    >
+      <span class="common-msg" @click="warning = false">
+        {{
+        warningText
+        }}
+      </span>
     </van-transition>
-    <van-transition :show="warning2"  custom-style="position:absolute;z-index:10001;height:100%;top:0;width:100%;animation-delay: 1s;" name="fade" duration="200" >
-    <span class="common-msg" @click="warning2 = false">{{
-      warningText2
-    }}</span>
+    <van-transition
+      :show="warning2"
+      custom-style="position:absolute;z-index:10001;height:100%;top:0;width:100%;animation-delay: 1s;"
+      name="fade"
+      duration="200"
+    >
+      <span class="common-msg" @click="warning2 = false">
+        {{
+        warningText2
+        }}
+      </span>
     </van-transition>
-    <van-notify id="van-notify" />
+    <van-notify id="van-notify"/>
 
     <div class="first">
       <div class="top-tool">
@@ -46,8 +60,8 @@
       </div>
       <div class="probar">
         <p style="height:30px;line-height: 30px; margin-bottom:-8px;">
-          <span :class="{'active':thisSh,'m-icon':true}" ></span>
-      </p>
+          <span :class="{'active':thisSh,'m-icon':true}"></span>
+        </p>
         <p v-if="thisSh2">{{receiveMsg}}Collection</p>
         <p
           :class="{
@@ -105,10 +119,13 @@
         close-on-click-overlay
         transition="fade"
       >
-        <div class="diaborder binding">
+        <div class="binding">
           <input type="text" v-model="userId" class="dia-field" maxlength="3" placeholder="请输入手环编号">
           <p class="dialog-title">手环和绑定手机共同收集获得额外奖励
-            <br><span style="font-size: 9rpx;">The Bonus collection of the wristband and the bound mobile phone will receive additional rewards</span>
+            <br>
+            <span
+              style="font-size: 9rpx;"
+            >The Bonus collection of the wristband and the bound mobile phone will receive additional rewards</span>
           </p>
           <p class="red">{{bingWarningText}}</p>
           <p>
@@ -301,7 +318,7 @@ export default {
       totalNum: 0,
       totalReward: 0,
       status: null,
-      bingWarningText:'',
+      bingWarningText: "",
       totalStatus: null,
       totalTask: {},
       colorList: [],
@@ -327,10 +344,10 @@ export default {
       countDownTime: "",
       gsStatus: 0,
       socketTask: null,
-      sameTypeId:'',
-      times:0,//重复收集次数
-      warningDom:null, //全局提示
-      warningDom2:null, //全局提示
+      sameTypeId: "",
+      times: 0, //重复收集次数
+      warningDom: null, //全局提示
+      warningDom2: null, //全局提示
       animationOptions: [
         "http://img.isxcxbackend1.cn/橙色动图.gif",
         "http://img.isxcxbackend1.cn/黄动图.gif",
@@ -413,7 +430,7 @@ export default {
           res => {
             wx.setStorageSync("braceletId", res.data.deviceId);
             _this.braceletId = res.data.deviceId;
-            _this.bingWarningText = "已绑定设备"+_this.userId;
+            _this.bingWarningText = "已绑定设备" + _this.userId;
             setTimeout(() => {
               _this.bindDevDigSts = false;
             }, 1500);
@@ -464,7 +481,7 @@ export default {
         uuids: ["B5B182C7-EAB1-4988-AA99-B5C1517008D9"],
         success: function(res) {
           wx.onBeaconUpdate(res => {
-            console.info("beacons",res.beacons);
+            console.info("beacons", res.beacons);
             if (_this.ISENDING) {
               return;
             }
@@ -492,12 +509,12 @@ export default {
             wx.setStorageSync("braceletIdType", true);
             _this.thisSh = true;
           }
-         /* const isExitDevs = this.completed.some(item => {
+          /* const isExitDevs = this.completed.some(item => {
             return item.typeId == item.minor;
           });*/
-         if (_this.completed.includes(item.minor)){
-           return false;
-         }
+          if (_this.completed.includes(item.minor)) {
+            return false;
+          }
           return (
             item.accuracy > 0 &&
             item.accuracy < 0.6 &&
@@ -532,7 +549,6 @@ export default {
           //};
         };
       } else {
-
         return false;
       }
     },
@@ -551,33 +567,32 @@ export default {
           })
           .then(
             res => {
-              console.log("collect",res);
-              if(_this.warningDom){
+              console.log("collect", res);
+              if (_this.warningDom) {
                 clearTimeout(_this.warningDom);
               }
-              if(_this.warningDom2){
+              if (_this.warningDom2) {
                 clearTimeout(_this.warningDom2);
               }
               _this.warning = false;
-              console.info("第三个点",new Date());
-                _this.delayDetection({
-                  typeId: fDevs.typeId,
-                  type: fDevs.type,
-                  braceletId: _this.braceletId,
-                  openId: _this.openId,
-                  gameId: _this.gameId,
-                  time: res.data.continuTime * 1000
-                });
-                _this.countDown(res.data.continuTime);
-
+              console.info("第三个点", new Date());
+              _this.delayDetection({
+                typeId: fDevs.typeId,
+                type: fDevs.type,
+                braceletId: _this.braceletId,
+                openId: _this.openId,
+                gameId: _this.gameId,
+                time: res.data.continuTime * 1000
+              });
+              _this.countDown(res.data.continuTime);
             },
             res => {
               _this.setLoaning(false);
-              if (_this.times>=1 && _this.sameTypeId == fDevs.typeId){
+              if (_this.times >= 1 && _this.sameTypeId == fDevs.typeId) {
                 //console.info("重复第一个点",new Date());
                 _this.times = 0;
                 _this.sameTypeId = "";
-                if (_this.warningDom || _this.warningDom2){
+                if (_this.warningDom || _this.warningDom2) {
                   _this.warningDom = setTimeout(() => {
                     _this.warning = true;
                     _this.warningText = "! 不能收集已有能量";
@@ -586,16 +601,15 @@ export default {
                     }, 1000);
                   }, 5000);
                 }
-              }else if (_this.times>=1 && _this.sameTypeId != fDevs.typeId){
+              } else if (_this.times >= 1 && _this.sameTypeId != fDevs.typeId) {
                 _this.sameTypeId = fDevs.typeId;
                 _this.times = 1;
                 //console.info("重复第二个点",new Date());
-              }else{
+              } else {
                 _this.sameTypeId = fDevs.typeId;
-                _this.times = _this.times+1;
+                _this.times = _this.times + 1;
                 //console.info("重复第三个点",new Date());
               }
-
             }
           );
       } else {
@@ -615,10 +629,9 @@ export default {
           res => {
             _this.braceletId = res.data.deviceId;
             _this.userId = res.data.userId;
-            if (_this.userId==null || _this.userId ==""){
-
-            }else{
-             _this.bingWarningText = "已绑定设备"+_this.userId;
+            if (_this.userId == null || _this.userId == "") {
+            } else {
+              _this.bingWarningText = "已绑定设备" + _this.userId;
             }
             _this.setScores(res.data.scores);
             _this.setNewNum(res.data.newNum);
@@ -665,7 +678,7 @@ export default {
       }
 
       const _this = this;
-      if (temp == 1)  {
+      if (temp == 1) {
         http
           .post("/game/task/reward", {
             openId: _this.openId,
@@ -680,7 +693,7 @@ export default {
               Notify("网络异常4!");
             }
           );
-      }                         
+      }
     },
     showList() {
       this.listDig = true;
@@ -752,7 +765,7 @@ export default {
         this.warning = false;
       }, 1200);
     },
-    gameOver(text){
+    gameOver(text) {
       this.warning = true;
       this.warningText = text;
       setTimeout(() => {
@@ -823,7 +836,6 @@ export default {
         _this.gsll = false;
         _this.earthquakejpg = false;
         _this.gameOver("游戏结束");
-
       }
     },
     listenSocket() {
@@ -840,11 +852,11 @@ export default {
       });
     }
   },
-  onHide(){
-     wx.stopBeaconDiscovery();
+  onHide() {
+    wx.stopBeaconDiscovery();
     this.setLoaning(false);
-     getApp().globalData.back.stop();
-  } ,
+    getApp().globalData.back.stop();
+  },
   onShow() {
     this.userInfo = wx.getStorageSync("userinfo");
     this.openId = wx.getStorageSync("openId");
@@ -886,7 +898,7 @@ export default {
 .first {
   padding: 15px 30px;
   text-align: center;
-  background: #EAEAEA url(http://img.isxcxbackend1.cn/4.8.gif) center center
+  background: #eaeaea url(http://img.isxcxbackend1.cn/4.8.gif) center center
     no-repeat;
   position: relative;
   z-index: 1;
@@ -918,7 +930,7 @@ export default {
   }
   .user-info {
     display: flex;
-    &>div{
+    & > div {
       width: 60px;
       height: 60px;
       float: left;
@@ -944,17 +956,17 @@ export default {
       .score {
         width: 93px;
         height: 32px;
-        padding-bottom:16rpx;
+        padding-bottom: 16rpx;
         padding-left: 8px;
-        box-sizing:border-box;
-        line-height:60rpx;
+        box-sizing: border-box;
+        line-height: 60rpx;
         background: url(http://img.isxcxbackend1.cn/组90@2x.png) center center
           no-repeat;
         background-size: contain;
         color: #ffc63c;
         font-weight: bold;
         text-align: center;
-        font-size:16px;
+        font-size: 16px;
       }
     }
   }
@@ -1022,8 +1034,8 @@ export default {
   margin: 10px 30px 0;
   background: center center no-repeat;
   background-size: cover;
-  pointer-events:none;
-  transform: scale(1.6) translate(0,5%);
+  pointer-events: none;
+  transform: scale(1.6) translate(0, 5%);
   img {
     width: 100%;
   }
@@ -1044,7 +1056,8 @@ export default {
     width: 30px;
     height: 30px;
     display: inline-block;
-    background: url(http://img.isxcxbackend1.cn/小孩.gif) center center no-repeat;
+    background: url(http://img.isxcxbackend1.cn/小孩.gif) center center
+      no-repeat;
     background-size: 120% auto;
     visibility: hidden;
     &.active {
@@ -1081,7 +1094,8 @@ export default {
       width: 55px;
       height: 50px;
       padding-bottom: 5px;
-      background: url(http://img.isxcxbackend1.cn/组92@2x.png) center center no-repeat;
+      background: url(http://img.isxcxbackend1.cn/组92@2x.png) center center
+        no-repeat;
       background-size: contain;
       display: flex;
       justify-content: center;
@@ -1131,7 +1145,7 @@ export default {
 }
 .dialog-title {
   margin: 20px auto 30px;
-  span{
+  span {
     font-size: 4px;
     color: #666;
   }
@@ -1139,18 +1153,20 @@ export default {
 .binding {
   border-radius: 14px !important;
   padding: 40px 20px 10px;
-  .red{
+  background: url(http://img.isxcxbackend1.cn/%E7%BB%84208.png) center center
+    #ffffff no-repeat;
+  background-size: 100% 99.9%;
+  .red {
     color: #f00;
     font-size: 18px;
     text-align: center;
     margin-bottom: 20px;
-  
   }
-  .dialog-title{
+  .dialog-title {
     margin-bottom: 0;
     text-align: left;
-     background: url(http://img.isxcxbackend1.cn/%E8%B7%AF%E5%BE%84294.png) left top #FFFFFF
-      no-repeat;
+    background: url(http://img.isxcxbackend1.cn/%E8%B7%AF%E5%BE%84294.png) left
+      top #ffffff no-repeat;
     background-size: auto 40%;
     padding-left: 30px;
   }
@@ -1158,7 +1174,7 @@ export default {
     line-height: 20px;
     height: 20px;
     border-radius: 4px;
-    text-transform: uppercase;
+    text-transform: uppercase;
     border: 3rpx solid #262724;
     padding: 10px 20px;
   }
@@ -1171,6 +1187,7 @@ export default {
     background: url(http://img.isxcxbackend1.cn/组217.png) center center #fafafa
       no-repeat;
     background-size: contain;
+    margin-bottom: 20px;
   }
 }
 .cjdig {
@@ -1211,7 +1228,10 @@ export default {
 }
 .list {
   line-height: 30px;
-  border: 3.5px solid #000;
+  // border: 3.5px solid #000;
+  background: url(http://img.isxcxbackend1.cn/%E7%BB%84208.png) center
+    center #fff no-repeat;
+  background-size: 100% 99.9%;
   border-radius: 16px;
   position: relative;
   font-size: 12px;
@@ -1263,6 +1283,7 @@ export default {
     border-bottom: 3.5px #000000 solid;
     height: 5px;
     background: #b2b2b2;
+    margin: 0 3px;
   }
   .list-w {
     padding: 10px;
@@ -1357,19 +1378,19 @@ export default {
   background: url(http://img.isxcxbackend1.cn/红光闪动2.gif) center center
     no-repeat;
   background-size: cover;
-  z-index:0;
-  opacity:0.6;
-  pointer-events:none;
+  z-index: 0;
+  opacity: 0.6;
+  pointer-events: none;
 }
 
-.earthquakebj{
+.earthquakebj {
   position: fixed;
   top: 0;
   left: 0;
   height: 100%;
   width: 100%;
   background: url(http://img.isxcxbackend1.cn/地震首页手机.gif) center center
-  no-repeat;
+    no-repeat;
   background-size: cover;
   z-index: 0;
 }
@@ -1385,8 +1406,8 @@ export default {
   pointer-events: none;
   z-index: 2;
 }
-  .alert{
-    position: relative;
-    z-index: 10001;
-  }
+.alert {
+  position: relative;
+  z-index: 10001;
+}
 </style>
