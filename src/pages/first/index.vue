@@ -1090,8 +1090,8 @@ export default {
   justify-content: space-around;
   position: absolute;
   bottom: 180px;
-  width: 300px;
-  margin-left: -150px;
+  width: 315px;
+  margin-left: -157.5px;
   left: 50%;
   dl {
     width: 55px;
