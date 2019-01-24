@@ -1035,7 +1035,7 @@ export default {
   background: center center no-repeat;
   background-size: cover;
   pointer-events: none;
-  transform: scale(1.6) translate(0, 5%);
+  transform: scale(1.7) translate(0, 10%);
   img {
     width: 100%;
   }
@@ -1052,6 +1052,11 @@ export default {
 }
 .probar {
   font-size: 12px;
+  position: absolute;
+  bottom: 295px;
+  width: 280px;
+  margin-left: -140px;
+  left: 50%;
   .m-icon {
     width: 30px;
     height: 30px;
@@ -1083,6 +1088,11 @@ export default {
   margin-top: 10px;
   display: flex;
   justify-content: space-around;
+  position: absolute;
+  bottom: 180px;
+  width: 300px;
+  margin-left: -150px;
+  left: 50%;
   dl {
     width: 55px;
     font-weight: bold;
@@ -1129,6 +1139,11 @@ export default {
   line-height: 1.4em;
   font-size: 14px;
   text-align: left;
+  position: absolute;
+  left: 50%;
+  bottom: 140px;
+  width: 280px;
+  margin-left: -140px;
   .m-icon {
     width: 14px;
     vertical-align: middle;
@@ -1141,7 +1156,10 @@ export default {
 }
 .ftbtn {
   width: 280px;
-  margin: 20px auto 0;
+  margin-left: -140px;
+  position: absolute;
+  bottom: 35px;
+  left: 50%;
 }
 .dialog-title {
   margin: 20px auto 30px;
