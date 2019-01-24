@@ -1235,7 +1235,7 @@ export default {
   border-radius: 16px;
   position: relative;
   font-size: 12px;
-  padding-bottom: 10px;
+  padding-bottom: 30px;
   .top {
     padding: 10px;
     text-align: left;
