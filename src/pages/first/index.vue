@@ -1187,7 +1187,7 @@ export default {
     background: url(http://img.isxcxbackend1.cn/组217.png) center center #fafafa
       no-repeat;
     background-size: contain;
-    margin-bottom: 20px;
+    margin: 50px auto 20px;
   }
 }
 .cjdig {
