@@ -147,11 +147,12 @@ const store = new Vuex.Store({
       player();
       function player(){
         back.title = "06收集";
+        back.loop = true;
         back.src = "http://img.isxcxbackend1.cn/06"+(encodeURIComponent('收集'))+".mp3";
         back.play();
-        back.onEnded(() => {
+       /* back.onEnded(() => {
           player();
-        })
+        })*/
       }
       setTimeout(() => {
         back.stop();

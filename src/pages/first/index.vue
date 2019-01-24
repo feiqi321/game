@@ -1,5 +1,5 @@
 <template>
-  <div class="main">
+  <div class="main" style="width: 100vw;height: 100vh;overflow: hidden">
     <div class="xhbj" v-if="snowjpg"></div>
     <van-transition :show="warning"  custom-style="position:absolute;z-index:10001;height:100%;top:0;width:100%;animation-delay: 1s;" name="fade" duration="200" >
     <span class="common-msg" @click="warning = false">{{
@@ -108,7 +108,7 @@
         <div class="diaborder binding">
           <input type="text" v-model="userId" class="dia-field" maxlength="3" placeholder="请输入手环编号">
           <p class="dialog-title">手环和绑定手机共同收集获得额外奖励
-            <br><span>The Bonus collection of the wristband and the bound mobile phone will receive additional rewards</span>
+            <br><span style="font-size: 9rpx;">The Bonus collection of the wristband and the bound mobile phone will receive additional rewards</span>
           </p>
           <p class="red">{{bingWarningText}}</p>
           <p>
@@ -262,7 +262,7 @@
         </div>
       </van-dialog>
     </div>
-    <div class="hgbj" v-if="gsStatus"></div>
+    <div class="hgbj" v-if="gsStatus === 3"></div>
     <div class="earthquakebj" v-if="earthquakejpg"></div>
     <van-popup :custom-style="'background-color:transparent;overflow: initial;'" :show="dia_lv">
       <div class="lvStyle">
@@ -464,7 +464,7 @@ export default {
         uuids: ["B5B182C7-EAB1-4988-AA99-B5C1517008D9"],
         success: function(res) {
           wx.onBeaconUpdate(res => {
-
+            console.info("beacons",res.beacons);
             if (_this.ISENDING) {
               return;
             }
@@ -480,7 +480,7 @@ export default {
       _this.thisSh = false;
       _this.thisSh2 = false;
 
-     // console.info("devs",devs);
+      //console.info("devs",devs);
       wx.setStorageSync("braceletIdType", false);
       const distanceDev = devs
         .filter(item => {
@@ -574,7 +574,7 @@ export default {
             res => {
               _this.setLoaning(false);
               if (_this.times>=1 && _this.sameTypeId == fDevs.typeId){
-                console.info("重复第一个点",new Date());
+                //console.info("重复第一个点",new Date());
                 _this.times = 0;
                 _this.sameTypeId = "";
                 if (_this.warningDom || _this.warningDom2){
@@ -589,11 +589,11 @@ export default {
               }else if (_this.times>=1 && _this.sameTypeId != fDevs.typeId){
                 _this.sameTypeId = fDevs.typeId;
                 _this.times = 1;
-                console.info("重复第二个点",new Date());
+                //console.info("重复第二个点",new Date());
               }else{
                 _this.sameTypeId = fDevs.typeId;
                 _this.times = _this.times+1;
-                console.info("重复第三个点",new Date());
+                //console.info("重复第三个点",new Date());
               }
 
             }
@@ -842,6 +842,7 @@ export default {
   },
   onHide(){
      wx.stopBeaconDiscovery();
+    this.setLoaning(false);
      getApp().globalData.back.stop();
   } ,
   onShow() {
@@ -885,7 +886,7 @@ export default {
 .first {
   padding: 15px 30px;
   text-align: center;
-  background: url(http://img.isxcxbackend1.cn/收集页背景0121.gif) center center
+  background: #EAEAEA url(http://img.isxcxbackend1.cn/4.8.gif) center center
     no-repeat;
   position: relative;
   z-index: 1;
@@ -1021,6 +1022,7 @@ export default {
   margin: 10px 30px 0;
   background: center center no-repeat;
   background-size: cover;
+  pointer-events:none;
   transform: scale(1.6) translate(0,5%);
   img {
     width: 100%;
@@ -1147,7 +1149,7 @@ export default {
   .dialog-title{
     margin-bottom: 0;
     text-align: left;
-     background: url(http://img.isxcxbackend1.cn/%E8%B7%AF%E5%BE%84294.png) left top #fafafa
+     background: url(http://img.isxcxbackend1.cn/%E8%B7%AF%E5%BE%84294.png) left top #FFFFFF
       no-repeat;
     background-size: auto 40%;
     padding-left: 30px;
@@ -1352,10 +1354,10 @@ export default {
   left: 0;
   height: 100%;
   width: 100%;
-  background: url(http://img.isxcxbackend1.cn/无底背景条.gif) center center
+  background: url(http://img.isxcxbackend1.cn/红光闪动2.gif) center center
     no-repeat;
   background-size: cover;
-  z-index:1;
+  z-index:0;
   opacity:0.6;
   pointer-events:none;
 }

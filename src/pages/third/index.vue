@@ -188,7 +188,7 @@
             <img src="http://img.isxcxbackend1.cn/组187.png"
                  style="margin-right: 8rpx;display: inline-block;width:14rpx;height: 20rpx;vertical-align: middle;"
                  alt="" />
-            <span style="vertical-align: middle;display: inline-block;">{{item.price}}</span>
+            <span style="vertical-align: middle;display: inline-block;font-size:8px;">{{item.price}}</span>
           </dd>
           <dd v-else>x{{ item.num }}</dd>
         </dl>

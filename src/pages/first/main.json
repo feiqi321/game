@@ -1,4 +1,5 @@
 {
+  "disableScroll":true,
   "navigationBarTitleText": "Parki能量",
   "usingComponents": {
     "van-button": "../../../static/dist/button/index",
