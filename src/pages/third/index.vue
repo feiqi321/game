@@ -161,7 +161,7 @@
       </div>
     </div>
     <!-- 建造区 -->
-    <div class="ft-box" v-show="!ftHide">
+    <div class="ft-box" :class="{'ft-box-2':chooseType ==1}" v-show="!ftHide">
       <!--购买区-->
       <div
         class="ft-wrap"
@@ -961,15 +961,22 @@ export default {
       }
     }
   }
+  .ft-box-2{
+    background-image: url(http://img.isxcxbackend1.cn/shop组243.png) !important;
+  }
   .ft-box {
-    background: #fff;
-    border: 2px solid #333;
-    border-radius: 8px;
+
+    /*background: #fff;*/
+    /*border: 2.5px solid #333;*/
+    /*border-radius: 8px;*/
+    background: url(http://img.isxcxbackend1.cn/组158.png) center no-repeat;
+    background-size:100% 100%;
     z-index: 5;
-    box-shadow: 0 3px 0 #979797;
-    bottom: 71px;
+    /*box-shadow: 0 3px 0 #979797;*/
+    bottom: 53px;
     position: absolute;
-    padding: 5px 0;
+    padding: 10px 10px 22.5px;
+    box-sizing: border-box;
     width: 90%;
     left: 50%;
     transform: translate(-50%, 0);
@@ -987,6 +994,7 @@ export default {
       width: 20%;
       box-sizing: border-box;
       padding: 0 10px;
+      white-space: nowrap;
       dt {
         /*border: 3px solid #dbdbdb;*/
         border-radius: 50%;
@@ -1009,7 +1017,7 @@ export default {
       }
     }
     transition: all ease 0.3s;
-    &::after {
+   /* &::after {
       content: "";
       position: absolute;
       width: 100%;
@@ -1021,16 +1029,19 @@ export default {
       border-bottom-right-radius: 8px;
       border-bottom-left-radius: 8px;
       border-top: 0;
-    }
+    }*/
   }
   .ft-nav {
-    background: #fff;
-    border: 2px solid #333;
-    border-radius: 8px;
+
+    background: url(http://img.isxcxbackend1.cn/组174@3x.png);
+    background-size: 100% 100%;
+    padding-bottom: 5px;
+    /*border: 2.5px solid #333;*/
+    /*border-radius: 8px;*/
     line-height: 25px;
     height: 25px;
     z-index: 5;
-    box-shadow: 0 3px 0 #979797;
+    /*box-shadow: 0 3px 0 #979797;*/
     display: flex;
     bottom: 28px;
     position: absolute;
@@ -1039,7 +1050,7 @@ export default {
     transform: translate(-50%, 0);
     justify-content: space-around;
     transition: all ease 0.3s;
-    &::after {
+/*    &:after {
       content: "";
       position: absolute;
       width: 100%;
@@ -1051,7 +1062,7 @@ export default {
       border-bottom-right-radius: 8px;
       border-bottom-left-radius: 8px;
       border-top: 0;
-    }
+    }*/
     &.hide {
       width: 33%;
       transform: translate(0, 0);
@@ -1071,7 +1082,7 @@ export default {
       color: #666666;
       transition: all ease 0.3s;
       height: 25px;
-      position: relative;
+     /* position: relative;
       &::before {
         content: "";
         border: 2.5px solid #333;
@@ -1108,7 +1119,7 @@ export default {
         &::after {
           display: block;
         }
-      }
+      }*/
       .ic {
         display: inline-block;
         margin-left: 5px;
