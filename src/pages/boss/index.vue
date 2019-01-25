@@ -41,17 +41,13 @@
         </div>
       </div>
 
-      <van-dialog
-        use-slot
-        async-close
-        :show="true"
-        :show-confirm-button="false"
+      <van-popup
+        :show="listDig"
         @close="listDig=false"
-        close-on-click-overlay
-        class="dialogbox"
+        :custom-style="'background-color:transparent;overflow: initial;width:85vw;'"
         transition="fade"
       >
-        <div class="endboxok">
+        <div class="endboxok" v-if="listDig">
           <p class="title">守护成功</p>
           <p class="first-part">在所有人的努力下</p>
           <p class="bettwen">怪兽被击退了 家园被守护</p>
@@ -63,39 +59,35 @@
           </div>
           <div class="failbj"></div>
         </div>
-      </van-dialog>
+      </van-popup>
+      <van-popup
+        :show="listDig2"
+        :custom-style="'background-color:transparent;overflow: initial;width:85vw;'"
+        @close="listDig2=false"
+        transition="fade"
+      >
+        <div class="endboxfail" v-if="listDig2">
+          <p class="title" style="color:red;">守护失败</p>
+          <p class="first-part"></p>
+          <p class="bettwen">您在怪兽入侵期间表现不佳</p>
+
+          <p class="second-part"></p>
+          <p class="bettwen-button">您的家园被摧毁了</p>
+          <div class="btn" style="position: absolute;top: 72%;width: 100px;height: 50px;left: 50%;margin-left: -50px;">
+            <p class="confirmShow" @click="toPageReturn(2)">确认</p>
+          </div>
+          <div class="failbj"></div>
+        </div>
+      </van-popup>
       <div class="shz">
         <span v-for="(item,i) in fsList" :key="i">{{item}}</span>
       </div>
     </div>
 
-    <van-dialog
-      use-slot
-      async-close
-      :show="false"
-      :show-confirm-button="false"
-      @close="listDig2=false"
-      close-on-click-overlay
-      class="dialogbox"
-      transition="fade"
-    >
-      <div class="endboxfail">
-        <p class="title" style="color:red;">守护失败</p>
-        <p class="first-part"></p>
-        <p class="bettwen">您在怪兽入侵期间表现不佳</p>
 
-        <p class="second-part"></p>
-        <p class="bettwen-button">您的家园被摧毁了</p>
-        <div class="btn" style="position: absolute;top: 72%;width: 100px;height: 50px;left: 50%;margin-left: -50px;">
-          <p class="confirmShow" @click="toPageReturn(2)">确认</p>
-        </div>
-        <div class="failbj"></div>
-      </div>
-    </van-dialog>
 
-      <div class="shz">
-        <span v-for="(item,i) in fsList" :key="i">{{item}}</span>
-      </div>
+
+
   </div>
 </template>
 
@@ -356,7 +348,10 @@ export default {
       .score {
         width: 93px;
         height: 32px;
-        line-height: 32px;
+        padding-bottom: 20rpx;
+        padding-left: 8px;
+        box-sizing: border-box;
+        line-height: 50rpx;
         background: url(http://img.isxcxbackend1.cn/组90@2x.png) center center
         no-repeat;
         background-size: contain;
@@ -535,20 +530,21 @@ export default {
 .endboxfail {
   background: url(http://img.isxcxbackend1.cn/保护失败.png) center center no-repeat;
   background-color: transparent;
-  background-size: 85vw 70vh;
+  background-size: 100% 100%;
   border-radius: 16px;
   text-align: center;
-  //left:10vw;
-  width: 85vw;
+  left:14vw;
+  width: 76vw;
   height: 70vh;
+  z-index:12;
   position: relative;
   .title {
     color: #ffa042;
     font-size: 42px;
-    padding-top: 40px;
+    padding-top: 50rpx;
   }
   .first-part {
-    padding-top: 60px;
+    padding-top: 50rpx;
   }
   .second-part {
     padding-top: 25px;
@@ -557,13 +553,13 @@ export default {
     padding-top: 10px;
   }
   .bettwen-button {
-    padding-top: 25px;
+    padding-top: 23rpx;
     display: inline-block;
   }
   .btn {
     background: url(http://img.isxcxbackend1.cn/组221.png) center center
     no-repeat;
-    background-size: 100px 50px;
+    background-size: 100% 100%;
     position: absolute;
     z-index: 1;
     .confirmShow {
@@ -576,20 +572,21 @@ export default {
 .endboxok {
   background: url(http://img.isxcxbackend1.cn/保护成功.png) center center no-repeat;
   background-color: transparent;
-  background-size: 85vw 70vh;
+  background-size: 100% 100%;
   border-radius: 16px;
   text-align: center;
-  //left:10vw;
-  width: 85vw;
+  left:14vw;
+  width: 76vw;
   height: 70vh;
   position: relative;
+  z-index:10;
   .title {
     color: #ffa042;
     font-size: 42px;
-    padding-top: 40px;
+    padding-top: 50rpx;
   }
   .first-part {
-    padding-top: 40px;
+    padding-top: 50rpx;
   }
   .second-part {
     padding-top: 25px;
@@ -598,13 +595,13 @@ export default {
     padding-top: 10px;
   }
   .bettwen-button {
-    padding-top: 25px;
+    padding-top: 23rpx;
     display: inline-block;
   }
   .btn {
     background: url(http://img.isxcxbackend1.cn/组221.png) center center
-      no-repeat;
-    background-size: 100px 50px;
+    no-repeat;
+    background-size: 100% 100%;
     position: absolute;
     z-index: 1;
     .confirmShow {

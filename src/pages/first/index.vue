@@ -110,13 +110,10 @@
         @click="toThird"
       >
       <!-- 手环绑定 -->
-      <van-dialog
-        use-slot
-        async-close
+      <van-popup
         :show="bindDevDigSts"
-        :show-confirm-button="false"
         @close="bindDevDigSts = false"
-        close-on-click-overlay
+        :custom-style="'background-color:transparent;overflow: initial;width:85vw;'"
         transition="fade"
       >
         <div class="binding">
@@ -132,16 +129,12 @@
             <span class="btn" @click="bindBraceletId">同意</span>
           </p>
         </div>
-      </van-dialog>
+      </van-popup>
       <!-- 下雪天 -->
-      <van-dialog
-        use-slot
-        async-close
+      <van-popup
         :show="snow"
-        z-index="1"
-        :show-confirm-button="false"
         @close="snow = false"
-        close-on-click-overlay
+        :custom-style="'background-color:transparent;overflow: initial;width:85vw; '"
         transition="fade"
       >
         <div class="diaborder cjdig">
@@ -152,15 +145,12 @@
             <span class="btn" @click="snow = false">确认</span>
           </p>
         </div>
-      </van-dialog>
+      </van-popup>
       <!-- 地震 -->
-      <van-dialog
-        use-slot
-        async-close
+      <van-popup
         :show="earthquake"
-        :show-confirm-button="false"
         @close="earthquake = false"
-        close-on-click-overlay
+        :custom-style="'background-color:transparent;overflow: initial;width:85vw; '"
         transition="fade"
       >
         <div class="diaborder cjdig">
@@ -171,15 +161,12 @@
             <span class="btn" @click="earthquake = false">确认</span>
           </p>
         </div>
-      </van-dialog>
+      </van-popup>
       <!-- 怪兽来了 -->
-      <van-dialog
-        use-slot
-        async-close
+      <van-popup
         :show="gsll"
-        :show-confirm-button="false"
         @close="gsll = false"
-        close-on-click-overlay
+        :custom-style="'background-color:transparent;overflow: initial;width:85vw;'"
         transition="fade"
       >
         <div class="diaborder cjdig">
@@ -190,15 +177,12 @@
             <span class="btn" @click="gsll = false">确认</span>
           </p>
         </div>
-      </van-dialog>
+      </van-popup>
       <!-- 收集记录 -->
-      <van-dialog
-        use-slot
-        async-close
+      <van-popup
         :show="listDig"
-        :show-confirm-button="false"
         @close="listDig = false"
-        close-on-click-overlay
+        :custom-style="'background-color:transparent;overflow: initial;width:85vw;'"
         transition="fade"
       >
         <div class="list">
@@ -261,7 +245,7 @@
             </div>
           </div>
         </div>
-      </van-dialog>
+      </van-popup>
       <van-dialog
         use-slot
         async-close
@@ -901,7 +885,7 @@ export default {
   background: #eaeaea url(http://img.isxcxbackend1.cn/4.8.gif) center center
     no-repeat;
   position: relative;
-  z-index: 1;
+  z-index: 0;
   height: 100vh;
   box-sizing: border-box;
 }
@@ -956,10 +940,10 @@ export default {
       .score {
         width: 93px;
         height: 32px;
-        padding-bottom: 16rpx;
+        padding-bottom: 20rpx;
         padding-left: 8px;
         box-sizing: border-box;
-        line-height: 60rpx;
+        line-height: 50rpx;
         background: url(http://img.isxcxbackend1.cn/组90@2x.png) center center
           no-repeat;
         background-size: contain;
@@ -1243,12 +1227,16 @@ export default {
 }
 .diaborder {
   border: 3.5px solid #000;
+  background: url(http://img.isxcxbackend1.cn/组208@2x.png) center center
+  no-repeat;
+  background-size: 100% 99.9%;
+  height:52vh;
 }
 .list {
   line-height: 30px;
   // border: 3.5px solid #000;
   background: url(http://img.isxcxbackend1.cn/%E7%BB%84208.png) center
-    center #fff no-repeat;
+    center  no-repeat;
   background-size: 100% 99.9%;
   border-radius: 16px;
   position: relative;

@@ -207,7 +207,7 @@
       </div>
     </div>
     <!-- 弹窗 -->
-    <van-dialog
+<!--    <van-dialog
       use-slot
       async-close
       :show="buyDig.dig"
@@ -215,7 +215,13 @@
       @close="buyDig.dig = false"
       close-on-click-overlay
       transition="fade"
-    >
+    >-->
+      <van-popup
+        :custom-style="'background-color:transparent;overflow: initial;'"
+        :show="buyDig.dig"
+        @close="buyDig.dig = false"
+        transition="fade"
+      >
       <div class="buydig">
         <dl class="buy-info">
           <dt :style="buyDig.style"></dt>
@@ -237,7 +243,7 @@
           <span class="buy-btn" @click="buyOneHandle">购买</span>
         </div>
       </div>
-    </van-dialog>
+    </van-popup>
   </div>
 </template>
 
@@ -923,7 +929,10 @@ export default {
         .score {
           width: 93px;
           height: 32px;
-          line-height: 32px;
+          padding-bottom: 20rpx;
+          padding-left: 8px;
+          box-sizing: border-box;
+          line-height: 50rpx;
           background: url(http://img.isxcxbackend1.cn/组90@2x.png) center center
             no-repeat;
           background-size: contain;
@@ -973,7 +982,7 @@ export default {
     background-size:100% 100%;
     z-index: 5;
     /*box-shadow: 0 3px 0 #979797;*/
-    bottom: 53px;
+    bottom: 120rpx;
     position: absolute;
     padding: 10px 10px 22.5px;
     box-sizing: border-box;
@@ -1170,7 +1179,10 @@ export default {
   .buydig {
     line-height: 30px;
     border: 3.5px solid #000;
+    background: url(http://img.isxcxbackend1.cn/buy组188.png) center
+    center  no-repeat;
     border-radius: 16px;
+    width:75vw;
     position: relative;
     font-size: 12px;
     padding-bottom: 10px;
