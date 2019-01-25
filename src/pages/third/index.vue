@@ -973,7 +973,7 @@ export default {
   .ft-box-2{
     background:url(http://parkiland.isxcxbackend1.cn/up.png) top center
     no-repeat,url(http://parkiland.isxcxbackend1.cn/down2.png) bottom center no-repeat!important;
-    background-size:100% calc(100% - 20px),100% 20px!important;
+    background-size:100% calc(100% - 19px),100% 20px!important;
   }
   .ft-box {
 
@@ -982,7 +982,7 @@ export default {
     /*border-radius: 8px;*/
     background: url(http://parkiland.isxcxbackend1.cn/up.png) top center
     no-repeat,url(http://parkiland.isxcxbackend1.cn/down1.png) bottom center no-repeat;
-    background-size:100% calc(100% - 20px),100% 20px;
+    background-size:100% calc(100% - 19px),100% 20px;
     z-index: 5;
     /*box-shadow: 0 3px 0 #979797;*/
     bottom: 120rpx;
