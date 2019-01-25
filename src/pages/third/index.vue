@@ -971,15 +971,18 @@ export default {
     }
   }
   .ft-box-2{
-    background-image: url(http://img.isxcxbackend1.cn/shop组243.png) !important;
+    background:url(http://parkiland.isxcxbackend1.cn/up.png) top center
+    no-repeat,url(http://parkiland.isxcxbackend1.cn/down2.png) bottom center no-repeat!important;
+    background-size:100% calc(100% - 20px),100% 20px!important;
   }
   .ft-box {
 
     /*background: #fff;*/
     /*border: 2.5px solid #333;*/
     /*border-radius: 8px;*/
-    background: url(http://img.isxcxbackend1.cn/组158.png) center no-repeat;
-    background-size:100% 100%;
+    background: url(http://parkiland.isxcxbackend1.cn/up.png) top center
+    no-repeat,url(http://parkiland.isxcxbackend1.cn/down1.png) bottom center no-repeat;
+    background-size:100% calc(100% - 20px),100% 20px;
     z-index: 5;
     /*box-shadow: 0 3px 0 #979797;*/
     bottom: 120rpx;
