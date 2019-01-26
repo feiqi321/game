@@ -93,7 +93,7 @@
 
 <script>
 import http from "@/utils/http.js";
-import Notify from "@/../static/dist/notify/notify";
+
 export default {
   data() {
     return {
@@ -146,7 +146,7 @@ export default {
           backgroundAudioManager8.autoplay = true;
         }
         backgroundAudioManager8.title="05恐龙打击时";
-        backgroundAudioManager8.src ="http://img.isxcxbackend1.cn/05"+(encodeURIComponent('恐龙打击时'))+".mp3";
+        backgroundAudioManager8.src ="http://parkiland.isxcxbackend1.cn/05"+(encodeURIComponent('恐龙打击时'))+".mp3";
         backgroundAudioManager8.play();
         this.totalAttack = this.totalAttack+damage;
         this.socketTask.send({
@@ -224,7 +224,7 @@ export default {
             _this.jdtWidth = res.data.percent;
           },
           res => {
-            Notify("网络异常!");
+
           }
         );
     },
@@ -240,7 +240,7 @@ export default {
             _this.scores = res.data.scores;
           },
           res => {
-            Notify("网络异常!");
+
           }
         );
     },
@@ -261,7 +261,7 @@ export default {
         }
       }
       console.info("url",url);
-      wx.redirectTo({ url });
+      wx.redirectTo({ url:"../index/main" });
     }
 
 
@@ -291,7 +291,7 @@ export default {
 <style lang="scss" scoped>
 .main {
   height: 100%;
-  background: url(http://img.isxcxbackend1.cn/手机恐龙背景.png) center center
+  background: url(http://parkiland.isxcxbackend1.cn/手机恐龙背景.png) center center
     #ffffff no-repeat;
   background-size: cover;
   overflow: hidden;
@@ -300,7 +300,7 @@ export default {
 .boss {
   position: relative;
   z-index: 1;
-  background: url(http://img.isxcxbackend1.cn/云.png) center center no-repeat;
+  background: url(http://parkiland.isxcxbackend1.cn/云.png) center center no-repeat;
   background-size: cover;
   overflow: hidden;
   height: 100%;
@@ -352,7 +352,7 @@ export default {
         padding-left: 8px;
         box-sizing: border-box;
         line-height: 50rpx;
-        background: url(http://img.isxcxbackend1.cn/组90@2x.png) center center
+        background: url(http://parkiland.isxcxbackend1.cn/组90@2x.png) center center
         no-repeat;
         background-size: contain;
         color: #ffc63c;
@@ -364,9 +364,10 @@ export default {
   }
   .rigth-nav {
     margin-top: 20px;
-
+    position: relative;
+    z-index: 1;
     .i-sb {
-      background: url(http://img.isxcxbackend1.cn/组218.png) center center
+      background: url(http://parkiland.isxcxbackend1.cn/组218.png) center center
         no-repeat;
       background-size: contain;
       width: 30px;
@@ -377,7 +378,7 @@ export default {
   }
 }
 .m-icon {
-  background: url(http://img.isxcxbackend1.cn/怪兽动图.gif) center center
+  background: url(http://parkiland.isxcxbackend1.cn/怪兽动图.gif) center center
     no-repeat;
   background-size: contain;
   width: 100vw;
@@ -438,7 +439,7 @@ export default {
     }
   }
   .clock {
-    background: url(http://img.isxcxbackend1.cn/路径295.png) left center
+    background: url(http://parkiland.isxcxbackend1.cn/路径295.png) left center
       no-repeat;
     background-size: 15px 15px;
     height: 15px;
@@ -456,7 +457,7 @@ export default {
     }
   }
   .yy {
-    background: url(http://img.isxcxbackend1.cn/投影.png) center center
+    background: url(http://parkiland.isxcxbackend1.cn/投影.png) center center
       no-repeat;
     background-size: contain;
     left: 11vw;
@@ -468,7 +469,7 @@ export default {
     position: relative;
   }
   .bar {
-    background: url(http://img.isxcxbackend1.cn/组221.png) center center
+    background: url(http://parkiland.isxcxbackend1.cn/组219.png) center center
       no-repeat;
     background-size: 80vw 90px;
     width: 80vw;
@@ -480,7 +481,7 @@ export default {
     box-sizing: border-box;
     padding-top: 10px;
     .damage {
-      background: url(http://img.isxcxbackend1.cn/组215.png) left center
+      background: url(http://parkiland.isxcxbackend1.cn/组215.png) left center
         no-repeat;
       background-size: auto 100%;
       width: 80vw;
@@ -493,7 +494,7 @@ export default {
       }
     }
     .attack {
-      background: url(http://img.isxcxbackend1.cn/组212.png) left center
+      background: url(http://parkiland.isxcxbackend1.cn/组212.png) left center
         no-repeat;
       background-size: auto 80%;
       width: 80vw;
@@ -507,7 +508,7 @@ export default {
       .zdl-icon {
         height: 16px;
         width: 16px;
-        background: url(http://img.isxcxbackend1.cn/组204.png) center center
+        background: url(http://parkiland.isxcxbackend1.cn/组204.png) center center
           no-repeat;
         background-size: contain;
         display: inline-block;
@@ -557,7 +558,7 @@ export default {
     display: inline-block;
   }
   .btn {
-    background: url(http://img.isxcxbackend1.cn/组221.png) center center
+    background: url(http://parkiland.isxcxbackend1.cn/组221.png) center center
     no-repeat;
     background-size: 100% 100%;
     position: absolute;
@@ -570,7 +571,7 @@ export default {
   }
 }
 .endboxok {
-  background: url(http://img.isxcxbackend1.cn/保护成功.png) center center no-repeat;
+  background: url(http://parkiland.isxcxbackend1.cn/保护成功.png) center center no-repeat;
   background-color: transparent;
   background-size: 100% 100%;
   border-radius: 16px;
@@ -599,7 +600,7 @@ export default {
     display: inline-block;
   }
   .btn {
-    background: url(http://img.isxcxbackend1.cn/组221.png) center center
+    background: url(http://parkiland.isxcxbackend1.cn/组221.png) center center
     no-repeat;
     background-size: 100% 100%;
     position: absolute;
@@ -644,7 +645,7 @@ export default {
   left: 0;
   height: 100%;
   width: 100%;
-  background: url(http://img.isxcxbackend1.cn/红光闪动2.gif) center center
+  background: url(http://parkiland.isxcxbackend1.cn/红光闪动2.gif) center center
     no-repeat;
   background-size: cover;
   z-index: 0;

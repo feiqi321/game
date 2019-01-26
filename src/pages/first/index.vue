@@ -27,7 +27,7 @@
     </van-transition>
     <van-notify id="van-notify"/>
 
-    <div class="first">
+    <div class="first " :class="{ active: backgif }">
       <div class="top-tool">
         <div class="user-info">
           <div :style="{ backgroundImage: 'url(' + userInfo.avatarUrl + ')' }"></div>
@@ -38,20 +38,20 @@
         </div>
         <div class="rigth-nav">
           <span class="i-gs" @click="toBoss" v-if="gsStatus === 3"></span>
-          <span :class="{ 'i-sb': true, active: braceletId }" @click="bindDevDigSts = true"></span>
+          <span :class="{ 'i-sb': true, active: braceletId }" @click="showBind"></span>
           <span :class="{ 'i-sj': true, active: (newnum>0) }" @click="showList">
             <em></em>
           </span>
         </div>
       </div>
       <div class="qpanmi" :style="{ backgroundImage: 'url(' + animationBg + ')' }">
-        <!-- <img src="http://img.isxcxbackend1.cn/橙色动图.gif" class="m-icon" mode="widthFix"> -->
+        <!-- <img src="http://parkiland.isxcxbackend1.cn/橙色动图.gif" class="m-icon" mode="widthFix"> -->
         <div class="addproperty" v-if="addproperty_Show" style="padding-top: 15px;">
           <div style="font-size: 55px;">+ {{addproperty.num1}}</div>
           <div style="margin-top: 10px" v-if="addproperty.num2>0">
             <img
               style="width: 30px;height: 30px;display: inline-block;vertical-align: middle;margin-right: 20px;"
-              src="http://img.isxcxbackend1.cn/boy组223.png"
+              src="http://parkiland.isxcxbackend1.cn/boy组223.png"
               alt
             >
             <span style="font-size: 30px;vertical-align: middle;">+ {{addproperty.num2}}</span>
@@ -91,7 +91,7 @@
       <div class="tip" style="padding-left: 10px;">
         <p>
           <img
-            src="/static/images/ld.png"
+            src="http://parkiland.isxcxbackend1.cn/ld.png"
             class="m-icon"
             :class="[snow ? 'active' : '']"
             mode="widthFix"
@@ -103,12 +103,14 @@
         </p>
       </div>
       <img
-        src="/static/images/btn01.png"
+        src="http://parkiland.isxcxbackend1.cn/btn01.png"
         mode="widthFix"
         lazy-load="false"
         class="ftbtn"
         @click="toThird"
       >
+      <div class="hgbj" v-if="gsStatus === 3"></div>
+      <div class="earthquakebj" v-if="earthquakejpg"></div>
       <!-- 手环绑定 -->
       <van-popup
         :show="bindDevDigSts"
@@ -139,8 +141,8 @@
       >
         <div class="diaborder cjdig">
           <span class="cjimg"></span>
-          <h3>冬天到了</h3>
-          <p class="dialog-title">您的收集速度变慢了</p>
+          <h3 style="  font-size:57rpx;">冬天到了</h3>
+          <p class="dialog-title" style=" font-size:28rpx;">您的收集速度变慢了</p>
           <p>
             <span class="btn" @click="snow = false">确认</span>
           </p>
@@ -155,8 +157,8 @@
       >
         <div class="diaborder cjdig">
           <span class="cjimg dz-icon"></span>
-          <h3>地震了</h3>
-          <p class="dialog-title">绿色能量不能再收集了</p>
+          <h3 style="  font-size:57rpx;padding-top:19px;">地震了</h3>
+          <p class="dialog-title" style=" font-size:28rpx;">绿色能量不能再收集了</p>
           <p>
             <span class="btn" @click="earthquake = false">确认</span>
           </p>
@@ -170,9 +172,9 @@
         transition="fade"
       >
         <div class="diaborder cjdig">
-          <span class="cjimg gs-icon"></span>
-          <h3>怪兽入侵</h3>
-          <p class="dialog-title">一起攻击怪兽保护家园</p>
+          <span class="cjimg gs-icon" style="margin-bottom:17px;"></span>
+          <h3 style="  font-size:57rpx;">怪兽入侵</h3>
+          <p class="dialog-title" style=" font-size:28rpx;">一起攻击怪兽保护家园</p>
           <p>
             <span class="btn" @click="gsll = false">确认</span>
           </p>
@@ -263,17 +265,338 @@
         </div>
       </van-dialog>
     </div>
-    <div class="hgbj" v-if="gsStatus === 3"></div>
-    <div class="earthquakebj" v-if="earthquakejpg"></div>
-    <van-popup :custom-style="'background-color:transparent;overflow: initial;'" :show="dia_lv">
+
+    <van-popup :custom-style="'background-color:transparent;overflow: initial;'" :show="dia_lv1">
       <div class="lvStyle">
         <img
-          src="http://img.isxcxbackend1.cn/%E5%8A%A8%E7%89%A9%E8%83%8C%E6%99%AF%E6%97%8B%E8%BD%AC%E5%85%89.gif"
+          src="http://parkiland.isxcxbackend1.cn/%E5%8A%A8%E7%89%A9%E8%83%8C%E6%99%AF%E6%97%8B%E8%BD%AC%E5%85%89.gif"
           style="width: 100vw;height: 100vh;position: absolute;z-index: 1;top: 0;left: 0"
           alt
         >
         <img
-          :src="bigUrl"
+          src="http://parkiland.isxcxbackend1.cn/lv1-%E5%A4%A7.png"
+          style="width: 100vw;height: 100vh;position: absolute;z-index: 10;top: 0;"
+          alt
+        >
+      </div>
+    </van-popup>
+    <van-popup :custom-style="'background-color:transparent;overflow: initial;'" :show="dia_lv2">
+      <div class="lvStyle">
+        <img
+          src="http://parkiland.isxcxbackend1.cn/%E5%8A%A8%E7%89%A9%E8%83%8C%E6%99%AF%E6%97%8B%E8%BD%AC%E5%85%89.gif"
+          style="width: 100vw;height: 100vh;position: absolute;z-index: 1;top: 0;left: 0"
+          alt
+        >
+        <img
+          src="http://parkiland.isxcxbackend1.cn/lv4-%E5%A4%A7.png"
+          style="width: 100vw;height: 100vh;position: absolute;z-index: 10;top: 0;"
+          alt
+        >
+      </div>
+    </van-popup>
+    <van-popup :custom-style="'background-color:transparent;overflow: initial;'" :show="dia_lv3">
+      <div class="lvStyle">
+        <img
+          src="http://parkiland.isxcxbackend1.cn/%E5%8A%A8%E7%89%A9%E8%83%8C%E6%99%AF%E6%97%8B%E8%BD%AC%E5%85%89.gif"
+          style="width: 100vw;height: 100vh;position: absolute;z-index: 1;top: 0;left: 0"
+          alt
+        >
+        <img
+          src="http://parkiland.isxcxbackend1.cn/lv2-%E5%A4%A7.png"
+          style="width: 100vw;height: 100vh;position: absolute;z-index: 10;top: 0;"
+          alt
+        >
+      </div>
+    </van-popup>
+    <van-popup :custom-style="'background-color:transparent;overflow: initial;'" :show="dia_lv4">
+      <div class="lvStyle">
+        <img
+          src="http://parkiland.isxcxbackend1.cn/%E5%8A%A8%E7%89%A9%E8%83%8C%E6%99%AF%E6%97%8B%E8%BD%AC%E5%85%89.gif"
+          style="width: 100vw;height: 100vh;position: absolute;z-index: 1;top: 0;left: 0"
+          alt
+        >
+        <img
+          src="http://parkiland.isxcxbackend1.cn/lv3-%E5%A4%A7.png"
+          style="width: 100vw;height: 100vh;position: absolute;z-index: 10;top: 0;"
+          alt
+        >
+      </div>
+    </van-popup>
+    <van-popup :custom-style="'background-color:transparent;overflow: initial;'" :show="dia_lv5">
+      <div class="lvStyle">
+        <img
+          src="http://parkiland.isxcxbackend1.cn/%E5%8A%A8%E7%89%A9%E8%83%8C%E6%99%AF%E6%97%8B%E8%BD%AC%E5%85%89.gif"
+          style="width: 100vw;height: 100vh;position: absolute;z-index: 1;top: 0;left: 0"
+          alt
+        >
+        <img
+          src="http://parkiland.isxcxbackend1.cn/lv5-%E5%A4%A7.png"
+          style="width: 100vw;height: 100vh;position: absolute;z-index: 10;top: 0;"
+          alt
+        >
+      </div>
+    </van-popup>
+    <van-popup :custom-style="'background-color:transparent;overflow: initial;'" :show="dia_lv6">
+      <div class="lvStyle">
+        <img
+          src="http://parkiland.isxcxbackend1.cn/%E5%8A%A8%E7%89%A9%E8%83%8C%E6%99%AF%E6%97%8B%E8%BD%AC%E5%85%89.gif"
+          style="width: 100vw;height: 100vh;position: absolute;z-index: 1;top: 0;left: 0"
+          alt
+        >
+        <img
+          src="http://parkiland.isxcxbackend1.cn/lv6-%E5%A4%A7.png"
+          style="width: 100vw;height: 100vh;position: absolute;z-index: 10;top: 0;"
+          alt
+        >
+      </div>
+    </van-popup>
+    <van-popup :custom-style="'background-color:transparent;overflow: initial;'" :show="dia_lv7">
+      <div class="lvStyle">
+        <img
+          src="http://parkiland.isxcxbackend1.cn/%E5%8A%A8%E7%89%A9%E8%83%8C%E6%99%AF%E6%97%8B%E8%BD%AC%E5%85%89.gif"
+          style="width: 100vw;height: 100vh;position: absolute;z-index: 1;top: 0;left: 0"
+          alt
+        >
+        <img
+          src="http://parkiland.isxcxbackend1.cn/lv6-%E5%A4%A7.png"
+          style="width: 100vw;height: 100vh;position: absolute;z-index: 10;top: 0;"
+          alt
+        >
+      </div>
+    </van-popup>
+    <van-popup :custom-style="'background-color:transparent;overflow: initial;'" :show="dia_lv8">
+      <div class="lvStyle">
+        <img
+          src="http://parkiland.isxcxbackend1.cn/%E5%8A%A8%E7%89%A9%E8%83%8C%E6%99%AF%E6%97%8B%E8%BD%AC%E5%85%89.gif"
+          style="width: 100vw;height: 100vh;position: absolute;z-index: 1;top: 0;left: 0"
+          alt
+        >
+        <img
+          src="http://parkiland.isxcxbackend1.cn/lv7-%E5%A4%A7.png"
+          style="width: 100vw;height: 100vh;position: absolute;z-index: 10;top: 0;"
+          alt
+        >
+      </div>
+    </van-popup>
+    <van-popup :custom-style="'background-color:transparent;overflow: initial;'" :show="dia_lv9">
+      <div class="lvStyle">
+        <img
+          src="http://parkiland.isxcxbackend1.cn/%E5%8A%A8%E7%89%A9%E8%83%8C%E6%99%AF%E6%97%8B%E8%BD%AC%E5%85%89.gif"
+          style="width: 100vw;height: 100vh;position: absolute;z-index: 1;top: 0;left: 0"
+          alt
+        >
+        <img
+          src="http://parkiland.isxcxbackend1.cn/lv5-%E5%A4%A7.png"
+          style="width: 100vw;height: 100vh;position: absolute;z-index: 10;top: 0;"
+          alt
+        >
+      </div>
+    </van-popup>
+    <van-popup :custom-style="'background-color:transparent;overflow: initial;'" :show="dia_lv10">
+      <div class="lvStyle">
+        <img
+          src="http://parkiland.isxcxbackend1.cn/%E5%8A%A8%E7%89%A9%E8%83%8C%E6%99%AF%E6%97%8B%E8%BD%AC%E5%85%89.gif"
+          style="width: 100vw;height: 100vh;position: absolute;z-index: 1;top: 0;left: 0"
+          alt
+        >
+        <img
+          src="http://parkiland.isxcxbackend1.cn/lv5-%E5%A4%A7.png"
+          style="width: 100vw;height: 100vh;position: absolute;z-index: 10;top: 0;"
+          alt
+        >
+      </div>
+    </van-popup>
+    <van-popup :custom-style="'background-color:transparent;overflow: initial;'" :show="dia_lv11">
+      <div class="lvStyle">
+        <img
+          src="http://parkiland.isxcxbackend1.cn/%E5%8A%A8%E7%89%A9%E8%83%8C%E6%99%AF%E6%97%8B%E8%BD%AC%E5%85%89.gif"
+          style="width: 100vw;height: 100vh;position: absolute;z-index: 1;top: 0;left: 0"
+          alt
+        >
+        <img
+          src="http://parkiland.isxcxbackend1.cn/lv2-%E5%A4%A7.png"
+          style="width: 100vw;height: 100vh;position: absolute;z-index: 10;top: 0;"
+          alt
+        >
+      </div>
+    </van-popup>
+    <van-popup :custom-style="'background-color:transparent;overflow: initial;'" :show="dia_lv12">
+      <div class="lvStyle">
+        <img
+          src="http://parkiland.isxcxbackend1.cn/%E5%8A%A8%E7%89%A9%E8%83%8C%E6%99%AF%E6%97%8B%E8%BD%AC%E5%85%89.gif"
+          style="width: 100vw;height: 100vh;position: absolute;z-index: 1;top: 0;left: 0"
+          alt
+        >
+        <img
+          src="http://parkiland.isxcxbackend1.cn/lv3-%E5%A4%A7.png"
+          style="width: 100vw;height: 100vh;position: absolute;z-index: 10;top: 0;"
+          alt
+        >
+      </div>
+    </van-popup>
+    <van-popup :custom-style="'background-color:transparent;overflow: initial;'" :show="dia_lv13">
+      <div class="lvStyle">
+        <img
+          src="http://parkiland.isxcxbackend1.cn/%E5%8A%A8%E7%89%A9%E8%83%8C%E6%99%AF%E6%97%8B%E8%BD%AC%E5%85%89.gif"
+          style="width: 100vw;height: 100vh;position: absolute;z-index: 1;top: 0;left: 0"
+          alt
+        >
+        <img
+          src="http://parkiland.isxcxbackend1.cn/lv4-%E5%A4%A7.png"
+          style="width: 100vw;height: 100vh;position: absolute;z-index: 10;top: 0;"
+          alt
+        >
+      </div>
+    </van-popup>
+    <van-popup :custom-style="'background-color:transparent;overflow: initial;'" :show="dia_lv14">
+      <div class="lvStyle">
+        <img
+          src="http://parkiland.isxcxbackend1.cn/%E5%8A%A8%E7%89%A9%E8%83%8C%E6%99%AF%E6%97%8B%E8%BD%AC%E5%85%89.gif"
+          style="width: 100vw;height: 100vh;position: absolute;z-index: 1;top: 0;left: 0"
+          alt
+        >
+        <img
+          src="http://parkiland.isxcxbackend1.cn/lv4-%E5%A4%A7.png"
+          style="width: 100vw;height: 100vh;position: absolute;z-index: 10;top: 0;"
+          alt
+        >
+      </div>
+    </van-popup>
+    <van-popup :custom-style="'background-color:transparent;overflow: initial;'" :show="dia_lv15">
+      <div class="lvStyle">
+        <img
+          src="http://parkiland.isxcxbackend1.cn/%E5%8A%A8%E7%89%A9%E8%83%8C%E6%99%AF%E6%97%8B%E8%BD%AC%E5%85%89.gif"
+          style="width: 100vw;height: 100vh;position: absolute;z-index: 1;top: 0;left: 0"
+          alt
+        >
+        <img
+          src="http://parkiland.isxcxbackend1.cn/lv3-%E5%A4%A7.png"
+          style="width: 100vw;height: 100vh;position: absolute;z-index: 10;top: 0;"
+          alt
+        >
+      </div>
+    </van-popup>
+    <van-popup :custom-style="'background-color:transparent;overflow: initial;'" :show="dia_lv16">
+      <div class="lvStyle">
+        <img
+          src="http://parkiland.isxcxbackend1.cn/%E5%8A%A8%E7%89%A9%E8%83%8C%E6%99%AF%E6%97%8B%E8%BD%AC%E5%85%89.gif"
+          style="width: 100vw;height: 100vh;position: absolute;z-index: 1;top: 0;left: 0"
+          alt
+        >
+        <img
+          src="http://parkiland.isxcxbackend1.cn/lv3-%E5%A4%A7.png"
+          style="width: 100vw;height: 100vh;position: absolute;z-index: 10;top: 0;"
+          alt
+        >
+      </div>
+    </van-popup>
+    <van-popup :custom-style="'background-color:transparent;overflow: initial;'" :show="dia_lv17">
+      <div class="lvStyle">
+        <img
+          src="http://parkiland.isxcxbackend1.cn/%E5%8A%A8%E7%89%A9%E8%83%8C%E6%99%AF%E6%97%8B%E8%BD%AC%E5%85%89.gif"
+          style="width: 100vw;height: 100vh;position: absolute;z-index: 1;top: 0;left: 0"
+          alt
+        >
+        <img
+          src="http://parkiland.isxcxbackend1.cn/lv3-%E5%A4%A7.png"
+          style="width: 100vw;height: 100vh;position: absolute;z-index: 10;top: 0;"
+          alt
+        >
+      </div>
+    </van-popup>
+    <van-popup :custom-style="'background-color:transparent;overflow: initial;'" :show="dia_lv18">
+      <div class="lvStyle">
+        <img
+          src="http://parkiland.isxcxbackend1.cn/%E5%8A%A8%E7%89%A9%E8%83%8C%E6%99%AF%E6%97%8B%E8%BD%AC%E5%85%89.gif"
+          style="width: 100vw;height: 100vh;position: absolute;z-index: 1;top: 0;left: 0"
+          alt
+        >
+        <img
+          src="http://parkiland.isxcxbackend1.cn/lv2-%E5%A4%A7.png"
+          style="width: 100vw;height: 100vh;position: absolute;z-index: 10;top: 0;"
+          alt
+        >
+      </div>
+    </van-popup>
+    <van-popup :custom-style="'background-color:transparent;overflow: initial;'" :show="dia_lv19">
+      <div class="lvStyle">
+        <img
+          src="http://parkiland.isxcxbackend1.cn/%E5%8A%A8%E7%89%A9%E8%83%8C%E6%99%AF%E6%97%8B%E8%BD%AC%E5%85%89.gif"
+          style="width: 100vw;height: 100vh;position: absolute;z-index: 1;top: 0;left: 0"
+          alt
+        >
+        <img
+          src="http://parkiland.isxcxbackend1.cn/lv1-%E5%A4%A7.png"
+          style="width: 100vw;height: 100vh;position: absolute;z-index: 10;top: 0;"
+          alt
+        >
+      </div>
+    </van-popup>
+    <van-popup :custom-style="'background-color:transparent;overflow: initial;'" :show="dia_lv20">
+      <div class="lvStyle">
+        <img
+          src="http://parkiland.isxcxbackend1.cn/%E5%8A%A8%E7%89%A9%E8%83%8C%E6%99%AF%E6%97%8B%E8%BD%AC%E5%85%89.gif"
+          style="width: 100vw;height: 100vh;position: absolute;z-index: 1;top: 0;left: 0"
+          alt
+        >
+        <img
+          src="http://parkiland.isxcxbackend1.cn/lv4-%E5%A4%A7.png"
+          style="width: 100vw;height: 100vh;position: absolute;z-index: 10;top: 0;"
+          alt
+        >
+      </div>
+    </van-popup>
+    <van-popup :custom-style="'background-color:transparent;overflow: initial;'" :show="dia_lv21">
+      <div class="lvStyle">
+        <img
+          src="http://parkiland.isxcxbackend1.cn/%E5%8A%A8%E7%89%A9%E8%83%8C%E6%99%AF%E6%97%8B%E8%BD%AC%E5%85%89.gif"
+          style="width: 100vw;height: 100vh;position: absolute;z-index: 1;top: 0;left: 0"
+          alt
+        >
+        <img
+          src="http://parkiland.isxcxbackend1.cn/lv3-%E5%A4%A7.png"
+          style="width: 100vw;height: 100vh;position: absolute;z-index: 10;top: 0;"
+          alt
+        >
+      </div>
+    </van-popup>
+    <van-popup :custom-style="'background-color:transparent;overflow: initial;'" :show="dia_lv22">
+      <div class="lvStyle">
+        <img
+          src="http://parkiland.isxcxbackend1.cn/%E5%8A%A8%E7%89%A9%E8%83%8C%E6%99%AF%E6%97%8B%E8%BD%AC%E5%85%89.gif"
+          style="width: 100vw;height: 100vh;position: absolute;z-index: 1;top: 0;left: 0"
+          alt
+        >
+        <img
+          src="http://parkiland.isxcxbackend1.cn/lv7-%E5%A4%A7.png"
+          style="width: 100vw;height: 100vh;position: absolute;z-index: 10;top: 0;"
+          alt
+        >
+      </div>
+    </van-popup>
+    <van-popup :custom-style="'background-color:transparent;overflow: initial;'" :show="dia_lv23">
+      <div class="lvStyle">
+        <img
+          src="http://parkiland.isxcxbackend1.cn/%E5%8A%A8%E7%89%A9%E8%83%8C%E6%99%AF%E6%97%8B%E8%BD%AC%E5%85%89.gif"
+          style="width: 100vw;height: 100vh;position: absolute;z-index: 1;top: 0;left: 0"
+          alt
+        >
+        <img
+          src="http://parkiland.isxcxbackend1.cn/lv2-%E5%A4%A7.png"
+          style="width: 100vw;height: 100vh;position: absolute;z-index: 10;top: 0;"
+          alt
+        >
+      </div>
+    </van-popup>
+    <van-popup :custom-style="'background-color:transparent;overflow: initial;'" :show="dia_lv24">
+      <div class="lvStyle">
+        <img
+          src="http://parkiland.isxcxbackend1.cn/%E5%8A%A8%E7%89%A9%E8%83%8C%E6%99%AF%E6%97%8B%E8%BD%AC%E5%85%89.gif"
+          style="width: 100vw;height: 100vh;position: absolute;z-index: 1;top: 0;left: 0"
+          alt
+        >
+        <img
+          src="http://parkiland.isxcxbackend1.cn/lv8-%E5%A4%A7.png"
           style="width: 100vw;height: 100vh;position: absolute;z-index: 10;top: 0;"
           alt
         >
@@ -285,7 +608,6 @@
 <script>
 import { mapMutations, mapState, mapActions } from "vuex";
 import http from "@/utils/http.js";
-import Notify from "@/../static/dist/notify/notify";
 
 export default {
   data() {
@@ -302,6 +624,7 @@ export default {
       totalNum: 0,
       totalReward: 0,
       status: null,
+      backgif:true,
       bingWarningText: "",
       totalStatus: null,
       totalTask: {},
@@ -333,16 +656,16 @@ export default {
       warningDom: null, //全局提示
       warningDom2: null, //全局提示
       animationOptions: [
-        "http://img.isxcxbackend1.cn/橙色动图.gif",
-        "http://img.isxcxbackend1.cn/黄动图.gif",
-        "http://img.isxcxbackend1.cn/蓝色动图.gif",
-        "http://img.isxcxbackend1.cn/绿色动图.gif"
+        "http://parkiland.isxcxbackend1.cn/橙色动图.gif",
+        "http://parkiland.isxcxbackend1.cn/黄动图.gif",
+        "http://parkiland.isxcxbackend1.cn/蓝色动图.gif",
+        "http://parkiland.isxcxbackend1.cn/绿色动图.gif"
       ],
       colorOptions: [
-        "http://img.isxcxbackend1.cn/椭圆48.png",
-        "http://img.isxcxbackend1.cn/椭圆141.png",
-        "http://img.isxcxbackend1.cn/椭圆140.png",
-        "http://img.isxcxbackend1.cn/椭圆49.png"
+        "http://parkiland.isxcxbackend1.cn/椭圆48.png",
+        "http://parkiland.isxcxbackend1.cn/椭圆141.png",
+        "http://parkiland.isxcxbackend1.cn/椭圆140.png",
+        "http://parkiland.isxcxbackend1.cn/椭圆49.png"
       ] //1橙2黄3蓝4 绿
     };
   },
@@ -361,7 +684,30 @@ export default {
       "warningText2",
       "addproperty_Show",
       "addproperty",
-      "dia_lv",
+      "dia_lv1",
+      "dia_lv2",
+      "dia_lv3",
+      "dia_lv4",
+      "dia_lv5",
+      "dia_lv6",
+      "dia_lv7",
+      "dia_lv8",
+      "dia_lv9",
+      "dia_lv10",
+      "dia_lv11",
+      "dia_lv12",
+      "dia_lv13",
+      "dia_lv14",
+      "dia_lv15",
+      "dia_lv16",
+      "dia_lv17",
+      "dia_lv18",
+      "dia_lv19",
+      "dia_lv20",
+      "dia_lv21",
+      "dia_lv22",
+      "dia_lv23",
+      "dia_lv24",
       "newnum",
       "singleReward"
     ]),
@@ -394,6 +740,11 @@ export default {
       const url = "../boss/main?pageNo=1";
       wx.navigateTo({ url });
     },
+    showBind(){
+      const _this = this;
+      _this.bindDevDigSts = true
+      _this.playMusic();
+    },
     bindBraceletId() {
       const _this = this;
       if (_this.userId == null || _this.userId == "") {
@@ -425,6 +776,7 @@ export default {
         );
     },
     toThird() {
+      this.playMusic();
       const url = "../third/main";
       // switchTab navigateTo
       wx.navigateTo({ url });
@@ -458,7 +810,11 @@ export default {
       //搜索设备
       const _this = this;
       if (!this.blueStatus) {
-        Notify("请打开蓝牙设备!");
+        _this.warning = true;
+        _this.warningText = "! 请打开蓝牙设备";
+        setTimeout(() => {
+          _this.warning = false;
+        }, 1000);
         return;
       }
       wx.startBeaconDiscovery({
@@ -622,7 +978,7 @@ export default {
             _this.showEvent(res.data.event);
           },
           res => {
-            Notify("网络异常2!");
+
           }
         );
     },
@@ -640,7 +996,7 @@ export default {
             _this.addBraceletToCompleted(res.data.singleList);
           },
           res => {
-            Notify("网络异常3!");
+
           }
         );
     },
@@ -674,12 +1030,13 @@ export default {
               _this.setScores(res.data);
             },
             res => {
-              Notify("网络异常4!");
+
             }
           );
       }
     },
     showList() {
+      this.playMusic();
       this.listDig = true;
       this.setNewNum(0);
       http
@@ -724,7 +1081,7 @@ export default {
             }
           },
           res => {
-            Notify("网络异常5!");
+
           }
         );
 
@@ -738,9 +1095,25 @@ export default {
             this.colorList = res.data;
           },
           res => {
-            Notify("网络异常6!");
+
           }
         );
+    },
+    playMusic(){
+      const backgroundAudioManager1 = getApp().globalData.backgroundAudioManager;
+
+      backgroundAudioManager1.title="01点击按钮";
+      if (wx.setInnerAudioOption) {
+        wx.setInnerAudioOption({
+          obeyMuteSwitch: false,
+          autoplay: true
+        })
+      }else {
+        backgroundAudioManager1.obeyMuteSwitch = false;
+        backgroundAudioManager1.autoplay = true;
+      }
+      backgroundAudioManager1.src ="http://parkiland.isxcxbackend1.cn/01"+(encodeURIComponent('点击按钮'))+".mp3";
+      backgroundAudioManager1.play();
     },
     showWarnning(text) {
       this.warning = true;
@@ -775,28 +1148,34 @@ export default {
         //下雪了
         _this.snow = true;
         _this.snowjpg = true;
+        _this.backgif = false;
+        _this.earthquakejpg = false;
         _this.gsStatus = 1;
         _this.isSlow = true;
       } else if (event == 10) {
         //雪停了
         _this.snowjpg = false;
+        _this.backgif = true;
         _this.gsStatus = 1;
         _this.isSlow = false;
       } else if (event == 2) {
         //地震了
         _this.snowjpg = false;
+        _this.backgif = false;
         _this.earthquake = true;
         _this.earthquakejpg = true;
         _this.snow = false;
         _this.gsStatus = 1;
         _this.isSlow = false;
       } else if (event == 20) {
+        _this.backgif = true;
         _this.snowjpg = false;
         _this.earthquakejpg = false;
         //地震停了
         _this.gsStatus = 1;
         _this.isSlow = false;
       } else if (event == 3) {
+        _this.backgif = true;
         _this.snowjpg = false;
         _this.earthquakejpg = false;
         //怪兽来袭
@@ -804,6 +1183,7 @@ export default {
         _this.gsStatus = 3;
         _this.isSlow = false;
       } else if (event == 30) {
+        _this.backgif = true;
         _this.snowjpg = false;
         _this.earthquakejpg = false;
         //怪兽事件结束
@@ -812,13 +1192,27 @@ export default {
         _this.gsll = false;
       } else if (event == 97) {
         //boss死掉了
+        _this.backgif = true;
         _this.gsll = false;
+        _this.snowjpg = false;
+        _this.earthquakejpg = false;
+        _this.gsStatus = 1;
+        _this.isSlow = false;
       } else if (event == 99) {
         //boss到时间未死掉
+        _this.backgif = true;
         _this.gsll = false;
-      } else if (event == 100) {
-        _this.gsll = false;
+        _this.snowjpg = false;
         _this.earthquakejpg = false;
+        _this.gsStatus = 1;
+        _this.isSlow = false;
+      } else if (event == 100) {
+        _this.backgif = true;
+        _this.gsll = false;
+        _this.snowjpg = false;
+        _this.earthquakejpg = false;
+        _this.gsStatus = 1;
+        _this.isSlow = false;
         _this.gameOver("游戏结束");
       }
     },
@@ -858,7 +1252,7 @@ export default {
 
 <style lang="scss" scoped>
 .lvStyle {
-  background: url(http://img.isxcxbackend1.cn/动物背景旋转光.gif) center
+  background: url(http://parkiland.isxcxbackend1.cn/动物背景旋转光.gif) center
     no-repeat;
   background-size: 100% 100%;
   position: relative;
@@ -882,12 +1276,14 @@ export default {
 .first {
   padding: 15px 30px;
   text-align: center;
-  background: #eaeaea url(http://img.isxcxbackend1.cn/4.8.gif) center center
-    no-repeat;
   position: relative;
   z-index: 0;
   height: 100vh;
   box-sizing: border-box;
+  &.active {
+    background: #eaeaea url(http://parkiland.isxcxbackend1.cn/4.8.gif) center center
+    no-repeat;
+  }
 }
 .top-tool {
   display: flex;
@@ -944,7 +1340,7 @@ export default {
         padding-left: 8px;
         box-sizing: border-box;
         line-height: 50rpx;
-        background: url(http://img.isxcxbackend1.cn/组90@2x.png) center center
+        background: url(http://parkiland.isxcxbackend1.cn/组90@2x.png) center center
           no-repeat;
         background-size: contain;
         color: #ffc63c;
@@ -965,7 +1361,7 @@ export default {
       }
     }
     .i-gs {
-      background: url(http://img.isxcxbackend1.cn/boss组203.png) center center
+      background: url(http://parkiland.isxcxbackend1.cn/boss组203.png) center center
         no-repeat;
       background-size: contain;
       width: 24px;
@@ -975,7 +1371,7 @@ export default {
       animation: an1 ease 1s infinite alternate;
     }
     .i-sb {
-      background: url(http://img.isxcxbackend1.cn/组89.png) center center
+      background: url(http://parkiland.isxcxbackend1.cn/组89.png) center center
         no-repeat;
       background-size: contain;
       width: 22px;
@@ -983,11 +1379,11 @@ export default {
       display: inline-block;
       margin-right: 10px;
       &.active {
-        background-image: url(http://img.isxcxbackend1.cn/手环.png);
+        background-image: url(http://parkiland.isxcxbackend1.cn/手环.png);
       }
     }
     .i-sj {
-      background: url(http://img.isxcxbackend1.cn/组10.png) center center
+      background: url(http://parkiland.isxcxbackend1.cn/组10.png) center center
         no-repeat;
       background-size: contain;
       width: 28px;
@@ -1000,7 +1396,7 @@ export default {
         }
       }
       em {
-        background: url(http://img.isxcxbackend1.cn/提醒131.png) center center
+        background: url(http://parkiland.isxcxbackend1.cn/提醒131.png) center center
           no-repeat;
         background-size: contain;
         position: absolute;
@@ -1024,14 +1420,14 @@ export default {
     width: 100%;
   }
   // &.red {
-  //   // background-image: url(http://img.isxcxbackend1.cn/橙色动图.gif);
+  //   // background-image: url(http://parkiland.isxcxbackend1.cn/橙色动图.gif);
   //   background-image: url(https://go.heytea.com/ad/loading);
   // }
   // &.yellor {
-  //   background-image: url(http://img.isxcxbackend1.cn/黄动图.gif);
+  //   background-image: url(http://parkiland.isxcxbackend1.cn/黄动图.gif);
   // }
   // &.blue {
-  //   background-image: url(http://img.isxcxbackend1.cn/蓝色动图.gif);
+  //   background-image: url(http://parkiland.isxcxbackend1.cn/蓝色动图.gif);
   // }
 }
 .probar {
@@ -1045,26 +1441,26 @@ export default {
     width: 30px;
     height: 30px;
     display: inline-block;
-    background: url(http://img.isxcxbackend1.cn/小孩.gif) center center
+    background: url(http://parkiland.isxcxbackend1.cn/小孩.gif) center center
       no-repeat;
     background-size: 120% auto;
     visibility: hidden;
     &.active {
       visibility: visible;
-      background-image: url(http://img.isxcxbackend1.cn/小孩.gif);
+      background-image: url(http://parkiland.isxcxbackend1.cn/小孩.gif);
     }
   }
   .bar {
-    background: url(http://img.isxcxbackend1.cn/空条子.png) center center
+    background: url(http://parkiland.isxcxbackend1.cn/空条子.png) center center
       no-repeat;
     background-size: contain;
     height: 21px;
     margin-top: 5px;
     &.active {
-      background-image: url(http://img.isxcxbackend1.cn/1秒.gif);
+      background-image: url(http://parkiland.isxcxbackend1.cn/1秒.gif);
     }
     &.slow {
-      background-image: url(http://img.isxcxbackend1.cn/1.5冰冻.gif);
+      background-image: url(http://parkiland.isxcxbackend1.cn/1.5冰冻.gif);
     }
   }
 }
@@ -1088,7 +1484,7 @@ export default {
       width: 55px;
       height: 50px;
       padding-bottom: 5px;
-      background: url(http://img.isxcxbackend1.cn/组92@2x.png) center center
+      background: url(http://parkiland.isxcxbackend1.cn/组92@2x.png) center center
         no-repeat;
       background-size: contain;
       display: flex;
@@ -1111,7 +1507,7 @@ export default {
       line-height: 20px;
       padding-left: 20px;
       display: inline-block;
-      background: url(http://img.isxcxbackend1.cn/boy组223.png) left center
+      background: url(http://parkiland.isxcxbackend1.cn/boy组223.png) left center
         no-repeat;
       background-size: auto 100%;
       vertical-align: middle;
@@ -1155,7 +1551,7 @@ export default {
 .binding {
   border-radius: 14px !important;
   padding: 100px 20px 30px;
-  background: transparent url(http://img.isxcxbackend1.cn/%E7%BB%84208.png) center center
+  background: transparent url(http://parkiland.isxcxbackend1.cn/%E7%BB%84208.png) center center
    no-repeat;
   background-size: 100% 99.9%;
   .red {
@@ -1167,7 +1563,7 @@ export default {
   .dialog-title {
     margin-bottom: 0;
     text-align: left;
-    background: url(http://img.isxcxbackend1.cn/%E8%B7%AF%E5%BE%84294.png) left
+    background: url(http://parkiland.isxcxbackend1.cn/%E8%B7%AF%E5%BE%84294.png) left
       top #ffffff no-repeat;
     background-size: auto 40%;
     padding-left: 30px;
@@ -1186,7 +1582,7 @@ export default {
     line-height: 40px;
     display: inline-block;
     margin: 0 auto;
-    background: url(http://img.isxcxbackend1.cn/组217.png) center center #fafafa
+    background: url(http://parkiland.isxcxbackend1.cn/组217.png) center center #fafafa
       no-repeat;
     background-size: contain;
     margin: 80px auto 20px;
@@ -1194,20 +1590,20 @@ export default {
 }
 .cjdig {
   border-radius: 14px !important;
-  padding: 40px 20px 10px;
+  padding: 10px 20px 10px;
   .cjimg {
     width: 200px;
     height: 200px;
-    background: url(http://img.isxcxbackend1.cn/组232.png) center center #fff
+    background: url(http://parkiland.isxcxbackend1.cn/组232.png) center center #fff
       no-repeat;
-    background-size: contain;
+    background-size: cover;
     display: block;
     margin: 0 auto;
     &.dz-icon {
-      background-image: url(http://img.isxcxbackend1.cn/组233.png);
+      background-image: url(http://parkiland.isxcxbackend1.cn/组233.png);
     }
     &.gs-icon {
-      background-image: url(http://img.isxcxbackend1.cn/恐龙动32.png);
+      background-image: url(http://parkiland.isxcxbackend1.cn/恐龙动32.png);
     }
   }
   h3 {
@@ -1220,22 +1616,21 @@ export default {
     line-height: 40px;
     display: inline-block;
     margin: 0 auto;
-    background: url(http://img.isxcxbackend1.cn/组217.png) center center #fafafa
+    background: url(http://parkiland.isxcxbackend1.cn/组217.png) center center #fafafa
       no-repeat;
     background-size: contain;
   }
 }
 .diaborder {
-  border: 3.5px solid #000;
-  background: url(http://img.isxcxbackend1.cn/组208@2x.png) center center
+  background: url(http://parkiland.isxcxbackend1.cn/组208@2x.png) center center
   no-repeat;
   background-size: 100% 99.9%;
-  height:52vh;
+  height:63vh;
 }
 .list {
   line-height: 30px;
   // border: 3.5px solid #000;
-  background: url(http://img.isxcxbackend1.cn/%E7%BB%84208.png) center
+  background: url(http://parkiland.isxcxbackend1.cn/%E7%BB%84208.png) center
     center  no-repeat;
   background-size: 100% 99.9%;
   border-radius: 16px;
@@ -1261,7 +1656,7 @@ export default {
         color: #f3d085;
       }
       .btn {
-        background: url(http://img.isxcxbackend1.cn/组120.png) center center
+        background: url(http://parkiland.isxcxbackend1.cn/组120.png) center center
           #fafafa no-repeat;
         background-size: contain;
         width: 140px;
@@ -1269,10 +1664,10 @@ export default {
         line-height: 25px;
         text-align: center;
         &.active {
-          background-image: url(http://img.isxcxbackend1.cn/组125.png);
+          background-image: url(http://parkiland.isxcxbackend1.cn/组125.png);
         }
         em {
-          background: url(http://img.isxcxbackend1.cn/组6.png) center center
+          background: url(http://parkiland.isxcxbackend1.cn/组6.png) center center
             #fafafa no-repeat;
           background-size: contain;
           width: 8px;
@@ -1309,7 +1704,7 @@ export default {
       }
       .last-child {
         text-align: center;
-        background: url(http://img.isxcxbackend1.cn/组121.png) no-repeat;
+        background: url(http://parkiland.isxcxbackend1.cn/组121.png) no-repeat;
         background-size: contain;
         width: 60px;
         height: 30px;
@@ -1325,7 +1720,7 @@ export default {
 
     .new-icon {
       background: center center no-repeat;
-      background-image: url(http://img.isxcxbackend1.cn/组124.png);
+      background-image: url(http://parkiland.isxcxbackend1.cn/组124.png);
       background-size: contain;
       width: 25px;
       height: 16px;
@@ -1334,7 +1729,7 @@ export default {
     }
     .animal-icon {
       background: center center no-repeat;
-      background-image: url(http://img.isxcxbackend1.cn/鳄鱼-小.png);
+      background-image: url(http://parkiland.isxcxbackend1.cn/鳄鱼-小.png);
       background-size: 100% auto;
       width: 40px;
       height: 40px;
@@ -1348,7 +1743,7 @@ export default {
   //   position: absolute;
   //   right: -10px;
   //   top: -10px;
-  //   background: url(http://img.isxcxbackend1.cn/组119.png) no-repeat;
+  //   background: url(http://parkiland.isxcxbackend1.cn/组119.png) no-repeat;
   //   background-size: contain;
   // }
 }
@@ -1363,16 +1758,16 @@ export default {
   margin: 0 5px;
   display: inline-block;
   &.c0 {
-    background-image: url(http://img.isxcxbackend1.cn/椭圆78.png);
+    background-image: url(http://parkiland.isxcxbackend1.cn/椭圆78.png);
   }
   &.c1 {
-    background-image: url(http://img.isxcxbackend1.cn/椭圆75.png);
+    background-image: url(http://parkiland.isxcxbackend1.cn/椭圆75.png);
   }
   &.c2 {
-    background-image: url(http://img.isxcxbackend1.cn/椭圆74.png);
+    background-image: url(http://parkiland.isxcxbackend1.cn/椭圆74.png);
   }
   &.c3 {
-    background-image: url(http://img.isxcxbackend1.cn/椭圆65.png);
+    background-image: url(http://parkiland.isxcxbackend1.cn/椭圆65.png);
   }
 }
 .hgbj {
@@ -1381,7 +1776,7 @@ export default {
   left: 0;
   height: 100%;
   width: 100%;
-  background: url(http://img.isxcxbackend1.cn/红光闪动2.gif) center center
+  background: url(http://parkiland.isxcxbackend1.cn/红光闪动2.gif) center center
     no-repeat;
   background-size: cover;
   z-index: 0;
@@ -1395,10 +1790,12 @@ export default {
   left: 0;
   height: 100%;
   width: 100%;
-  background: url(http://img.isxcxbackend1.cn/地震首页手机.gif) center center
+  background: url(http://parkiland.isxcxbackend1.cn/地震首页手机.gif) center center
     no-repeat;
   background-size: cover;
   z-index: 0;
+  opacity: 0.6;
+  pointer-events: none;
 }
 .xhbj {
   position: fixed;
@@ -1406,7 +1803,7 @@ export default {
   left: 0;
   height: 100%;
   width: 100%;
-  background: url(http://img.isxcxbackend1.cn/%E5%AE%8C%E6%88%90%E6%89%8B%E6%9C%BA%E9%9B%AA%E8%8A%B1.gif)
+  background: url(http://parkiland.isxcxbackend1.cn/%E5%AE%8C%E6%88%90%E6%89%8B%E6%9C%BA%E9%9B%AA%E8%8A%B1.gif)
     center center no-repeat;
   background-size: cover;
   pointer-events: none;

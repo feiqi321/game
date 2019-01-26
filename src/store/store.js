@@ -14,7 +14,30 @@ const store = new Vuex.Store({
     isBracelet:[],
     newnum:0,
     //升级弹窗
-    dia_lv:false,
+    dia_lv1:false,
+    dia_lv2:false,
+    dia_lv3:false,
+    dia_lv4:false,
+    dia_lv5:false,
+    dia_lv6:false,
+    dia_lv7:false,
+    dia_lv8:false,
+    dia_lv9:false,
+    dia_lv10:false,
+    dia_lv11:false,
+    dia_lv12:false,
+    dia_lv13:false,
+    dia_lv14:false,
+    dia_lv15:false,
+    dia_lv16:false,
+    dia_lv17:false,
+    dia_lv18:false,
+    dia_lv19:false,
+    dia_lv20:false,
+    dia_lv21:false,
+    dia_lv22:false,
+    dia_lv23:false,
+    dia_lv24:false,
     //back:null,
     ISENDING:false,
     warningText2:null,
@@ -60,25 +83,122 @@ const store = new Vuex.Store({
     addproperty_Handle(state, { num1, num2 ,str})  {
       state.bigUrl = str;
       setTimeout(() => {
-        state.dia_lv = true;
+        const backgroundAudioManager6 = getApp().globalData.backgroundAudioManager6;
+        if (wx.setInnerAudioOption) {
+          wx.setInnerAudioOption({
+            obeyMuteSwitch: false,
+            autoplay: true
+          })
+        }else {
+          backgroundAudioManager6.obeyMuteSwitch = false;
+          backgroundAudioManager6.autoplay = true;
+        }
+        backgroundAudioManager6.title="02动物出现";
+        backgroundAudioManager6.src ="http://parkiland.isxcxbackend1.cn/02"+(encodeURIComponent('动物出现'))+".mp3";
+        backgroundAudioManager6.play();
+        if (str==1){
+          state.dia_lv1 = true;
+        }else if (str==2){
+          state.dia_lv2 = true;
+        }else if (str==3){
+          state.dia_lv3 = true;
+        }else if (str==4){
+          state.dia_lv4 = true;
+        }else if (str==5){
+          state.dia_lv5 = true;
+        }else if (str==6){
+          state.dia_lv6 = true;
+        }else if (str==7){
+          state.dia_lv7 = true;
+        }else if (str==8){
+          state.dia_lv8 = true;
+        }else if (str==9){
+          state.dia_lv9 = true;
+        }else if (str==10){
+          state.dia_lv10 = true;
+        }else if (str==11){
+          state.dia_lv11 = true;
+        }else if (str==12){
+          state.dia_lv2 = true;
+        }else if (str==13){
+          state.dia_lv13 = true;
+        }else if (str==14){
+          state.dia_lv14 = true;
+        }else if (str==15){
+          state.dia_lv15 = true;
+        }else if (str==16){
+          state.dia_lv16 = true;
+        }else if (str==17){
+          state.dia_lv17 = true;
+        }else if (str==18){
+          state.dia_lv18 = true;
+        }else if (str==19){
+          state.dia_lv19 = true;
+        }else if (str==20){
+          state.dia_lv20 = true;
+        }else if (str==21){
+          state.dia_lv21 = true;
+        }else if (str==22){
+          state.dia_lv22 = true;
+        }else if (str==23){
+          state.dia_lv23 = true;
+        }else if (str==24){
+          state.dia_lv24= true;
+        }
+
 
         setTimeout(() => {
-          state.dia_lv = false;
+          if (str==1){
+            state.dia_lv1 = false;
+          }else if (str==2){
+            state.dia_lv2 = false;
+          }else if (str==3){
+            state.dia_lv3 = false;
+          }else if (str==4){
+            state.dia_lv4 = false;
+          }else if (str==5){
+            state.dia_lv5 = false;
+          }else if (str==6){
+            state.dia_lv6 = false;
+          }else if (str==7){
+            state.dia_lv7 = false;
+          }else if (str==8){
+            state.dia_lv8 = false;
+          }else if (str==9){
+            state.dia_lv9 = false;
+          }else if (str==10){
+            state.dia_lv10 = false;
+          }else if (str==11){
+            state.dia_lv11 = false;
+          }else if (str==12){
+            state.dia_lv2 = false;
+          }else if (str==13){
+            state.dia_lv13 = false;
+          }else if (str==14){
+            state.dia_lv14 = false;
+          }else if (str==15){
+            state.dia_lv15 = false;
+          }else if (str==16){
+            state.dia_lv16 = false;
+          }else if (str==17){
+            state.dia_lv17 = false;
+          }else if (str==18){
+            state.dia_lv18 = false;
+          }else if (str==19){
+            state.dia_lv19 = false;
+          }else if (str==20){
+            state.dia_lv20 = false;
+          }else if (str==21){
+            state.dia_lv21 = false;
+          }else if (str==22){
+            state.dia_lv22 = false;
+          }else if (str==23){
+            state.dia_lv23 = false;
+          }else if (str==24){
+            state.dia_lv24= false;
+          }
           state.addproperty_Show = true;
           state.addproperty.num1 = num1;
-          const backgroundAudioManager6 = getApp().globalData.backgroundAudioManager6;
-          if (wx.setInnerAudioOption) {
-            wx.setInnerAudioOption({
-              obeyMuteSwitch: false,
-              autoplay: true
-            })
-          }else {
-            backgroundAudioManager6.obeyMuteSwitch = false;
-            backgroundAudioManager6.autoplay = true;
-          }
-          backgroundAudioManager6.title="02动物出现";
-          backgroundAudioManager6.src ="http://img.isxcxbackend1.cn/02"+(encodeURIComponent('动物出现'))+".mp3";
-          backgroundAudioManager6.play();
           state.addproperty.num2 = num2;
 
           setTimeout(() => {
@@ -133,7 +253,6 @@ const store = new Vuex.Store({
   },
   actions: {
     delayDetection({ commit, state }, { typeId, type, braceletId, openId, gameId, time }) {//延迟检测
-      commit('addDevToCompleted', { typeId, type, time });
       const back = getApp().globalData.back;
       if (wx.setInnerAudioOption) {
         wx.setInnerAudioOption({
@@ -144,16 +263,17 @@ const store = new Vuex.Store({
         back.obeyMuteSwitch = false;
         back.autoplay = true;
       }
-      player();
-      function player(){
+     /* player();
+      function player(){*/
         back.title = "06收集";
         back.loop = true;
-        back.src = "http://img.isxcxbackend1.cn/06"+(encodeURIComponent('收集'))+".mp3";
+        back.src = "http://parkiland.isxcxbackend1.cn/06"+(encodeURIComponent('收集'))+".mp3";
         back.play();
        /* back.onEnded(() => {
           player();
         })*/
-      }
+      //}
+      commit('addDevToCompleted', { typeId, type, time });
       setTimeout(() => {
         back.stop();
         console.info("进度条完成时间",new Date());
@@ -194,6 +314,21 @@ const store = new Vuex.Store({
               })
             }
             if (flag) {
+              const backgroundAudioManager = getApp().globalData.backgroundAudioManager;
+
+              backgroundAudioManager.title="07收集完成";
+              if (wx.setInnerAudioOption) {
+                wx.setInnerAudioOption({
+                  obeyMuteSwitch: false,
+                  autoplay: true
+                })
+              }else {
+                backgroundAudioManager.obeyMuteSwitch = false;
+                backgroundAudioManager.autoplay = true;
+              }
+              backgroundAudioManager.src ="http://parkiland.isxcxbackend1.cn/07"+(encodeURIComponent('收集完成'))+".mp3";
+              backgroundAudioManager.play();
+              console.info("07收集完成时间",new Date());
               commit('updateDevCompleted', { typeId, type, time })
               console.info("接口申请收集时间",new Date());
               //如果超过3个清空提交收集数据并清空已完成列表
@@ -210,32 +345,17 @@ const store = new Vuex.Store({
                     console.info("接口完成时间",new Date());
                     var singleReward = res.data.singleReward;
                     var groupReward = res.data.groupReward;
+                    var id = res.data.id;
                     var totalReward = res.data.totalReward;
                     var bigUrl = res.data.bigUrl;
                     var orderNum = res.data.orderNum;
 
-                    const backgroundAudioManager = getApp().globalData.backgroundAudioManager;
 
-                    backgroundAudioManager.title="07收集完成";
-                    if (wx.setInnerAudioOption) {
-                      wx.setInnerAudioOption({
-                        obeyMuteSwitch: false,
-                        autoplay: true
-                      })
-                    }else {
-                      backgroundAudioManager.obeyMuteSwitch = false;
-                      backgroundAudioManager.autoplay = true;
-                    }
-                    backgroundAudioManager.src ="http://img.isxcxbackend1.cn/07"+(encodeURIComponent('收集完成'))+".mp3";
-                    backgroundAudioManager.play();
-                    console.info("07收集完成时间",new Date());
                     if (singleReward>0){
                       commit('setSingleReward', {num:singleReward,orderNum:orderNum,bool:true})
                       console.info("手环奖励完成时间",new Date());
                     }
                     if (groupReward>0){
-                      commit('setNewNum',1);
-                      commit('addproperty_Handle', {num1:groupReward,num2:totalReward,str:bigUrl});
                       const backgroundAudioManager3 = getApp().globalData.backgroundAudioManager3;
                       if (wx.setInnerAudioOption) {
                         wx.setInnerAudioOption({
@@ -247,7 +367,7 @@ const store = new Vuex.Store({
                         backgroundAudioManager3.autoplay = true;
                       }
                       backgroundAudioManager3.title = "04金币增加";
-                      backgroundAudioManager3.src ="http://img.isxcxbackend1.cn/04"+(encodeURIComponent('金币增加'))+".mp3";
+                      backgroundAudioManager3.src ="http://parkiland.isxcxbackend1.cn/04"+(encodeURIComponent('金币增加'))+".mp3";
                       backgroundAudioManager3.play();
                       const backgroundAudioManager4 = getApp().globalData.backgroundAudioManager4;
                       if (wx.setInnerAudioOption) {
@@ -260,8 +380,11 @@ const store = new Vuex.Store({
                         backgroundAudioManager4.autoplay = true;
                       }
                       backgroundAudioManager4.title = "08新消息提醒.mp3";
-                      backgroundAudioManager4.src ="http://img.isxcxbackend1.cn/08"+(encodeURIComponent('新消息提醒'))+".mp3";
+                      backgroundAudioManager4.src ="http://parkiland.isxcxbackend1.cn/08"+(encodeURIComponent('新消息提醒'))+".mp3";
                       backgroundAudioManager4.play();
+                      commit('setNewNum',1);
+                      commit('addproperty_Handle', {num1:groupReward,num2:totalReward,str:id});
+
                       console.info("组合奖励时间",new Date());
                     }else{
                       console.info("第五个点",new Date());

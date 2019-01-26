@@ -18,7 +18,6 @@
 <script>
 import http from "@/utils/http.js";
 import { mapMutations } from "vuex";
-import Notify from "@/../static/dist/notify/notify";
 export default {
   data() {
     return {
@@ -101,7 +100,7 @@ export default {
 }
 .main {
   height: 100%;
-  background: url(http://img.isxcxbackend1.cn/荟聚宜家中庭前期准备.jpg) center
+  background: url(http://parkiland.isxcxbackend1.cn/荟聚宜家中庭前期准备.jpg) center
     center #636e5d no-repeat;
   background-size: cover;
   overflow: hidden;
@@ -134,7 +133,7 @@ export default {
         width: 93px;
         height: 28px;
         line-height: 24px;
-        background: url(http://img.isxcxbackend1.cn/组90@2x.png) center center
+        background: url(http://parkiland.isxcxbackend1.cn/组90@2x.png) center center
           no-repeat;
         background-size: contain;
         color: #ffc63c;
@@ -156,7 +155,7 @@ export default {
 .dw-tb {
   width: 70px;
   height: 70px;
-  background: url(http://img.isxcxbackend1.cn/定位.png) center center no-repeat;
+  background: url(http://parkiland.isxcxbackend1.cn/定位.png) center center no-repeat;
   background-size: contain;
   top: 25%;
   left: 50%;
@@ -172,7 +171,7 @@ export default {
   transform: translate(-50%, 0);
   .btn {
     width: 100%;
-    background: url(http://img.isxcxbackend1.cn/组182.png) center center #636e5d
+    background: url(http://parkiland.isxcxbackend1.cn/组182.png) center center #636e5d
       no-repeat;
     background-size: contain;
     height: 67px;

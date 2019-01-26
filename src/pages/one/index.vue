@@ -20,7 +20,6 @@
 <script>
 import http from "@/utils/http.js";
 import { mapMutations } from "vuex";
-import Notify from "@/../static/dist/notify/notify";
 export default {
   data() {
     return {
@@ -97,9 +96,9 @@ export default {
   },
 
   created() {
-    this.userInfo = wx.getStorageSync("userinfo");
-    this.openId = wx.getStorageSync("openId");
-    this.gameId = wx.getStorageSync("gameId");
+    //this.userInfo = wx.getStorageSync("userinfo");
+    //this.openId = wx.getStorageSync("openId");
+    //this.gameId = wx.getStorageSync("gameId");
     //this.testMusic();
   }
 };
@@ -122,7 +121,7 @@ export default {
 }
 .main {
   height: 100%;
-  background: url(http://img.isxcxbackend1.cn/图层2.png) center center #636e5d
+  background: url(http://parkiland.isxcxbackend1.cn/图层2.png) center center #636e5d
     no-repeat;
   background-size: 100% 100%;
   overflow: hidden;
@@ -155,7 +154,7 @@ export default {
         width: 93px;
         height: 28px;
         line-height: 24px;
-        background: url(http://img.isxcxbackend1.cn/组90@2x.png) center center
+        background: url(http://parkiland.isxcxbackend1.cn/组90@2x.png) center center
           no-repeat;
         background-size: contain;
         color: #ffc63c;
@@ -177,7 +176,7 @@ export default {
 .dw-tb {
   width: 70px;
   height: 70px;
-  background: url(http://img.isxcxbackend1.cn/定位.png) center center no-repeat;
+  background: url(http://parkiland.isxcxbackend1.cn/定位.png) center center no-repeat;
   background-size: contain;
   top: 25%;
   left: 50%;
@@ -199,7 +198,7 @@ export default {
     height: 67px;
     line-height: 62px;
     opacity: 1;
-    background: url(http://img.isxcxbackend1.cn/start-gif2.gif) center center
+    background: url(http://parkiland.isxcxbackend1.cn/start-gif2.gif) center center
       no-repeat;
     background-size: cover;
     &::after {
@@ -208,7 +207,7 @@ export default {
   }
 }
 .yd {
-  background: url(http://img.isxcxbackend1.cn/%E4%BA%91@3x.png) center top
+  background: url(http://parkiland.isxcxbackend1.cn/%E4%BA%91@3x.png) center top
     no-repeat;
   background-size: 100% auto;
   position: absolute;
@@ -219,7 +218,7 @@ export default {
   z-index: 1;
 }
 .title {
-  background: url(http://img.isxcxbackend1.cn/资源1.png) center center no-repeat;
+  background: url(http://parkiland.isxcxbackend1.cn/资源1.png) center center no-repeat;
   text-align: center;
   padding-top: 250px;
   font-size: 35px;
