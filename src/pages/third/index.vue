@@ -831,6 +831,13 @@ export default {
     listenSocket() {
       var _this = this;
       this.socketTask = getApp().globalData.socketTask;
+      if (this.socketTask.readyState !=1){
+        console.info("重新連接")
+        this.socketTask = wx.connectSocket({
+          url: "wss://www.isxcxbackend1.cn/websocket"
+        })
+        getApp().globalData.socketTask = this.socketTask;
+      }
       this.socketTask.onMessage(function(res) {
         _this.showEvent(res.data);
       }),

@@ -821,7 +821,7 @@ export default {
         uuids: ["B5B182C7-EAB1-4988-AA99-B5C1517008D9"],
         success: function(res) {
           wx.onBeaconUpdate(res => {
-            console.info("beacons", res.beacons);
+           // console.info("beacons", res.beacons);
             if (_this.ISENDING) {
               return;
             }
@@ -896,7 +896,7 @@ export default {
       const _this = this;
 
       const fDevs = _this.filterDevs(devs);
-      console.log(fDevs, "filter");
+      //console.log(fDevs, "filter");
 
       if (fDevs.type) {
         http
@@ -1144,6 +1144,7 @@ export default {
     },
     showEvent(event) {
       var _this = this;
+      console.info(event)
       if (event == 1) {
         //下雪了
         _this.snow = true;
@@ -1249,6 +1250,13 @@ export default {
     listenSocket() {
       var _this = this;
       this.socketTask = getApp().globalData.socketTask;
+      if (this.socketTask.readyState !=1){
+        console.info("重新連接",this.socketTask)
+        this.socketTask = wx.connectSocket({
+          url: "wss://www.isxcxbackend1.cn/websocket"
+        })
+        getApp().globalData.socketTask = this.socketTask;
+      }
       this.socketTask.onMessage(function(res) {
         _this.showEvent(res.data);
       });

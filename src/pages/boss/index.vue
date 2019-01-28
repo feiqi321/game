@@ -52,8 +52,8 @@
           <p class="first-part">在所有人的努力下</p>
           <p class="bettwen">怪兽被击退了 家园被守护</p>
 
-          <p class="second-part">你对怪兽的伤害为99%</p>
-          <p class="bettwen-button">你获得了XXX能量作为奖励</p>
+          <p class="second-part">你对怪兽的伤害为{{damagePercent}}</p>
+          <p class="bettwen-button">你获得了{{totalAttack}}能量作为奖励</p>
           <div class="btn" style="position: absolute;top: 72%;width: 100px;height: 50px;left: 50%;margin-left: -50px;">
             <p class="confirmShow"  @click="toPageReturn(1)">确认</p>
           </div>
@@ -100,7 +100,7 @@ export default {
       listDig: false,
       listDig2: false,
       totalAttack:0,
-      overtime:null,
+      overtime:0,
       socketTask:null,
       jdtWidth: 100,
       gsStatus:0,
@@ -109,7 +109,9 @@ export default {
       gameId: null,
       openId: null,
       timer:null,
+      damagePercent:'',
       second:0,
+      totalBlood:0,
       backgroundAudioManager8:null,
       minute:0,
       braceletId: null, //用户设备id
@@ -132,6 +134,7 @@ export default {
       }
     },
     addFs() {
+      console.log("攻击中")
       var damage = 0;
       this.backgroundAudioManager8.title="05恐龙打击时";
       this.backgroundAudioManager8.src ="http://parkiland.isxcxbackend1.cn/05"+(encodeURIComponent('恐龙打击时'))+".mp3";
@@ -143,12 +146,15 @@ export default {
           damage = Math.floor(Math.random() * 3 + 2) ;
         }
 
-        this.totalAttack = this.totalAttack+damage;
-        setTimeout(() => {
-          this.socketTask.send({
-            data: this.openId+','+this.gameId+","+damage
-          })
-        }, 0);
+
+        if (this.totalAttack >=this.totalBlood){
+            return;
+        } else if ( this.totalAttack+damage>=this.totalBlood){
+          this.totalAttack = this.totalBlood;
+        }else{
+          this.totalAttack = this.totalAttack+damage;
+        }
+
         if (this.fsList.length>50){
           this.fsList.splice(0,40);
         }
@@ -156,24 +162,73 @@ export default {
         setTimeout(() => {
           this.fsList.shift();
         }, 2000);
+
+        setTimeout(() => {
+          console.log("socketTask",this.socketTask)
+          this.socketTask.send({
+            data: this.openId+','+this.gameId+","+damage
+          })
+        }, 0);
       }
     },
 
+    addScores(){
+      const _this = this;
+      _this.scores = _this.scores + _this.totalAttack;
+      http
+        .post("/game/device/addScores", {
+          openId: _this.openId,
+          gameId: _this.gameId,
+          scores:_this.totalAttack
+        })
+        .then(
+          res => {
+
+          },
+          res => {
+
+          }
+        );
+    },
     listenSocket(){
       var _this = this;
       this.socketTask = getApp().globalData.socketTask;
+      if (this.socketTask.readyState !=1){
+        console.info("重新連接",this.socketTask)
+        this.socketTask = wx.connectSocket({
+          url: "wss://www.isxcxbackend1.cn/websocket"
+        })
+        getApp().globalData.socketTask = this.socketTask;
+      }
+      console.log("socketTask",this.socketTask)
       this.socketTask.onMessage(function(res) {
-
+        console.log("onMessage",res)
         if ((res.data+"").indexOf("98")>=0){//boss攻击中
+          _this.listDig = false;
+          _this.listDig2 = false;
           _this.jdtWidth = res.data.split("@")[1];
         }else if ((res.data+"").indexOf("99")>=0){//boss死掉了
           _this.attackStatus =1;
           _this.listDig = true;
+          _this.listDig2 = false;
           _this.jdtWidth = 0;
+          if (_this.totalBlood==0){
+            _this.damagePercent = "0";
+          }else{
+            if (_this.totalAttack*100>=_this.totalBlood){
+              _this.damagePercent = "100%";
+            }else{
+              _this.damagePercent = _this.totalAttack*100/_this.totalBlood+"%";
+            }
+          }
+          _this.addScores();
         }else if ((res.data+"").indexOf("97")>=0){//boss到时间未死掉
+          _this.listDig = false;
           _this.listDig2 = true;
           _this.attackStatus =1;
         }else if ((res.data+"").indexOf("100")>=0) {
+          _this.listDig = false;
+          _this.listDig2 = false;
           wx.reLaunch({
             url: "../one/main"
           })
@@ -197,6 +252,7 @@ export default {
         .then(
           res => {
             _this.totalAttack = res.data.attack;
+            _this.totalBlood = res.data.totalBlood;
             _this.jdtWidth = res.data.percent*100;
             _this.listDig = false;
             _this.listDig2 = false;
@@ -212,6 +268,7 @@ export default {
             }
             var sed = res.data.sed;
             var lasttime =res.data.lasttime;
+            clearTimeout(this.timer);
             _this.timer = setInterval(() => {
               if (sed==0 && lasttime > 0) {
                 lasttime = lasttime - 1;
@@ -219,7 +276,7 @@ export default {
               }else if (sed>0){
                 sed = sed-1;
               }else if(sed==0 && lasttime == 0){
-                clearInterval(timer);
+                clearInterval(_this.timer);
               }
               if (lasttime>0  && sed>=10){
                 this.overtime = lasttime+":"+sed
@@ -284,8 +341,6 @@ export default {
     this.getUserInfo();
     this.initBoss();
     this.initUserinfo();
-  },
-  mounted(){
     this.listenSocket();
   }
 };
