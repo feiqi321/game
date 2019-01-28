@@ -34,7 +34,7 @@ export default {
     toUrl(res) {
       const url = "../first/main";
       // switchTab navigateTo
-      wx.navigateTo({ url });
+      wx.redirectTo({ url });
     },
     login() {
       const _this = this;

@@ -75,8 +75,8 @@
           />
         </div>
 
-        <div class="commonTxt" style="margin-top:0px;">
-          <h3>怪兽入侵!</h3>
+        <div class="commonTxt" style="margin-top:-10px;">
+          <h3 style="padding-bottom:15px;">怪兽入侵!</h3>
           <p>一起攻击怪兽保护家园</p>
         </div>
 
@@ -435,7 +435,7 @@ export default {
     },
     toBoss() {
       const url = "../boss/main?pageNo=2";
-      wx.navigateTo({ url });
+      wx.redirectTo({ url });
     },
     diaCollectClose(target) {
       this.diaCollect[target] = false;
@@ -619,13 +619,16 @@ export default {
     },
     nativeBack(path) {
       this.playMusic();
-      wx.navigateBack({
-        delta: 1
+      wx.redirectTo({
+        url: "../first/main"
       });
+      /*wx.navigateBack({
+        delta: 1
+      });*/
     },
     nativeTo(path) {
       this.playMusic();
-      wx.navigateTo({
+      wx.redirectTo({
         url: path
       });
     },
@@ -646,6 +649,20 @@ export default {
     },
     dropDown() {
       var _this = this;
+      if (wx.setInnerAudioOption) {
+        wx.setInnerAudioOption({
+          obeyMuteSwitch: false,
+          autoplay: true
+        })
+      }else {
+        _this.backgroundAudioManager7.obeyMuteSwitch = false;
+        _this.backgroundAudioManager7.autoplay = true;
+      }
+      _this.backgroundAudioManager7.title = "03建造完成";
+
+      _this.backgroundAudioManager7.src = "http://parkiland.isxcxbackend1.cn/03"+(encodeURIComponent('建造完成'))+".mp3";
+
+      _this.backgroundAudioManager7.play();
       let index = this.currentActive;
       let obj = this.currentBottom.currentTarget.dataset.obj;
       this.switchJzq();
@@ -662,20 +679,7 @@ export default {
         }).then(({ code, data }) => {
           if (code == "200") {
             this.getCurrentList();
-            if (wx.setInnerAudioOption) {
-              wx.setInnerAudioOption({
-                obeyMuteSwitch: false,
-                autoplay: true
-              })
-            }else {
-              _this.backgroundAudioManager7.obeyMuteSwitch = false;
-              _this.backgroundAudioManager7.autoplay = true;
-            }
-            _this.backgroundAudioManager7.title = "03建造完成";
 
-            _this.backgroundAudioManager7.src = "http://parkiland.isxcxbackend1.cn/03"+(encodeURIComponent('建造完成'))+".mp3";
-
-            _this.backgroundAudioManager7.play();
           }
         });
         this.picInfo.push(this.mixinObj(index, { obj, name: obj.url3, index }));
@@ -801,18 +805,23 @@ export default {
         _this.diaCollect.dia1 = false;
         _this.diaCollect.dia2 = false;
         _this.diaCollect.dia3 = false;
-        _this.dzan = true;
+        _this.dzan = false;
       } else if (event.indexOf("99") >= 0) {
         //boss死掉了
-        _this.gsll = false;
         _this.gsll = false;
       } else if (event.indexOf("97") >= 0) {
         //boss到时间未死掉
         _this.gsll = false;
-        _this.gsll = false;
       } else if (event == 100) {
         _this.gsll = false;
-        _this.dzan = true;
+        _this.dzan = false;
+        _this.diaCollect.dia1 = false;
+        _this.diaCollect.dia2 = false;
+        _this.diaCollect.dia3 = false;
+        _this.gameOver("游戏结束");
+      }else if (event == -1) {
+        _this.gsll = false;
+        _this.dzan = false;
         _this.diaCollect.dia1 = false;
         _this.diaCollect.dia2 = false;
         _this.diaCollect.dia3 = false;

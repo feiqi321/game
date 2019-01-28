@@ -108,6 +108,10 @@ export default {
       pageNo:null,
       gameId: null,
       openId: null,
+      timer:null,
+      second:0,
+      backgroundAudioManager8:null,
+      minute:0,
       braceletId: null, //用户设备id
       braceletIdType:0,
       fsList: [],
@@ -129,75 +133,47 @@ export default {
     },
     addFs() {
       var damage = 0;
+      this.backgroundAudioManager8.title="05恐龙打击时";
+      this.backgroundAudioManager8.src ="http://parkiland.isxcxbackend1.cn/05"+(encodeURIComponent('恐龙打击时'))+".mp3";
+      this.backgroundAudioManager8.play();
       if (this.attackStatus==0){
         if (this.braceletIdType){
           damage = Math.floor(Math.random() * 6 + 4) ;
         }else{
           damage = Math.floor(Math.random() * 3 + 2) ;
         }
-        const backgroundAudioManager8 = getApp().globalData.backgroundAudioManager8;
-        if (wx.setInnerAudioOption) {
-          wx.setInnerAudioOption({
-            obeyMuteSwitch: false,
-            autoplay: true
-          })
-        }else {
-          backgroundAudioManager8.obeyMuteSwitch = false;
-          backgroundAudioManager8.autoplay = true;
-        }
-        backgroundAudioManager8.title="05恐龙打击时";
-        backgroundAudioManager8.src ="http://parkiland.isxcxbackend1.cn/05"+(encodeURIComponent('恐龙打击时'))+".mp3";
-        backgroundAudioManager8.play();
+
         this.totalAttack = this.totalAttack+damage;
-        this.socketTask.send({
-          data: this.openId+','+this.gameId+","+damage
-        })
+        setTimeout(() => {
+          this.socketTask.send({
+            data: this.openId+','+this.gameId+","+damage
+          })
+        }, 0);
+        if (this.fsList.length>50){
+          this.fsList.splice(0,40);
+        }
         this.fsList.push(-damage);
         setTimeout(() => {
           this.fsList.shift();
         }, 2000);
       }
     },
-    initTime(){
-      var sed = 0;
-      var lasttime=3;
-      var timer = setInterval(() => {
-        if (sed==0 && lasttime > 0) {
-          lasttime = lasttime - 1;
-          sed = 59;
-        }else if (sed>0){
-          sed = sed-1;
-        }else if(sed==0 && lasttime == 0){
-          clearInterval(timer);
-        }
-        if (lasttime>0  && sed>=10){
-          this.overtime = lasttime+":"+sed
-        }else if (lasttime>0 && sed>=0 && sed<10){
-          this.overtime = lasttime+":0"+sed
-        }else if (lasttime==0 && sed>=10){
-          this.overtime = sed
-        }else if (lasttime==0 && sed>0 && sed<10){
-          this.overtime = "0"+sed
-        }else if (lasttime==0 && sed==0){
-          this.overtime = "0";
-        }
-      }, 1000);
-    },
+
     listenSocket(){
       var _this = this;
       this.socketTask = getApp().globalData.socketTask;
       this.socketTask.onMessage(function(res) {
 
-        if (res.data.indexOf("98")>=0){//boss攻击中
+        if ((res.data+"").indexOf("98")>=0){//boss攻击中
           _this.jdtWidth = res.data.split("@")[1];
-        }else if (res.data.indexOf("99")>=0){//boss死掉了
+        }else if ((res.data+"").indexOf("99")>=0){//boss死掉了
           _this.attackStatus =1;
           _this.listDig = true;
           _this.jdtWidth = 0;
-        }else if (res.data.indexOf("97")>=0){//boss到时间未死掉
+        }else if ((res.data+"").indexOf("97")>=0){//boss到时间未死掉
           _this.listDig2 = true;
           _this.attackStatus =1;
-        }else if (res.data = 100) {
+        }else if ((res.data+"").indexOf("100")>=0) {
           wx.reLaunch({
             url: "../one/main"
           })
@@ -221,7 +197,42 @@ export default {
         .then(
           res => {
             _this.totalAttack = res.data.attack;
-            _this.jdtWidth = res.data.percent;
+            _this.jdtWidth = res.data.percent*100;
+            _this.listDig = false;
+            _this.listDig2 = false;
+            _this.backgroundAudioManager8 = getApp().globalData.backgroundAudioManager8;
+            if (wx.setInnerAudioOption) {
+              wx.setInnerAudioOption({
+                obeyMuteSwitch: false,
+                autoplay: true
+              })
+            }else {
+              backgroundAudioManager8.obeyMuteSwitch = false;
+              backgroundAudioManager8.autoplay = true;
+            }
+            var sed = res.data.sed;
+            var lasttime =res.data.lasttime;
+            _this.timer = setInterval(() => {
+              if (sed==0 && lasttime > 0) {
+                lasttime = lasttime - 1;
+                sed = 59;
+              }else if (sed>0){
+                sed = sed-1;
+              }else if(sed==0 && lasttime == 0){
+                clearInterval(timer);
+              }
+              if (lasttime>0  && sed>=10){
+                this.overtime = lasttime+":"+sed
+              }else if (lasttime>0 && sed>=0 && sed<10){
+                this.overtime = lasttime+":0"+sed
+              }else if (lasttime==0 && sed>=10){
+                this.overtime = sed
+              }else if (lasttime==0 && sed>0 && sed<10){
+                this.overtime = "0"+sed
+              }else if (lasttime==0 && sed==0){
+                this.overtime = "0";
+              }
+            }, 1000);
           },
           res => {
 
@@ -245,23 +256,13 @@ export default {
         );
     },
     toPageReturn(flag){
-      var url;
-      console.info("flag",flag);
-      if (this.pageNo==1){
-        url = "../first/main";
-      }else if(this.pageNo==2){
-        url = "../third/main";
+      if (flag==3){
+        wx.redirectTo({ url:"../first/main" });
       }else{
-        console.info("333",url);
-        if (flag==1){
-          this.listDig = false;
-        }else if(flag==2){
-          this.listDig2 = false;
-        }else{
-        }
+        this.listDig = false;
+        this.listDig2 = false;
+        wx.redirectTo({ url:"../first/main" });
       }
-      console.info("url",url);
-      wx.redirectTo({ url:"../index/main" });
     }
 
 
@@ -272,13 +273,15 @@ export default {
   onLoad: function (options) {
     this.pageNo = options.pageNo;
   },
-  created() {
+  onHide(){
+    clearTimeout(this.timer);
+  },
+  onShow() {
     this.openId = wx.getStorageSync("openId");
     this.gameId = wx.getStorageSync("gameId");
     this.braceletId = wx.getStorageSync("braceletId");
     this.braceletIdType = wx.getStorageSync("braceletIdType");
     this.getUserInfo();
-    this.initTime();
     this.initBoss();
     this.initUserinfo();
   },
@@ -461,10 +464,10 @@ export default {
       no-repeat;
     background-size: contain;
     left: 11vw;
-    width: 63vw;
+    width: 70vw;
     height: 60px;
     position: absolute;
-    top: 55vh;
+    top: 51vh;
     display: inline-block;
     position: relative;
   }

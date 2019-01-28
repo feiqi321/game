@@ -69,7 +69,7 @@ export default {
                     });
                     const url = "../index/main";
                     // switchTab navigateTo
-                    wx.navigateTo({ url });
+                    wx.redirectTo({ url });
                     setTimeout(() => {
                       _this.status = 0;
                     }, 1200);

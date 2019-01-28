@@ -27,7 +27,7 @@
     </van-transition>
     <van-notify id="van-notify"/>
 
-    <div class="first " :class="{ active: backgif }">
+    <div class="first " :class="{ active: backgif ,only:!backgif}">
       <div class="top-tool">
         <div class="user-info">
           <div :style="{ backgroundImage: 'url(' + userInfo.avatarUrl + ')' }"></div>
@@ -738,7 +738,7 @@ export default {
 
     toBoss() {
       const url = "../boss/main?pageNo=1";
-      wx.navigateTo({ url });
+      wx.redirectTo({ url });
     },
     showBind(){
       const _this = this;
@@ -779,7 +779,7 @@ export default {
       this.playMusic();
       const url = "../third/main";
       // switchTab navigateTo
-      wx.navigateTo({ url });
+      wx.redirectTo({ url });
     },
     getUserInfo() {
       const _this = this;
@@ -1171,6 +1171,7 @@ export default {
         _this.backgif = true;
         _this.snowjpg = false;
         _this.earthquakejpg = false;
+        _this.earthquake = false;
         //地震停了
         _this.gsStatus = 1;
         _this.isSlow = false;
@@ -1178,6 +1179,7 @@ export default {
         _this.backgif = true;
         _this.snowjpg = false;
         _this.earthquakejpg = false;
+        _this.earthquake = false;
         //怪兽来袭
         _this.gsll = true;
         _this.gsStatus = 3;
@@ -1186,11 +1188,12 @@ export default {
         _this.backgif = true;
         _this.snowjpg = false;
         _this.earthquakejpg = false;
+        _this.earthquake = false;
         //怪兽事件结束
         _this.gsStatus = 1;
         _this.isSlow = false;
         _this.gsll = false;
-      } else if (event == 97) {
+      } else if ((event+"").indexOf("97")>=0) {
         //boss死掉了
         _this.backgif = true;
         _this.gsll = false;
@@ -1198,12 +1201,20 @@ export default {
         _this.earthquakejpg = false;
         _this.gsStatus = 1;
         _this.isSlow = false;
-      } else if (event == 99) {
+      } else if ((event+"").indexOf("98")>=0) {
+        //boss死掉了
+        _this.backgif = true;
+        _this.snowjpg = false;
+        _this.earthquakejpg = false;
+        _this.earthquake = false;
+        _this.isSlow = false;
+      } else if ((event+"").indexOf("99")>=0) {
         //boss到时间未死掉
         _this.backgif = true;
         _this.gsll = false;
         _this.snowjpg = false;
         _this.earthquakejpg = false;
+        _this.earthquake = false;
         _this.gsStatus = 1;
         _this.isSlow = false;
       } else if (event == 100) {
@@ -1211,9 +1222,28 @@ export default {
         _this.gsll = false;
         _this.snowjpg = false;
         _this.earthquakejpg = false;
+        _this.earthquake = false;
         _this.gsStatus = 1;
         _this.isSlow = false;
         _this.gameOver("游戏结束");
+      } else if (event == -1) {
+        _this.backgif = true;
+        _this.gsll = false;
+        _this.snowjpg = false;
+        _this.earthquakejpg = false;
+        _this.earthquake = false;
+        _this.gsStatus = 1;
+        _this.isSlow = false;
+        _this.gameOver("游戏结束");
+      }else{
+        console.info("@@@",event);
+        _this.backgif = true;
+        _this.gsll = false;
+        _this.snowjpg = false;
+        _this.earthquake = false;
+        _this.earthquakejpg = false;
+        _this.gsStatus = 1;
+        _this.isSlow = false;
       }
     },
     listenSocket() {
@@ -1282,6 +1312,10 @@ export default {
   box-sizing: border-box;
   &.active {
     background: #eaeaea url(http://parkiland.isxcxbackend1.cn/4.8.gif) center center
+    no-repeat;
+  }
+  &.only {
+    background: #eaeaea url(http://parkiland.isxcxbackend1.cn/收集页背景颜色.png) center center
     no-repeat;
   }
 }
