@@ -806,12 +806,18 @@ export default {
         _this.diaCollect.dia2 = false;
         _this.diaCollect.dia3 = false;
         _this.dzan = false;
-      } else if (event.indexOf("99") >= 0) {
+      } else if ((event+"").indexOf("99") >= 0) {
         //boss死掉了
         _this.gsll = false;
-      } else if (event.indexOf("97") >= 0) {
+      } else if ((event+"").indexOf("97") >= 0) {
         //boss到时间未死掉
         _this.gsll = false;
+      } else if ((event+"").indexOf("98") >= 0) {
+        //boss到时间未死掉
+        _this.gsll = true;
+        _this.diaCollect.dia1 = false;
+        _this.diaCollect.dia2 = false;
+        _this.diaCollect.dia3 = true;
       } else if (event == 100) {
         _this.gsll = false;
         _this.dzan = false;

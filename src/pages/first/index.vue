@@ -1144,8 +1144,9 @@ export default {
     },
     showEvent(event) {
       var _this = this;
-      console.info(event)
+      console.info("event",event)
       if (event == 1) {
+        console.log("boss到时间未死掉！下雪了");
         //下雪了
         _this.snow = true;
         _this.snowjpg = true;
@@ -1155,11 +1156,13 @@ export default {
         _this.isSlow = true;
       } else if (event == 10) {
         //雪停了
+        console.log("boss到时间未死掉！雪停了");
         _this.snowjpg = false;
         _this.backgif = true;
         _this.gsStatus = 1;
         _this.isSlow = false;
       } else if (event == 2) {
+        console.log("boss到时间未死掉！地震了");
         //地震了
         _this.snowjpg = false;
         _this.backgif = false;
@@ -1169,6 +1172,7 @@ export default {
         _this.gsStatus = 1;
         _this.isSlow = false;
       } else if (event == 20) {
+        console.log("boss到时间未死掉！20");
         _this.backgif = true;
         _this.snowjpg = false;
         _this.earthquakejpg = false;
@@ -1186,6 +1190,7 @@ export default {
         _this.gsStatus = 3;
         _this.isSlow = false;
       } else if (event == 30) {
+        console.log("boss到时间未死掉！30");
         _this.backgif = true;
         _this.snowjpg = false;
         _this.earthquakejpg = false;
@@ -1196,6 +1201,7 @@ export default {
         _this.gsll = false;
       } else if ((event+"").indexOf("97")>=0) {
         //boss死掉了
+        console.log("boss到时间未死掉！");
         _this.backgif = true;
         _this.gsll = false;
         _this.snowjpg = false;
@@ -1206,10 +1212,13 @@ export default {
         //boss死掉了
         _this.backgif = true;
         _this.snowjpg = false;
+          _this.gsStatus = 3;
+          _this.gsll = true;
         _this.earthquakejpg = false;
         _this.earthquake = false;
         _this.isSlow = false;
       } else if ((event+"").indexOf("99")>=0) {
+        console.log("boss死掉了！");
         //boss到时间未死掉
         _this.backgif = true;
         _this.gsll = false;
@@ -1219,6 +1228,7 @@ export default {
         _this.gsStatus = 1;
         _this.isSlow = false;
       } else if (event == 100) {
+        console.log("游戏结束！");
         _this.backgif = true;
         _this.gsll = false;
         _this.snowjpg = false;
@@ -1228,6 +1238,7 @@ export default {
         _this.isSlow = false;
         _this.gameOver("游戏结束");
       } else if (event == -1) {
+        console.log("游戏结束！");
         _this.backgif = true;
         _this.gsll = false;
         _this.snowjpg = false;
@@ -1236,15 +1247,6 @@ export default {
         _this.gsStatus = 1;
         _this.isSlow = false;
         _this.gameOver("游戏结束");
-      }else{
-        console.info("@@@",event);
-        _this.backgif = true;
-        _this.gsll = false;
-        _this.snowjpg = false;
-        _this.earthquake = false;
-        _this.earthquakejpg = false;
-        _this.gsStatus = 1;
-        _this.isSlow = false;
       }
     },
     listenSocket() {

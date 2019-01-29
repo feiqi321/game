@@ -143,6 +143,7 @@ export default {
       this.backgroundAudioManager8.title="05恐龙打击时";
       this.backgroundAudioManager8.src ="http://parkiland.isxcxbackend1.cn/05"+(encodeURIComponent('恐龙打击时'))+".mp3";
       this.backgroundAudioManager8.play();
+      console.info("attackStatus",this.attackStatus);
       if (this.attackStatus==0){
         if (this.braceletIdType){
           damage = Math.floor(Math.random() * 6 + 4) ;
@@ -150,7 +151,9 @@ export default {
           damage = Math.floor(Math.random() * 3 + 2) ;
         }
 
-
+        console.info("damage",damage);
+        console.info("this.totalAttack",this.totalAttack);
+        console.info("this.totalBlood",this.totalBlood);
         if (this.totalAttack >=this.totalBlood){
             return;
         } else if ( this.totalAttack+damage>=this.totalBlood){
@@ -198,18 +201,21 @@ export default {
       var _this = this;
       this.socketTask = getApp().globalData.socketTask;
       if (this.socketTask.readyState !=1){
-        console.info("重新連接",this.socketTask)
+
         this.socketTask = wx.connectSocket({
           url: "wss://www.isxcxbackend1.cn/websocket"
         })
         getApp().globalData.socketTask = this.socketTask;
       }
-      console.log("socketTask",this.socketTask)
+
       this.socketTask.onMessage(function(res) {
-        console.log("onMessage",res)
+
         if ((res.data+"").indexOf("98")>=0){//boss攻击中
-          _this.listDig = false;
-          _this.listDig2 = false;
+         if (_this.attackStatus ==0){
+
+         }else{
+            _this.attackStatus =0;
+         }
           _this.jdtWidth = res.data.split("@")[1];
         }else if ((res.data+"").indexOf("99")>=0){//boss死掉了
           _this.attackStatus =1;
@@ -287,11 +293,11 @@ export default {
               }else if (lasttime>0 && sed>=0 && sed<10){
                 this.overtime = lasttime+":0"+sed
               }else if (lasttime==0 && sed>=10){
-                this.overtime = sed
+                this.overtime = "0:"+sed
               }else if (lasttime==0 && sed>0 && sed<10){
-                this.overtime = "0"+sed
+                this.overtime = "0:"+"0"+sed
               }else if (lasttime==0 && sed==0){
-                this.overtime = "0";
+                this.overtime = "0:"+"00";
               }
             }, 1000);
           },
@@ -336,6 +342,7 @@ export default {
   },
   onHide(){
     clearTimeout(this.timer);
+    this.attackStatus =0;
   },
   onShow() {
     this.openId = wx.getStorageSync("openId");
