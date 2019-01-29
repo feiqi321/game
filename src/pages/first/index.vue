@@ -1213,7 +1213,6 @@ export default {
         _this.backgif = true;
         _this.snowjpg = false;
           _this.gsStatus = 3;
-          _this.gsll = true;
         _this.earthquakejpg = false;
         _this.earthquake = false;
         _this.isSlow = false;

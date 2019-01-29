@@ -817,7 +817,6 @@ export default {
         _this.gsll = true;
         _this.diaCollect.dia1 = false;
         _this.diaCollect.dia2 = false;
-        _this.diaCollect.dia3 = true;
       } else if (event == 100) {
         _this.gsll = false;
         _this.dzan = false;
