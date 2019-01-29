@@ -20,7 +20,7 @@
       <img src="http://parkiland.isxcxbackend1.cn/boss组203.png"  class="monster-icon" alt="">
       <div class="blood">
         <div class="jdt"  :style="{width:jdtWidth+'%'}">
-          <img class="jdt-img" mode='aspectFit' src="" alt="">
+          <img class="jdt-img" src="" alt="">
         </div>
 
       </div>
@@ -483,7 +483,7 @@ export default {
     background: url(http://parkiland.isxcxbackend1.cn/blood107.png) left no-repeat;
     background-size: 100% 100%;
     height: 100%;
-    width: 100%;
+    width: 72vw;
   }
   .jdt {
     width: 80%;
@@ -492,6 +492,7 @@ export default {
     left: 0;
     top: 0;
     z-index: 3;
+    overflow:hidden;
   }
   .clock {
     background: url(http://parkiland.isxcxbackend1.cn/路径295.png) left center
