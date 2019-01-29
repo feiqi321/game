@@ -17,8 +17,12 @@
     </div>
     <div class="m-icon"></div>
     <div class="probar">
+      <img src="http://parkiland.isxcxbackend1.cn/boss组203.png"  class="monster-icon" alt="">
       <div class="blood">
-        <div class="jdt" :style="{width:jdtWidth+'%'}"></div>
+        <div class="jdt"  :style="{width:jdtWidth+'%'}">
+          <img class="jdt-img" mode='aspectFit' src="" alt="">
+        </div>
+
       </div>
       <div class="clock">
         <span class="left-clock-l">倒计时</span>
@@ -445,6 +449,13 @@ export default {
   top: 0;
   display: inline-block;
 }
+.monster-icon{
+  height: 30px;
+  width:  30px;
+  position: absolute;
+  left: calc(16vw - 20px);
+  z-index: 5;
+}
 .probar {
   font-size: 12px;
   position: absolute;
@@ -452,49 +463,28 @@ export default {
   height: 100vh;
   top: 15vh;
   .blood {
-    height: 16px;
     width: 72vw;
-    position: absolute;
     top: 10px;
-    left: 14vw;
-    border: 2px solid #000;
-    background: #fff;
-    border-radius: 100px;
+    left: 16vw;
     position: relative;
     box-sizing: border-box;
-    &::before {
-      width: 100%;
-      height: 7px;
-      border: 2px solid #000;
-      border-top: 0;
-      border-bottom-right-radius: 8px;
-      border-bottom-left-radius: 8px;
-      position: absolute;
-      left: -2px;
-      bottom: -6px;
-      content: "";
-    }
+    background: url(http://parkiland.isxcxbackend1.cn/空条子.png) center no-repeat;
+    background-size: 100% 100%;
+    height: 15px;
+  }
+  .jdt-img{
+    background: url(http://parkiland.isxcxbackend1.cn/blood107.png) left no-repeat;
+    background-size: 100% 100%;
+    height: 100%;
+    width: 100%;
   }
   .jdt {
-    background: #f85151;
-    background-size: 100% 100%;
     width: 80%;
     height: 100%;
-    border-radius: 100px;
     position: absolute;
     left: 0;
     top: 0;
     z-index: 3;
-    &::before {
-      width: 90%;
-      height: 4px;
-      background: #ffa2a2;
-      position: absolute;
-      left: 5%;
-      top: 2px;
-      content: "";
-      border-radius: 100px;
-    }
   }
   .clock {
     background: url(http://parkiland.isxcxbackend1.cn/路径295.png) left center
